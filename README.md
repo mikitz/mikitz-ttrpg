@@ -28,20 +28,32 @@ You can view the [human-readable summary](https://creativecommons.org/licenses/b
 ## Tools
 The below tools and generators are what I used to help me DM sandbox D&D 5e games.
 
-### Battle Map Generator ([Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/battle-map-gen.md))
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+### Battle Map Generator 
+[Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/battle-map-gen.md) | [Roadmap](https://github.com/users/mikitz/projects/7/views/1)
 
-### Calendar (WIP) ([Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/calendar.md))
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Mikitz’ Battle Map Generator is a fully customizable random battle map generator that takes into account the biome, climate, and season to generate a battle map. It creates beautiful battle maps thanks to [assets](https://www.forgotten-adventures.net/product/map-making/assets/mapmaking-pack/) from Forgotten Adventures. Everything about the generator is customizable, including how the climate and season affect various variables. When generating a battle map, you can specify the height, width, and grid size. After generation, you can export it as an image and JSON, or Universal Virtual Tabletop (UVTT) or Foundry Virtual Tabletop (FVTT).  
 
-### Encounter Generator ([Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/encounter-gen.md))
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+### Calendar (WIP) 
+[Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/calendar.md) | [Roadmap](https://github.com/users/mikitz/projects/11/views/3?layout=board)
 
-### Magic Shop Generator ([Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/magic-shop-gen.md))
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Mikitz' Calendar is a note-taking tool and is designed with this in mind. It is not necessarily a competitor of [Fantasy Calendar](https://fantasy-calendar.com/), which is an excellent website. It comes preloaded with various fantasy calendars on which you can add events or reminders which can be displayed to various combinations of the GM and players.
 
-### NPC Generator ([Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/npc-gen.md))
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+### Encounter Generator 
+[Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/encounter-gen.md) | [Roadmap](https://github.com/users/mikitz/projects/8/views/1)
 
-### World Generator ([Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/world-gen.md))
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Mikitz’ Encounter Generator is a fully customizable random encounter generator for D&D 5e that takes into account the biome, the travel pace, the travel medium, the climate, the season, the time of day, and whether or not the party is on the road to generate a combat encounter, non-combat encounter, or hazard. All encounter probabilities are adjustable in the settings. Additionally, this tool allows you to save different parties with various levels and sizes in order to properly balance the generated encounters. It also allows you to generate sequential encounters for various variables. 
+
+### Magic Shop Generator 
+[Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/magic-shop-gen.md) | [Roadmap](https://github.com/users/mikitz/projects/9/views/1)
+
+Mikitz’ Magic Shop Generator is a fully customizable, population-based magic shop generator for D&D 5e with book and item filters. It comes preloaded with various Forgotten Realms cities. You can add your own cities for which to generate magic shops. You can set the wealth and magic-ness for each City and change how these affect the generated shop in settings. Additionally, you can customize the prices, and the quantities based on a given population in the settings. 
+
+### NPC Generator 
+[Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/npc-gen.md) | [Roadmap](https://github.com/users/mikitz/projects/10/views/1)
+
+Mikitz’ NPC Generator is your basic NPC generator, but it is special because it supports LGBTQ+ NPCs. Additionally, it generates their personality, their character based on D&D 5e backgrounds, and their physical appearance.
+
+### World Generator 
+[Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/world-gen.md) | [Roadmap](https://github.com/users/mikitz/projects/12/views/1)
+
+Mikitz’ World Generator is my magnum opus. It brings together all of the aforementioned tools, excluding the NPC Generator (for now). It allows you to track any number of parties on a beautifully rendered 3D ‘hex sphere’ ([Goldberg polyhedra](https://en.wikipedia.org/wiki/Goldberg_polyhedron)) world map with gorgeous hex tiles. It comes preloaded with several well-known fantasy worlds or you can generate your own and share seeds with our community. And of course, every setting that’s part of generation is fully customizable in the settings! When moving a party to another hex, time is automatically advanced in that party's ‘time instance’ and a random encounter is automatically rolled, then if a battle map is necessary one is automatically generated and exported. With the power of [Babylon.js](https://www.babylonjs.com/), day and night cycles are also simulated. Want to add your own hex tile set? Create a [pull request](https://github.com/mikitz/world-generator/pulls)!

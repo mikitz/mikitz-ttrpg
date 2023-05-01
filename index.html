@@ -1,13 +1,216 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html> 
+<html lang ="en">  
+<head>  
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mikitz TTRPG</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mikitz' TTRPG Tools & Generators</title>  
+    <!-- ICONS -->
+    <script src="https://kit.fontawesome.com/7e282d14cd.js" crossorigin="anonymous"></script>
+    <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/buttons.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/constants.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/flex.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/inputs.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/navs.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/style.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/theme.css"/>
+    <!-- MAIN -->
+    <script src="/mikitz-ttrpg/index.js"></script>
+    <!-- LOCAL LIBRARIES -->
+    <script src="/mikitz-ttrpg/js/library/droll.js"></script>
+    <script src="/mikitz-ttrpg/js/library/global.js"></script>
+    <script src="/mikitz-ttrpg/js/library/fraction.js"></script>
+    <!-- LIBRARIES -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://unpkg.com/js-markov/dist/markov.js"></script>
+    <!-- DATA -->
+    <script src="/mikitz-ttrpg/data/version_numbers.js"></script>
+</head> 
 <body>
-    
+    <div class="site-nav">
+        <a class="site-button-active" id="home" href="https://mikitz.github.io/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i>Home</a>
+        <a class="site-button" id="battle-map-generator" href="https://mikitz.github.io/mikitz-ttrpg/battle-map-generator.html"><i class="fa-solid fa-map"></i>Battle Map</a>
+        <a class="site-button-under-construction" id="calendar"><i class="fa-solid fa-calendar"></i>Calendar</a>
+        <a class="site-button" id="encounter-generator" href="https://mikitz.github.io/mikitz-ttrpg/encounter-generator.html"><i class="fa-solid fa-location-dot"></i>Encounter</a> 
+        <a class="site-button" id="magic-shop-generator" href="https://mikitz.github.io/mikitz-ttrpg/magic-shop-generator.html"><i class="fa-solid fa-store"></i>Magic Shop</a>
+        <a class="site-button" id="npc-generator" href="https://mikitz.github.io/mikitz-ttrpg/npc-generator.html"><i class="fa-solid fa-person-half-dress"></i>NPC</a>
+        <!-- <a class="site-button-under-construction" id="spellbook-generator"><i class="fa-solid fa-book"></i>Spellbook</a> -->
+        <a class="site-button-under-construction" id="world-generator" href="https://mikitz.github.io/mikitz-ttrpg/world-generator.html"><i class="fa-solid fa-earth-americas"></i>World</a>
+        <div class="container-switch">
+            <label id="switch" class="switch">
+                <input type="checkbox" class="checkbox" onchange="toggleTheme()" id="slider">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    <div id="load-topnav">
+        <nav class="topnav">
+            <a class="nav-a" href="https://github.com/mikitz/mikitz-ttrpg"><i class="fa-brands fa-github"></i> GitHub</a>
+        </nav>
+    </div>
+    <div id="myModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>NPC Information</h2>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the Modal Body</p>
+                <p>Some other text...</p>
+            </div>
+        </div>
+    </div>
+    <main>
+        <div class="flex-column">
+            <h1>Mikitz' TTRPG Tools & Generators</h1>
+            <div class="flex-column-child">
+                <h2><i class="fa-solid fa-hand-spock"></i> Forever Free 🫡</h2>
+                <p>
+                    Hosting is provided free of charge by GitHub and all data is stored locally on your machine and is tied to the browser you use. 
+                    As such, there are 0 costs, other than the time I've spent developing, incurred for this site.
+                </p>
+            </div>
+            <div class="flex-column-child">
+                <h2>Feedback & Issues</h2>
+                <p>
+                    For <span class="definition" id="feedback-definition">feedback</span>, please create a detailed <a href="https://github.com/mikitz/mikitz-ttrpg/issues/new" target="_blank" rel="noopener noreferrer">GitHub Issue</a> using the <b>enhancement</b> label. Click <a href="https://github.com/mikitz/mikitz-ttrpg/issues/2" target="_blank" rel="noopener noreferrer">here</a> for an example of giving feedback. And for any issues or bugs, please create a detailed <a href="https://github.com/mikitz/mikitz-ttrpg/issues/new" target="_blank" rel="noopener noreferrer">GitHub Issue</a> with the <b>bug</b> label. Click <a href="https://github.com/mikitz/mikitz-ttrpg/issues/1" target="_blank" rel="noopener noreferrer">here</a> for an example bug report.
+                    <br><br>
+                    <h3>GitHub Issue Checklist</h3>
+                    <ul style="list-style-type: none; max-width: 30rem; margin: 0 auto;" >
+                        <li>1.) ☑️ Put the tool name in brackets, like: [Encounter Generator]</li>
+                        <li>2.) ☑️ Create a detailed, succinct title, like: [Encounter Generator] The History has nothing in it.</li>
+                        <li>3.) ☑️ Create a detailed, precise body, like: I can generate encounters, but they do not show up in the History. I've been using the site for a month or so just fine.</li>
+                        <li>4.) ❌ DO NOT set a project or milestone for the issue that you create.</li>
+                    </ul>
+                    <br><br>
+                    <p>If you cannot create a GitHub issue, either message me on <a href="https://www.reddit.com/message/compose/?to=Mikitz" target="_blank" rel="noopener noreferrer">Reddit</a> 
+                    or send an email to <a href="mailto: mikitz.feedback@gmail.com">mikitz.feedback@gmail.com</a>. Email <b><i>strongly</i></b> preferred.</p>
+                </p>
+            </div>
+            <div class="flex-column-child">
+                <div class="flex-row">
+                    <div class="flex-card">
+                        <!-- Battle Map Generator -->
+                        <h2><i class="fa-solid fa-map"></i> Battle Map Generator</h2>
+                        <div>
+                            <span style="padding-right: 0.5rem;"></span>
+                            <span class="version-number" id="versionNumber-BattleMapGen"></span>
+                        </div>
+                        <div class="links">
+                            <span>
+                                <a href="https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/battle-map-gen.md" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-code-commit"></i> Change Log</a> | 
+                                <a href="https://github.com/users/mikitz/projects/7/views/1" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-road"></i> Roadmap</a>
+                            </span>
+                        </div>
+                        <p class="description">Mikitz’ Battle Map Generator is a fully customizable random battle map generator that takes into account the biome, climate, and season to generate a battle map. It creates beautiful battle maps thanks to <a href="https://www.forgotten-adventures.net/product/map-making/assets/mapmaking-pack/">assets</a> from Forgotten Adventures. Everything about the generator is customizable, including how the climate and season affect various variables. When generating a battle map, you can specify the height, width, and grid size. After generation, you can export it as an image and JSON, or Universal Virtual Tabletop (UVTT) or Foundry Virtual Tabletop (FVTT). </p>
+                    </div>
+                    <!-- Calendar -->
+                    <div class="flex-card">
+                        <h2><i class="fa-solid fa-calendar"></i> Calendar</h2>
+                        <div>
+                            <span style="padding-right: 0.5rem;"></span>
+                            <span class="version-number" id="versionNumber-Calendar"></span>
+                        </div>
+                        <div class="links">
+                            <span>
+                                <a href="https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/calendar.md" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-code-commit"></i> Change Log</a> | 
+                                <a href="https://github.com/users/mikitz/projects/11/views/3?layout=board" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-road"></i> Roadmap</a>
+                            </span>
+                        </div>
+                        <p class="description">Mikitz' Calendar is a note-taking tool and is designed with this in mind. It is not necessarily a competitor of <a href="https://fantasy-calendar.com/" target="_blank" rel="noopener noreferrer">Fantasy Calendar</a>, which is an excellent website. It comes preloaded with various fantasy calendars on which you can add events or reminders which can be displayed to various combinations of the GM and players.</p>
+                    </div>
+                    <!-- Encounter Generator -->
+                    <div class="flex-card">
+                        <h2><i class="fa-solid fa-location-dot"></i> Encounter Generator</h2>
+                        <div>
+                            <span style="padding-right: 0.5rem;"></span>
+                            <span class="version-number" id="versionNumber-EncounterGen"></span>
+                        </div>
+                        <div class="links">
+                            <span>
+                                <a href="https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/encounter-gen.md" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-code-commit"></i> Change Log</a> | 
+                                <a href="https://github.com/users/mikitz/projects/8/views/1" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-road"></i> Roadmap</a>
+                            </span>
+                        </div>
+                        <p class="description">Mikitz’ Encounter Generator is a fully customizable random encounter generator for D&D 5e that takes into account the biome, the travel pace, the travel medium, the climate, the season, the time of day, and whether or not the party is on the road to generate a combat encounter, non-combat encounter, or hazard. All encounter probabilities are adjustable in the settings. Additionally, this tool allows you to save different parties with various levels and sizes in order to properly balance the generated encounters. It also allows you to generate sequential encounters for various variables. </p>
+                    </div>
+                    <!-- Magic Shop Generator -->
+                    <div class="flex-card">
+                        <h2><i class="fa-solid fa-store"></i> Magic Shop Generator</h2>
+                        <div>
+                            <span style="padding-right: 0.5rem;"></span>
+                            <span class="version-number" id="versionNumber-MagicShopGen"></span>
+                        </div>
+                        <div class="links">
+                            <span>
+                                <a href="https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/magic-shop-gen.md" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-code-commit"></i> Change Log</a> | 
+                                <a href="https://github.com/users/mikitz/projects/9/views/1" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-road"></i> Roadmap</a>
+                            </span>
+                        </div>
+                        <p class="description">Mikitz’ Magic Shop Generator is a fully customizable, population-based magic shop generator for D&D 5e with book and item filters. It comes preloaded with various Forgotten Realms cities. You can add your own cities for which to generate magic shops. You can set the wealth and magic-ness for each City and change how these affect the generated shop in settings. Additionally, you can customize the prices, and the quantities based on a given population in the settings. </p>
+                    </div>
+                    <!-- NPC Generator -->
+                    <div class="flex-card">
+                        <h2><i class="fa-solid fa-person-half-dress"></i> NPC Generator</h2>
+                        <div>
+                            <span style="padding-right: 0.5rem;"></span>
+                            <span class="version-number" id="versionNumber-NpcGen"></span>
+                        </div>
+                        <div class="links">
+                            <span>
+                                <a href="https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/npc-gen.md" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-code-commit"></i> Change Log</a> | 
+                                <a href="https://github.com/users/mikitz/projects/10/views/1" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-road"></i> Roadmap</a>
+                            </span>
+                        </div>
+                        <p class="description">Mikitz’ NPC Generator is your basic NPC generator, but it is special because it supports LGBTQ+ NPCs. Additionally, it generates their personality, their character based on D&D 5e backgrounds, and their physical appearance.</p>
+                    </div>
+                    <!-- World Generator -->
+                    <div class="flex-card">
+                        <h2><i class="fa-solid fa-earth-americas"></i> World Generator</h2>
+                        <div>
+                            <span style="padding-right: 0.5rem;"></span>
+                            <span class="version-number" id="versionNumber-WorldGen"></span>
+                        </div>
+                        <div class="links">
+                            <span>
+                                <a href="https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/world-gen.md" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-code-commit"></i> Change Log</a> | 
+                                <a href="https://github.com/users/mikitz/projects/12/views/1" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-road"></i> Roadmap</a>
+                            </span>
+                        </div>
+                        <p class="description">Mikitz’ World Generator is my magnum opus. It brings together all of the aforementioned tools, excluding the NPC Generator (for now). It allows you to track any number of parties on a beautifully rendered 3D ‘hex sphere’ (<a href="https://en.wikipedia.org/wiki/Goldberg_polyhedron">Goldberg polyhedra</a>) world map with gorgeous hex tiles. It comes preloaded with several well-known fantasy worlds or you can generate your own and share seeds with our community. And of course, every setting that’s part of generation is fully customizable in the settings! When moving a party to another hex, time is automatically advanced in that party's ‘time instance’ and a random encounter is automatically rolled, then if a battle map is necessary one is automatically generated and exported. With the power of <a href="https://www.babylonjs.com/">Babylon.js</a>, day and night cycles are also simulated. Want to add your own hex tile set? Create a <a href="https://github.com/mikitz/world-generator/pulls">pull request!</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-column-child">
+                <p style="margin-bottom: 1rem;">I started learning HTML and JavaScript because of FoundryVTT back in the summer of 2020. The first commit for the start of these tools was on February 15, 2021. I have spent a lot of time on these tools, so if you get some use out of them and you feel comfortable donating or supporting me monthly, please do so!</p>
+                <button class="button kofi" onclick="window.location.href='https://ko-fi.com/mikitz'">
+                    <div class="button-flex">
+                        <img class="kofi-logo" src="/mikitz-ttrpg/data/icons/kofi.svg" /> 
+                        Buy me an avocado
+                    </div>
+                </button>
+                <button class="button patreon" onclick="window.location.href='https://www.patreon.com/mikitz'"> 
+                    <div class="button-flex">
+                        <img class="patreon-logo" src="/mikitz-ttrpg/data/icons/patreon.svg" />  
+                        Become a Patreon
+                    </div>
+                </button>
+            </div>
+        </div>
+    </main> 
 </body>
+<script>
+    var db = new Dexie("mikitz_ttrpg_db") // Open or create the DB
+    document.addEventListener("DOMContentLoaded", function () {
+        readThemeAndSetToggle()
+        setupIndex()
+    });
+</script>
 </html>
