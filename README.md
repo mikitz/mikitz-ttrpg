@@ -27,7 +27,7 @@ You can view the [human-readable summary](https://creativecommons.org/licenses/b
 8. [Tabulator](https://github.com/olifolkerd/tabulator) is "An easy to use interactive table generation JavaScript library." -- // TODO: Switch to this library insteado jsGrid
 
 ## Tools
-The below tools and generators are what I used to help me DM sandbox D&D 5e games.
+The below tools and generators are what I use to help me DM sandbox D&D 5e games.
 
 ### Battle Map Generator 
 [Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/battle-map-gen.md) | [Roadmap](https://github.com/users/mikitz/projects/7/views/1)
