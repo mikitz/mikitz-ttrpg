@@ -1,10 +1,6 @@
 # Mikitz TTRPG Tools
 A collection of tools I use for the D&amp;D 5e games that I DM. I hope you find them useful 😁 If you find them useful, please consider [buying me an avocado](https://ko-fi.com/mikitz) or [supporting me on Patreon](https://www.patreon.com/mikitz).
 
-<a href="https://discord.gg/https://discord.gg/vaCAdyHhPA">
-  <img src="https://discord.com/api/guilds/1102604598021210132/widget.png?style=banner2" alt="Discord Server"/>
-</a>
-
 ## CC BY-NC-SA License
 <p align="center">
     <img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-sa.png" alt="Iconography summary of CC BY-NC-SA">
