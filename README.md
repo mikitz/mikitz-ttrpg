@@ -34,7 +34,7 @@ The below tools and generators are what I use to help me DM sandbox D&D 5e games
 
 Mikitz’ Battle Map Generator is a fully customizable random battle map generator that takes into account the biome, climate, and season to generate a battle map. It creates beautiful battle maps thanks to [assets](https://www.forgotten-adventures.net/product/map-making/assets/mapmaking-pack/) from Forgotten Adventures. Everything about the generator is customizable, including how the climate and season affect various variables. When generating a battle map, you can specify the height, width, and grid size. After generation, you can export it as an image and JSON, or Universal Virtual Tabletop (UVTT) or Foundry Virtual Tabletop (FVTT).  
 
-### Calendar (WIP) 
+### Calendar (TBA) 
 [Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/calendar.md) | [Roadmap](https://github.com/users/mikitz/projects/11/views/3?layout=board)
 
 Mikitz' Calendar is a note-taking tool and is designed with this in mind. It is not necessarily a competitor of [Fantasy Calendar](https://fantasy-calendar.com/), which is an excellent website. It comes preloaded with various fantasy calendars on which you can add events or reminders which can be displayed to various combinations of the GM and players.
@@ -54,7 +54,7 @@ Mikitz’ Magic Shop Generator is a fully customizable, population-based magic s
 
 Mikitz’ NPC Generator is your basic NPC generator, but it is special because it supports LGBTQ+ NPCs. Additionally, it generates their personality, their character based on D&D 5e backgrounds, and their physical appearance.
 
-### World Generator 
+### World Generator (WIP)
 [Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/world-gen.md) | [Roadmap](https://github.com/users/mikitz/projects/12/views/1)
 
 Mikitz’ World Generator is my magnum opus. It brings together all of the aforementioned tools, excluding the NPC Generator (for now). It allows you to track any number of parties on a beautifully rendered 3D ‘hex sphere’ ([Goldberg polyhedra](https://en.wikipedia.org/wiki/Goldberg_polyhedron)) world map with gorgeous hex tiles. It comes preloaded with several well-known fantasy worlds or you can generate your own and share seeds with our community. And of course, every setting that’s part of generation is fully customizable in the settings! When moving a party to another hex, time is automatically advanced in that party's ‘time instance’ and a random encounter is automatically rolled, then if a battle map is necessary one is automatically generated and exported. With the power of [Babylon.js](https://www.babylonjs.com/), day and night cycles are also simulated. Want to add your own hex tile set? Create a [pull request](https://github.com/mikitz/world-generator/pulls)!
