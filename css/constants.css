@@ -1,0 +1,121 @@
+.theme-dark-old {
+    /* Main */
+    --background-color: #333333;
+    --text-clr: #b0b0b0;
+    --nav-inactive-text-color: #333333;
+    /* Buttons */
+    --button-clr: #202020;
+    --button-hover-clr: #404040;
+    --button-text-clr: #999999;
+    /* Labels */
+    --label-width: 100px;
+    /* Selects */
+    --select-background-color: #4c4c4c;
+    --option-clr: #404040;
+    /* Checkboxes */
+    --checkbox-background-color: #545454;
+    --checkbox-checked-background-color: #b0b0b0;
+    /* Grid */
+    --column-width: 280px;
+    --panel-background-color: #fafafa;
+    --card-background-color: #3b3b3b;
+    /* Navigations */
+    --site-nav-background-clr: #202020;
+    --site-nav-font-clr: #009579;
+    --top-nav-background-color: #999999;
+    /* Tables */
+    --table-odd-row-color: #4e4e4e;
+    --table-even-row-color: #434343;
+    --table-header-color: #2d2d2d;
+}
+.theme-light-old {
+    /* Main */
+    --background-color: white;
+    --text-clr: #000000;
+    /* Buttons */
+    --button-clr: #333;
+    --button-hover-clr: rgb(101, 101, 101);
+    --button-text-clr: #eeeeee;
+    /* Labels */
+    --label-width: 100px;
+    /* Selects */
+    --select-background-color: #e5e5e5;
+    --option-clr: rgb(123, 123, 123);
+    /* Checkboxes */
+    --checkbox-background-color: #e5e5e5;
+    --checkbox-checked-background-color: #b0b0b0;
+    /* Grid */
+    --column-width: 280px;
+    --panel-background-color: #fafafa;
+    --card-background-color: #f6f6f6;
+    /* Navigations */
+    --site-nav-background-clr: #333333;
+    --site-nav-font-clr: #009579;
+    --top-nav-background-color: #e8e8e8;
+    /* Tables */
+    --table-odd-row-color: ;
+    --table-even-row-color: ;
+    --table-header-color: ;
+}
+.theme-dark {
+    /* Main */
+    --background-color: #161616;
+    --text-clr: #b8b8b8;
+    /* Buttons */
+    --button-clr: var(--text-clr);
+    --button-hover-clr: #383838;
+    --button-text-clr: var(--background-color);
+    /* Labels */
+    --label-width: 100px;
+    /* Selects */
+    --select-background-color: var(--top-nav-background-color);
+    --option-clr: var(--select-background-color);
+    /* Checkboxes */
+    --checkbox-background-color: var(--select-background-color);
+    --checkbox-checked-background-color: #656565;
+    /* Grid */
+    --column-width: 280px;
+    --panel-background-color: var(--site-nav-background-clr);
+    --card-background-color: var(--site-nav-background-clr);
+    /* Navigations */
+    --site-nav-background-clr: #222222;
+    --site-nav-font-clr: #b8b8b8;
+    --top-nav-background-color: #383838;
+    --nav-hover-color: #b8b8b8;
+    --nav-inactive-text-color: var(--text-clr);
+    /* Tables */
+    --table-odd-row-color: #434343;
+    --table-even-row-color: #383838;
+    --table-header-color: #2d2d2d;
+}
+.theme-light {
+    /* Main */
+    --background-color: #ffffff;
+    --text-clr: #000000;
+    /* Buttons */
+    --button-clr: var(--text-clr);
+    --button-hover-clr: #656565;
+    --button-text-clr: var(--background-color);
+    /* Labels */
+    --label-width: 100px;
+    /* Selects */
+    --select-background-color: var(--top-nav-background-color);
+    --option-clr: var(--select-background-color);
+    /* Checkboxes */
+    --checkbox-background-color: var(--select-background-color);
+    --checkbox-checked-background-color: #656565;
+    /* Grid */
+    --column-width: 280px;
+    --panel-background-color: var(--site-nav-background-clr);
+    --card-background-color: var(--top-nav-background-color);
+    /* Navigations */
+    --site-nav-background-clr: #c6c6c6;
+    --site-nav-font-clr: #b8b8b8;
+    --top-nav-background-color: #f1f1f1;
+    --nav-hover-color: #b8b8b8;
+    --nav-inactive-text-color: var(--text-clr);
+    /* Tables */
+    --table-odd-row-color: #e2e2e2;
+    --table-even-row-color: #f1f1f1;
+    --table-header-color: #a9a9a9;
+}

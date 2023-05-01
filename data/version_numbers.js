@@ -1,0 +1,6 @@
+const versionNumberBattleMapGen = ''
+const versionNumberCalendar = ''
+const versionNumberEncounterGen = ''
+const versionNumberMagicShopGen = ''
+const versionNumberNpcGen = ''
+const versionNumberWorldGen = ''

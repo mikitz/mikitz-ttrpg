@@ -1,0 +1,100 @@
+.plus-minus-button {
+    height: 25px;
+    width: 25px;
+    background-color: var(--button-clr); 
+    border: none;
+    color: var(--button-text-clr);
+    cursor: pointer;
+    font-size: larger;
+}
+.plus-minus-button:hover {
+    background-color: var(--button-hover-clr);
+}
+.button {
+    padding: 15px 45px 15px 45px;
+    margin: 10px;
+    font-size: larger;
+    font-weight: bold;
+    border: none;
+    background-color: var(--button-clr);
+    color: white;
+    border-radius: 10px;
+    min-width: 225px;
+    cursor: pointer;
+    color: var(--button-text-clr);
+}
+.button:hover {
+    background-color: var(--button-hover-clr);
+}
+.table-button {
+    padding: 5px;
+    width: 40px;
+    height: 40px;
+    font-size: large;
+    font-weight: bold;
+    border: none;
+    background-color: var(--button-clr);
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--button-text-clr);
+}
+.table-button:hover {
+    background-color: var(--button-hover-clr);
+}
+.button-container {
+    text-align: center;
+    align-items: center;
+}
+.fieldset-button {
+    padding: 5px 15px 5px 15px;
+    margin: 10px;
+    font-size: larger;
+    font-weight: bold;
+    border: none;
+    background-color: var(--button-clr);
+    color: white;
+    border-radius: 10px;
+    min-width: 150px;
+    cursor: pointer;
+    color: var(--button-text-clr);
+}
+.fieldset-button:hover {
+    background-color: var(--button-hover-clr);
+}
+.kofi {
+    background-color: #29abe0;
+    font-weight: bold;
+    border-radius: 40px !important;
+}
+.kofi:hover {
+    background-color: #1f82a9;
+}
+.patreon {
+    background-color: #fb664e;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 40px !important;
+}
+.patreon:hover {
+    background-color: #be4c3b;
+}
+.kofi-logo {
+    height: 40px;
+    width: 50px;
+}
+.patreon-logo {
+    height: 40px;
+    width: 30px;
+}
+.button-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    column-gap: 1rem;
+    color: white;
+}
+.button-flex .button {
+    border-radius: 70px !important;
+}

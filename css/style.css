@@ -1,0 +1,211 @@
+@import "constants.css";
+
+*
+{
+    font-family: "quicksand", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: var(--background-color);
+    height: 100%;
+}
+main {
+	box-sizing: border-box;
+    height: 100%;
+}
+.main {
+    margin: 20px;
+    margin-top: 100px;
+    /* margin-left: 325px; */
+    min-width: 1000px;
+}
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+input {
+    display: inline;
+}
+input.resolution{
+    width: 80px;
+}
+button.control {
+    transform: rotate(90deg);
+}
+input.opacity {
+    width: 50px;
+}
+.coming-soon {
+    cursor: not-allowed;
+}
+.restore-defaults {
+    margin-left: 2px;
+    cursor: pointer;
+}
+.visible {
+    visibility: visible;
+    opacity: 1;
+    display: block;
+    transition: display 0.1s, opacity 0.5s linear;
+    height: fit-content;
+}
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.5s, opacity 0.75s linear, display 1s;
+    height: 10px;
+}
+.expanded {
+    display: inline-block;
+}
+.collapsed {
+    display: none;
+}
+/* ---------
+    Flexbox
+------------ */
+.user-inputs {
+    display: block;
+    left: 0;
+    height: 100%;
+    max-width: 250px;
+    margin-top: 80px;
+    background-color: var(--panel-background-color);
+    border-right: 1px solid grey;
+}
+.flex-parent {
+    display: flex;
+    column-gap: 10px;
+    flex-wrap: wrap;
+    row-gap: 10px;
+}
+.generator-parameter {
+    padding: 10px;
+    min-width: 200px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.generator-parameter-header {
+    width: 100%;
+}
+
+.generator-parameter-span {
+    width: 100%;
+}
+.flexbox-inner {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    column-gap: 20px;
+}
+.tippy-define {
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+    font-style: italic;
+}
+.tippy-box a:link, .tippy-box a:visited {
+    color: var(--button-text-clr);
+}
+/* -----------
+     Sliders 
+-------------- */
+.slider-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0.5em;
+    width: fit-content;
+    gap: 10px;
+}
+.slider-container .slider-label {
+    display: flex;
+    font-weight: bold;
+    width: var(--label-width);
+    justify-content: right;
+}
+.slider-container .slider-number {
+    width: 40px;
+}
+.slider-container .slider {
+    width: 100px;
+}
+/* ---------------------------- 
+        Theme Switcher
+---------------------------- */
+.container-switch {
+    right: 15px;
+    position: absolute;
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 30px;
+    width: 30px;
+    left: 0px;
+    bottom: 4px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    box-shadow: 0 0px 15px #2020203d;
+    font-size: small;
+    background: var(--background-color) url('/encounter-generator/data/icons/moon-solid.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  input:checked + .slider {
+    background-color: var(--background-color);
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px var(--background-color);
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(24px);
+    -ms-transform: translateX(24px);
+    transform: translateX(24px);
+    background: var(--background-color) url('/encounter-generator/data/icons/sun-solid.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    font-size: small !important;
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }

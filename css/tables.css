@@ -1,0 +1,163 @@
+@import "constants.css";
+.fa-clone {
+    cursor: pointer;
+}
+.fa-trash, .fa-eye {
+    cursor: pointer;
+}
+.encounters-table label {
+    margin-right: 5px;
+    font-size: small;
+}
+/* ---------------------
+        Settings
+    Probabilities Table 
+---------------------- */
+.probabilities-table {
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+.probabilities-table tr {
+    padding-bottom: 10px;
+}
+.encounters-table-row {
+    color: var(--text-clr) !important;
+}
+.table-index {
+    font-weight: bold;
+    font-size: xx-large;
+    margin: 5px;
+}
+.table-tools {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    vertical-align: middle;
+    row-gap: 10px;
+}
+/* ======================
+         jsGrid
+======================= */
+.jsgrid-header-row .jsgrid-header-cell {
+    background: var(--table-header-color) !important;
+    color: var(--text-clr);
+    border-color: var(--background-color);
+}
+.jsgrid-row .jsgrid-cell {
+    background-color: var(--table-odd-row-color) !important;
+    color: var(--text-clr);
+    text-align: center !important;
+    border-color: var(--background-color);
+}
+
+.jsgrid-alt-row .jsgrid-cell {
+    background-color: var(--table-even-row-color) !important;
+    color: var(--text-clr);
+    text-align: center !important;
+    border-color: var(--background-color);
+}
+.jsgrid-edit-row .jsgrid-cell {
+    background-color: var(--site-nav-background-clr) !important;
+    color: var(--text-clr);
+    border-color: var(--background-color);
+}
+.jsgrid-edit-row:hover {
+    background-color: var(--site-nav-background-clr) !important;
+}
+.jsgrid-grid-body {
+    overflow-y: hidden !important;
+    border-color: var(--background-color);
+}
+.jsgrid-grid-header {
+    overflow-y: hidden !important;
+    border-color: var(--background-color);
+}
+/* =================
+  3.) Styled Table
+================= */
+.styled-table {
+    border-collapse: collapse;
+    /* margin: 25px 0; */
+    width: 100%;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    /* min-width: 45%; */
+    /* box-shadow: 0 0 20px rgba(142, 142, 142, 0.15); */
+    text-align: center;
+    max-width: 100%;
+    width: fit-content;
+}
+.styled-table button.table_button {
+    border: none;
+    background-color: var(--light-primary);
+    transition-duration: 0.3s;
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 14px;
+}
+.styled-table thead tr {
+    background-color: var(--table-header-color);
+    color: var(--text-clr);
+    text-align: center;
+    position: sticky;
+    /* z-index: 100; */
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #4d4d4d;
+}
+.styled-table tbody tr:nth-of-type(odd) {
+    background-color: var(--table-odd-row-color);
+    color: var(--text-clr);
+}
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: var(--table-even-row-color);
+    color: var(--text-clr);
+}
+.styled-table tbody tr:nth-of-type(even) select {
+    background-color: var(--light-octonary);
+    color: var(--light-text);
+    border-color: var(--light-text);
+}
+.styled-table tbody tr:nth-of-type(odd) select {
+    background-color: var(--light-quinary);
+    color: var(--light-text);
+    border-color: var(--light-text);
+}
+.styled-table tbody tr:last-of-type {
+    /* border-bottom: 2px solid #009879; */
+    border-bottom: none;
+}
+.styled-table img {
+    transition: transform .2s;
+    width: 7.5pc;
+    margin: 0 auto;
+}
+.styled-table img:hover {
+    -ms-transform: scale(5); /* IE 9 */
+    -webkit-transform: scale(5); /* Safari 3-8 */
+    transform: scale(5); 
+}
+
+.styled-table.total-prob {
+    border-right: thin solid !important;
+    border-color: white;
+    border-width: 5px !important;
+}
+.styled-table h2 {
+    color: var(--light-octonary);
+    margin-top: 0px;
+}
+.styled-table h3 {
+    color: var(--light-text);
+}
+.styled-table tbody h2 {
+    color: var(--light-text);
+}
+.styled-table tbody a {
+    color: var(--light-denary) !important;
+    font-style: italic;
+}
