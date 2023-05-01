@@ -1,0 +1,43 @@
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: middle;
+    text-align: center;
+}
+.flex-column-child p {
+    max-width: 30rem;
+    margin: 0 auto;
+}
+.flex-column-child p ol {
+    margin: 0 auto;
+}
+.flex-column-child h2 {
+    margin-bottom: 1rem;
+}
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 2rem;
+    row-gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: middle;
+    text-align: center; 
+}
+
+.flex-card {
+    background-color: var(--card-background-color);
+    border-radius: 1rem;
+    padding: 1rem;
+    max-width: 25rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+}
+
+.description {
+    font-weight: 100;
+}
