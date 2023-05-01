@@ -24,6 +24,7 @@ You can view the [human-readable summary](https://creativecommons.org/licenses/b
 5. [Toastify](https://github.com/apvarun/toastify-js) "...is a lightweight, vanilla JS toast notification library."
 6. [Font Awesome](https://github.com/FortAwesome/Font-Awesome) "...is the Internet's icon library and toolkit, used by millions of designers, developers, and content creators."
 7. [Babylon.js](https://github.com/BabylonJS/Babylon.js) "...is a powerful, beautiful, simple, and open game and rendering engine packed into a friendly JavaScript framework."
+8. [Tabulator](https://github.com/olifolkerd/tabulator) is "An easy to use interactive table generation JavaScript library." -- // TODO: Switch to this library insteado jsGrid
 
 ## Tools
 The below tools and generators are what I used to help me DM sandbox D&D 5e games.
