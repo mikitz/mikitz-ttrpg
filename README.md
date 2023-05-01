@@ -47,7 +47,7 @@ Mikitz’ Encounter Generator is a fully customizable random encounter generator
 ### Magic Shop Generator 
 [Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/magic-shop-gen.md) | [Roadmap](https://github.com/users/mikitz/projects/9/views/1)
 
-Mikitz’ Magic Shop Generator is a fully customizable, population-based magic shop generator for D&D 5e with book and item filters. It comes preloaded with various Forgotten Realms cities. You can add your own cities for which to generate magic shops. You can set the wealth and magic-ness for each City and change how these affect the generated shop in settings. Additionally, you can customize the prices, and the quantities based on a given population in the settings. 
+Mikitz’ Magic Shop Generator is a fully customizable, population-based magic shop generator for D&D 5e with book and item filters. It comes preloaded with various Forgotten Realms cities. You can add your own cities for which to generate magic shops. You can set the wealth and 'magic-ness' for each city and change how these affect the generated shop in settings. Additionally, you can customize the starting prices and the quantities based on a given population in the settings. 
 
 ### NPC Generator 
 [Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/npc-gen.md) | [Roadmap](https://github.com/users/mikitz/projects/10/views/1)
