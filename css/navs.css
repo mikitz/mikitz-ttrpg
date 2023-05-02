@@ -8,10 +8,11 @@
   height: 40px;
   align-items: center;
   vertical-align: middle;
+  align-items: middle;
   color: var(--site-nav-font-clr);
   position: fixed;
   overflow: hidden;
-  min-width: 500px;
+  /* min-width: 500px; */
   background-color: var(--site-nav-background-clr);
   width: 100%;
   z-index: 1;
@@ -30,6 +31,7 @@
 .site-nav .site-button-active {
   background-color: var(--top-nav-background-color);
   color: var(--text-clr);
+  display: flex;
 }
 .site-nav .site-button:hover {
   background-color: var(--nav-hover-color);
@@ -50,12 +52,15 @@
     background-color: var(--top-nav-background-color);
     overflow: hidden;
     z-index: 1;
-    min-width: 500px;
+    /* min-width: 500px; */
     position: fixed;
     width: 100%;
     top: 40px;
     margin: 0px !important;
     height: 40px;
+    display: flex;
+    align-items: middle;
+    justify-content: right;
     /* border-bottom: solid grey 1px; */
   }
   .topnav .version-number {
@@ -96,6 +101,35 @@
     float: right;
     color: white;
   }
-  .topnav .fa-solid {
+  .topnav .fa-solid, .topnav .fa-brands {
     margin-right: 5px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    /* styles for mobile devices */
+    .site-nav a span, .topnav a span {
+      display: none;
+    }
+    .site-nav a, .topnav a {
+      padding: 0.75rem;
+      font-size: x-large;
+      height: 50px !important;
+      width: 30px;
+    }
+    .site-nav, .topnav {
+      height: 70px;
+    }
+    .topnav {
+      top: 70px;
+    }
+    .site-nav .fa-solid, .topnav .fa-solid {
+      margin: 0;
+    }
+    .site-button, .site-button-active, .site-button-under-construction, .nav-a {
+      display: flex;
+      justify-content: center;
+      vertical-align: middle;
+      flex-direction: column;
+      align-items: center;
+    }
   }

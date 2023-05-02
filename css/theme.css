@@ -1,8 +1,13 @@
+@import "constants.css";
+:root {
+  --mobile-width: 600px;
+}
 /* ---------------------------- 
         Theme Switcher
 ---------------------------- */
 .container-switch {
-    right: 15px;
+    left: 15px;
+    top: 5px;
     position: absolute;
 }
 .switch {
@@ -39,6 +44,7 @@
     width: 30px;
     left: 0px;
     bottom: 4px;
+    border-radius: 20px;
     top: 0;
     bottom: 0;
     margin: auto 0;
@@ -72,8 +78,14 @@
   /* Rounded sliders */
   .slider.round {
     border-radius: 34px;
-  }
+  }z
   
   .slider.round:before {
     border-radius: 50%;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .container-switch {
+      top: 20px;
+    }
   }

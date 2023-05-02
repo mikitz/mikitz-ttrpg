@@ -1,3 +1,6 @@
+:root {
+    --mobile-width: 600px;
+}
 .theme-dark {
     /* Main */
     --background-color: #161616;

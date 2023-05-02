@@ -11,8 +11,8 @@
     <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet'>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <!-- STYLESHEETS -->
-    <link rel="stylesheet" href="/mikitz-ttrpg/css/buttons.css"/>
     <link rel="stylesheet" href="/mikitz-ttrpg/css/constants.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/buttons.css"/>
     <link rel="stylesheet" href="/mikitz-ttrpg/css/flex.css"/>
     <link rel="stylesheet" href="/mikitz-ttrpg/css/inputs.css"/>
     <link rel="stylesheet" href="/mikitz-ttrpg/css/navs.css"/>
@@ -36,25 +36,23 @@
 </head> 
 <body>
     <div class="site-nav">
-        <a class="site-button-active" id="home" href="https://mikitz.github.io/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i>Home</a>
-        <a class="site-button" id="battle-map-generator" href="https://mikitz.github.io/mikitz-ttrpg/battle-map-generator.html"><i class="fa-solid fa-map"></i>Battle Map</a>
-        <a class="site-button-under-construction" id="calendar"><i class="fa-solid fa-calendar"></i>Calendar</a>
-        <a class="site-button" id="encounter-generator" href="https://mikitz.github.io/mikitz-ttrpg/encounter-generator.html"><i class="fa-solid fa-location-dot"></i>Encounter</a> 
-        <a class="site-button" id="magic-shop-generator" href="https://mikitz.github.io/mikitz-ttrpg/magic-shop-generator.html"><i class="fa-solid fa-store"></i>Magic Shop</a>
-        <a class="site-button" id="npc-generator" href="https://mikitz.github.io/mikitz-ttrpg/npc-generator.html"><i class="fa-solid fa-person-half-dress"></i>NPC</a>
-        <!-- <a class="site-button-under-construction" id="spellbook-generator"><i class="fa-solid fa-book"></i>Spellbook</a> -->
-        <a class="site-button-under-construction" id="world-generator" href="https://mikitz.github.io/mikitz-ttrpg/world-generator.html"><i class="fa-solid fa-earth-americas"></i>World</a>
+        <a class="site-button-active" id="home" href="https://mikitz.github.io/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a class="site-button" id="battle-map-generator" href="https://mikitz.github.io/mikitz-ttrpg/html/battle-map-generator.html"><i class="fa-solid fa-map"></i><span>Battle Map</span></a>
+        <a class="site-button-under-construction" id="calendar"><i class="fa-solid fa-calendar"></i><span>Calendar</span></a>
+        <a class="site-button" id="encounter-generator" href="https://mikitz.github.io/mikitz-ttrpg/html/encounter-generator.html"><i class="fa-solid fa-location-dot"></i><span>Encounter</span></a> 
+        <a class="site-button" id="magic-shop-generator" href="https://mikitz.github.io/mikitz-ttrpg/html/magic-shop-generator.html"><i class="fa-solid fa-store"></i><span>Magic Shop</span></a>
+        <a class="site-button" id="npc-generator" href="https://mikitz.github.io/mikitz-ttrpg/html/npc-generator.html"><i class="fa-solid fa-person-half-dress"></i><span>NPC</span></a>
+        <a class="site-button-under-construction" id="spellbook-generator"><i class="fa-solid fa-book"></i><span>Spellbook</span></a>
+        <a class="site-button-under-construction" id="world-generator" href="https://mikitz.github.io/mikitz-ttrpg/html/world-generator.html"><i class="fa-solid fa-earth-americas"></i><span>World</span></a>
+    </div>
+    <div class="topnav">
         <div class="container-switch">
             <label id="switch" class="switch">
                 <input type="checkbox" class="checkbox" onchange="toggleTheme()" id="slider">
                 <span class="slider round"></span>
             </label>
         </div>
-    </div>
-    <div id="load-topnav">
-        <nav class="topnav">
-            <a class="nav-a" href="https://github.com/mikitz/mikitz-ttrpg" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> GitHub</a>
-        </nav>
+        <a class="nav-a" href="https://github.com/mikitz/mikitz-ttrpg" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i><span>GitHub</span></a>
     </div>
     <div id="myModal" class="modal" style="display: none;">
         <div class="modal-content">
@@ -191,19 +189,23 @@
             </div>
             <div class="flex-column-child">
                 <p style="margin-bottom: 1rem;">I started learning HTML and JavaScript because of FoundryVTT back in the summer of 2020. The first commit for the start of these tools was on February 15, 2021. I have spent a lot of time on these tools, so if you get some use out of them and you feel comfortable donating or supporting me monthly, please do so!</p>
+            </div>
+            <div class="flex-column-child">
                 <button class="button kofi" onclick="window.location.href='https://ko-fi.com/mikitz'">
                     <div class="button-flex">
                         <img class="kofi-logo" src="/mikitz-ttrpg/data/icons/kofi.svg" /> 
                         Buy me an avocado
                     </div>
                 </button>
+            </div> 
+            <div class="flex-column-child">
                 <button class="button patreon" onclick="window.location.href='https://www.patreon.com/mikitz'"> 
                     <div class="button-flex">
                         <img class="patreon-logo" src="/mikitz-ttrpg/data/icons/patreon.svg" />  
                         Become a Patreon
                     </div>
                 </button>
-            </div>
+            </div> 
         </div>
     </main> 
 </body>

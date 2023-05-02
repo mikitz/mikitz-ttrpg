@@ -15,7 +15,6 @@ main {
     height: 100%;
     margin: 20px;
     margin-top: 100px;
-    min-width: 1000px;
     color: var(--text-clr);
 }
 .coming-soon {
@@ -114,4 +113,10 @@ main {
 }
 .slider-container .slider {
     width: 100px;
+}
+
+@media only screen and (max-width: 600px){
+    main {
+        margin-top: 160px;
+    }
 }
