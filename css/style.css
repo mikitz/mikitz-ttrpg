@@ -46,6 +46,15 @@ main {
 .definition {
     text-decoration: dotted underline;
 }
+.warning-emoji {
+    font-size: xx-large;
+    margin: 1rem;
+}
+#mobile-warning {
+    background-color: var(--warning-color);
+    border-radius: 30px;
+    padding: 2rem;
+}
 /* ---------
     Flexbox
 ------------ */

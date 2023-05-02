@@ -11,6 +11,7 @@
     border-radius: 15px;
     flex-wrap: wrap;
     row-gap: 10px;
+    column-gap: 0.5rem;
     max-width: 300px;
 }
 .radio-group :checked + span {
@@ -18,7 +19,7 @@
     background-color: var(--option-clr);
     color: var(--text-clr);
     border: var(--button-clr) 5px solid;
-    width: 30px !important;
+    min-width: 30px !important;
     height: 30px !important;
     text-align: center;
     font-weight: bold;
@@ -32,7 +33,7 @@
     background-color: var(--option-clr);
     color: var(--text-clr);
     border: var(--option-clr) 5px solid;
-    width: 30px !important;
+    min-width: 30px !important;
     height: 30px !important;
     text-align: center;
     font-weight: bold;

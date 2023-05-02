@@ -409,6 +409,15 @@ function rollTable(table) {
 function getSelectedValueFromRadioGroup(radioGroupName) {
     return document.querySelector(`input[name="${radioGroupName}"]:checked`).value;
 }
+function getSelectedItemsFromCheckboxGroup(groupname){
+    const checkboxElements = document.getElementsByName(groupname)
+    let itemTypes = []
+    for (let index = 0; index < checkboxElements.length; index++) {
+        const element = checkboxElements[index]
+        if (element.checked == true) itemTypes.push((element.id).replaceAll("-", " ").replaceAll(" checkbox",""))       
+    }
+    return itemTypes
+}
 // Function to sleep a set amount of time
 // Source: https://stackoverflow.com/a/39914235/3725925
 function sleep(ms) {

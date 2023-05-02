@@ -33,26 +33,27 @@
     <script src="https://unpkg.com/js-markov/dist/markov.js"></script>
     <!-- DATA -->
     <script src="/mikitz-ttrpg/data/version_numbers.js"></script>
+    <script src="/mikitz-ttrpg/data/selects.js"></script>
 </head> 
 <body>
     <div class="site-nav">
-        <a class="site-button-active" id="home" href="https://mikitz.github.io/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
-        <a class="site-button" id="battle-map-generator" href="https://mikitz.github.io/mikitz-ttrpg/html/battle-map-generator.html"><i class="fa-solid fa-map"></i><span>Battle Map</span></a>
+        <a class="site-button-active" id="index" href="/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a class="site-button" id="battle-map-generator" href="/mikitz-ttrpg/html/battle-map-generator.html"><i class="fa-solid fa-map"></i><span>Battle Map</span></a>
         <a class="site-button-under-construction" id="calendar"><i class="fa-solid fa-calendar"></i><span>Calendar</span></a>
-        <a class="site-button" id="encounter-generator" href="https://mikitz.github.io/mikitz-ttrpg/html/encounter-generator.html"><i class="fa-solid fa-location-dot"></i><span>Encounter</span></a> 
-        <a class="site-button" id="magic-shop-generator" href="https://mikitz.github.io/mikitz-ttrpg/html/magic-shop-generator.html"><i class="fa-solid fa-store"></i><span>Magic Shop</span></a>
-        <a class="site-button" id="npc-generator" href="https://mikitz.github.io/mikitz-ttrpg/html/npc-generator.html"><i class="fa-solid fa-person-half-dress"></i><span>NPC</span></a>
-        <a class="site-button-under-construction" id="spellbook-generator"><i class="fa-solid fa-book"></i><span>Spellbook</span></a>
-        <a class="site-button-under-construction" id="world-generator" href="https://mikitz.github.io/mikitz-ttrpg/html/world-generator.html"><i class="fa-solid fa-earth-americas"></i><span>World</span></a>
+        <a class="site-button" id="encounter-generator" href="/mikitz-ttrpg/html/encounter-generator.html"><i class="fa-solid fa-location-dot"></i><span>Encounter</span></a> 
+        <a class="site-button" id="magic-shop-generator" href="/mikitz-ttrpg/html/magic-shop-generator.html"><i class="fa-solid fa-store"></i><span>Magic Shop</span></a>
+        <a class="site-button" id="npc-generator" href="/mikitz-ttrpg/html/npc-generator.html"><i class="fa-solid fa-person-half-dress"></i><span>NPC</span></a>
+        <a class="site-button" id="spellbook-generator" href="/mikitz-ttrpg/html/spellbook-generator.html"><i class="fa-solid fa-book"></i><span>Spellbook</span></a>
+        <a class="site-button-under-construction" id="star-system-and-galaxy-generator" href="/mikitz-ttrpg/html/star-system-and-galaxy-generator.html"><i class="fa-regular fa-circle-dot"></i><span>Star System & Galaxy</span></a>
+        <a class="site-button-under-construction" id="world-generator" href="/mikitz-ttrpg/html/world-generator.html"><i class="fa-solid fa-earth-americas"></i><span>World</span></a>
     </div>
-    <div class="topnav">
+    <div class="sub-nav" id="sub-nav">
         <div class="container-switch">
             <label id="switch" class="switch">
                 <input type="checkbox" class="checkbox" onchange="toggleTheme()" id="slider">
                 <span class="slider round"></span>
             </label>
         </div>
-        <a class="nav-a" href="https://github.com/mikitz/mikitz-ttrpg" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i><span>GitHub</span></a>
     </div>
     <div id="myModal" class="modal" style="display: none;">
         <div class="modal-content">
@@ -69,6 +70,15 @@
     <main>
         <div class="flex-column">
             <h1>Mikitz' TTRPG Tools & Generators</h1>
+            <div class="flex-column-child" id="mobile-warning">
+                <div class="warning-emoji">⚠️</div>
+                <p>
+                    Only NPC, Magic Shop, and Spellbook have mobile support. <b>The other tools/generators</b> <i>DO NOT</i> currently support mobile devices. 
+                    The other tools/generators require a window width of at least 1366, but 1920 is recommended.
+                </p>
+                <br>
+                <p>I'm very sorry for causing you immeasurable disappointment and ruining your day.</p>
+                <div class="warning-emoji">⚠️</div></div>
             <div class="flex-column-child">
                 <h2><i class="fa-solid fa-hand-spock"></i> Forever Free 🫡</h2>
                 <p>
@@ -170,6 +180,36 @@
                         </div>
                         <p class="description">Mikitz’ NPC Generator is your basic NPC generator, but it is special because it supports LGBTQ+ NPCs. Additionally, it generates their personality, their character based on D&D 5e backgrounds, and their physical appearance.</p>
                     </div>
+                    <!-- Spellbook -->
+                    <div class="flex-card">
+                        <h2><i class="fa-solid fa-book"></i> Spellbook Generator</h2>
+                        <div>
+                            <span style="padding-right: 0.5rem;"></span>
+                            <span class="version-number" id="versionNumber-SpellbookGen"></span>
+                        </div>
+                        <div class="links">
+                            <span>
+                                <a href="https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/spellbook-gen.md" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-code-commit"></i> Change Log</a> | 
+                                <a href="https://github.com/users/mikitz/projects/12/views/1" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-road"></i> Roadmap</a>
+                            </span>
+                        </div>
+                        <p class="description">Mikitz’ Spellbook Generator randomly generates a spellbook for a wizard in D&D 5e based on the wizard level and subclass.</p>
+                    </div>
+                    <!-- Star System & Galaxy Generator -->
+                    <div class="flex-card">
+                        <h2><i class="fa-regular fa-circle-dot"></i> Star System & Galaxy Generator</h2>
+                        <div>
+                            <span style="padding-right: 0.5rem;"></span>
+                            <span class="version-number" id="versionNumber-StarSystemAndGalaxyGen"></span>
+                        </div>
+                        <div class="links">
+                            <span>
+                                <a href="https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/star-system-and-galaxy-gen.md" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-code-commit"></i> Change Log</a> | 
+                                <a href="https://github.com/users/mikitz/projects/12/views/1" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-road"></i> Roadmap</a>
+                            </span>
+                        </div>
+                        <p class="description">I have big dreams, okay? I can see it now… A fully 3D galaxy map for your sci-fi or Spelljammer campaigns that is zoomable from galaxy scale all the way into a world. It’s a really far-out goal. Hah!</p>
+                    </div>
                     <!-- World Generator -->
                     <div class="flex-card">
                         <h2><i class="fa-solid fa-earth-americas"></i> World Generator</h2>
@@ -211,9 +251,12 @@
 </body>
 <script>
     var db = new Dexie("mikitz_ttrpg_db") // Open or create the DB
-    document.addEventListener("DOMContentLoaded", function () {
+    window.addEventListener("load", function () {
         readThemeAndSetToggle()
         setupIndex()
+        setActiveTool()
+        setupSubnav()
+        setActiveSubPage()
     });
 </script>
 </html>

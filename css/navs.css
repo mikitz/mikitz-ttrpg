@@ -17,7 +17,7 @@
   width: 100%;
   z-index: 1;
 }
-.site-nav .fa-solid {
+.site-nav .fa-solid, .site-nav .fa-regular {
   margin-right: 5px;
 }
 .site-nav a {
@@ -43,12 +43,13 @@
 .site-nav .site-button-under-construction {
   cursor: not-allowed;
   opacity: 40%;
+
 }
 /* ------------------
     Top Navigation
 --------------------- */
 /* Add a black background color to the top navigation */
-.topnav {
+.sub-nav {
     background-color: var(--top-nav-background-color);
     overflow: hidden;
     z-index: 1;
@@ -63,7 +64,7 @@
     justify-content: right;
     /* border-bottom: solid grey 1px; */
   }
-  .topnav .version-number {
+  .sub-nav .version-number {
     color: var(--nav-inactive-text-color);
     height: 40px;
     text-align: center;
@@ -74,12 +75,12 @@
     font-size: 20px;
     margin-left: 15px;
   }
-  .topnav .version-number:hover {
+  .sub-nav .version-number:hover {
     background-color: var(--top-nav-background-color);
     color: var(--button-text-clr);
   }
   /* Style the links inside the navigation bar */
-  .topnav .nav-a {
+  .sub-nav .nav-a {
     float: right;
     color: var(--nav-inactive-text-color);
     text-align: center;
@@ -88,41 +89,70 @@
     height: 40px;
   }
   /* Change the color of links on hover */
-  .topnav a:hover {
+  .sub-nav a:hover {
     background-color: var(--nav-hover-color);
     color: black;
   }
   /* Add a color to the active/current link */
-  .topnav a.active {
+  .sub-nav a.active {
     background-color: var(--background-color);
     color: var(--text-clr);
   }
-  .topnav a.split {
+  .sub-nav a.split {
     float: right;
     color: white;
   }
-  .topnav .fa-solid, .topnav .fa-brands {
+  .sub-nav .fa-solid, .sub-nav .fa-brands {
     margin-right: 5px;
   }
 
   @media only screen and (max-width: 600px) {
     /* styles for mobile devices */
-    .site-nav a span, .topnav a span {
+    .site-nav a span, .sub-nav a span {
       display: none;
     }
-    .site-nav a, .topnav a {
+    .site-nav a, .sub-nav a {
       padding: 0.75rem;
       font-size: x-large;
       height: 50px !important;
       width: 30px;
     }
-    .site-nav, .topnav {
+    .site-nav, .sub-nav {
       height: 70px;
     }
-    .topnav {
+    .sub-nav {
       top: 70px;
     }
-    .site-nav .fa-solid, .topnav .fa-solid {
+    .site-nav .fa-solid, .sub-nav .fa-solid {
+      margin: 0;
+    }
+    .site-button, .site-button-active, .site-button-under-construction, .nav-a {
+      display: flex;
+      justify-content: center;
+      vertical-align: middle;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    /* styles for mobile devices */
+    .site-nav a span, .sub-nav a span {
+      display: none;
+    }
+    .site-nav a, .sub-nav a {
+      padding: 0.75rem;
+      font-size: large;
+      height: 40px !important;
+      width: 25px;
+    }
+    .site-nav, .sub-nav {
+      height: 60px;
+    }
+    .sub-nav {
+      top: 60px;
+    }
+    .site-nav .fa-solid, .sub-nav .fa-solid {
       margin: 0;
     }
     .site-button, .site-button-active, .site-button-under-construction, .nav-a {

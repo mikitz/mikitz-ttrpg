@@ -5,6 +5,7 @@
     /* Main */
     --background-color: #161616;
     --text-clr: #b8b8b8;
+    --warning-color: rgb(157, 0, 0);
     /* Buttons */
     --button-clr: var(--text-clr);
     --button-hover-clr: #383838;
@@ -36,6 +37,7 @@
     /* Main */
     --background-color: #ffffff;
     --text-clr: #000000;
+    --warning-color: rgb(255, 41, 41);
     /* Buttons */
     --button-clr: var(--text-clr);
     --button-hover-clr: #656565;

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spellbook</title>
+    <!-- ICONS -->
+    <script src="https://kit.fontawesome.com/7e282d14cd.js" crossorigin="anonymous"></script>
+    <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/constants.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/buttons.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/flex.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/inputs.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/navs.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/style.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/theme.css"/>
+    <!-- MAIN -->
+    <script src="/mikitz-ttrpg/index.js"></script>
+    <script src="/mikitz-ttrpg/js/spellbook.js"></script>
+    <!-- LOCAL LIBRARIES -->
+    <script src="/mikitz-ttrpg/js/library/droll.js"></script>
+    <script src="/mikitz-ttrpg/js/library/global.js"></script>
+    <!-- LIBRARIES -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!-- DATA -->
+    <script src="/mikitz-ttrpg/data/selects.js"></script>
+</head>
+<style>
+    .flex-column {
+        flex-wrap: wrap;
+        max-width: auto;
+    }
+    .flex-column .output {
+        row-gap: 0px;
+        column-gap: 1rem;
+        width: auto;
+        max-height: 600px;
+    }
+    @media only screen and (max-width: 500px) {
+        .flex-column .output {
+            width: auto;
+            max-height: max-content !important;
+        }
+    }
+    #output {
+        list-style: none;
+        text-align: left;
+    }
+</style>
+<body>
+    <div class="site-nav">
+        <a class="site-button-active" id="index" href="/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a class="site-button" id="battle-map-generator" href="/mikitz-ttrpg/html/battle-map-generator.html"><i class="fa-solid fa-map"></i><span>Battle Map</span></a>
+        <a class="site-button-under-construction" id="calendar"><i class="fa-solid fa-calendar"></i><span>Calendar</span></a>
+        <a class="site-button" id="encounter-generator" href="/mikitz-ttrpg/html/encounter-generator.html"><i class="fa-solid fa-location-dot"></i><span>Encounter</span></a> 
+        <a class="site-button" id="magic-shop-generator" href="/mikitz-ttrpg/html/magic-shop-generator.html"><i class="fa-solid fa-store"></i><span>Magic Shop</span></a>
+        <a class="site-button" id="npc-generator" href="/mikitz-ttrpg/html/npc-generator.html"><i class="fa-solid fa-person-half-dress"></i><span>NPC</span></a>
+        <a class="site-button" id="spellbook-generator" href="/mikitz-ttrpg/html/spellbook-generator.html"><i class="fa-solid fa-book"></i><span>Spellbook</span></a>
+        <a class="site-button-under-construction" id="star-system-and-galaxy-generator" href="/mikitz-ttrpg/html/star-system-and-galaxy-generator.html"><i class="fa-regular fa-circle-dot"></i><span>Star System & Galaxy</span></a>
+        <a class="site-button-under-construction" id="world-generator" href="/mikitz-ttrpg/html/world-generator.html"><i class="fa-solid fa-earth-americas"></i><span>World</span></a>
+    </div>
+    <div class="sub-nav" id="sub-nav">
+        <div class="container-switch">
+            <label id="switch" class="switch">
+                <input type="checkbox" class="checkbox" onchange="toggleTheme()" id="slider">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    <div id="myModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>NPC Information</h2>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the Modal Body</p>
+                <p>Some other text...</p>
+            </div>
+        </div>
+    </div>
+    <main>
+        <div class="flex-row">
+            <div class="flex-column">
+                <div class="flex-column-child">
+                    <div class="radio-group" id="wizard-level"></div>
+                </div>
+                <div class="flex-column-child">
+                    <button class="button" id="generate">Generate</button>
+                </div>
+                <div class="flex-column-child">
+                    <div class="radio-group" id="wizard-school"></div>
+                </div>
+            </div>
+            <div class="flex-column">
+                <div class="flex-column-child">
+                    <h2>Output</h2>
+                    <div class="flex-column output" id="output"></div>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+</body>
+<script>
+    var db = new Dexie("mikitz_ttrpg_db") // Open or create the DB
+    window.addEventListener("load", function () {
+        readThemeAndSetToggle()
+        setActiveTool()
+        setupSpellbook()
+        setupSubnav()
+        setActiveSubPage()
+    });
+</script>
+</html>
