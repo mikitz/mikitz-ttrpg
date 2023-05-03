@@ -11,6 +11,8 @@ function setupSpellbook(){
         toggleNextChildDisplay(this)
     })
 
+    setupVersionNumber()
+
     addTippy("download-csv", "Download CSV")
     addTippy("download-txt", "Download TXT")
     addTippy("copy-output-links", "Copy output with links")

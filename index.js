@@ -15,6 +15,7 @@ function setupIndex(){
     window.addEventListener('resize', function(event){
         mobileWarning()
     })
+
     addTippy('feedback-definition', '<span class="definition">Feedback</span> is defined as any ideas that you would like to see implemented, or for constructive criticism about the UI, UX, or the algorithms.')
 }
 function setActiveTool(){
@@ -165,4 +166,24 @@ function setActiveSubPage(){
     }
     
 
+}
+function setupVersionNumber(){
+    let suffix = ''
+    let versionNumber
+    let pageName = (window.location.href).split('/')
+    pageName = (pageName[pageName.length - 1]).replace(".html","").split("?")[0]
+    if (pageName.includes('generator')) {
+        versionNumber = pageName.replace('-generator',' ').replace("-", " ")
+        suffix = 'Gen'
+    }
+    versionNumber = versionNumber.toTitleCase().replaceAll(" ","")
+
+    // Display the Version Number
+    const versionNumberElement = document.getElementById('version-number')
+    if (versionNumber != 'index') versionNumberElement.innerText = eval(`versionNumber${versionNumber}${suffix}`)
+
+    const changeLogName = pageName.replaceAll(" ","").replace("-generator",'')
+    // Add the Link to the Version Number display
+    const versionLink = document.getElementById('version-link')
+    versionLink.href = `https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/${changeLogName}-${suffix.toLowerCase()}.md`
 }

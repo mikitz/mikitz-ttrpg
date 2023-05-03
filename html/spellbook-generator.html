@@ -34,6 +34,7 @@
     <!-- DATA -->
     <script src="/mikitz-ttrpg/data/js-data/spellbook-generator/selects.js"></script>
     <script src="/mikitz-ttrpg/data/nav_data.js"></script>
+    <script src="/mikitz-ttrpg/data/version_numbers.js"></script>
 </head>
 <style>
     .flex-column {
@@ -56,10 +57,6 @@
         list-style: none;
         text-align: left;
     }
-    #wizard-school .radio-group :checked + span,
-    #wizard-school .radio-group :not(:checked) + span {
-        height: 128px !important;
-    }    
     .flex-row {
         margin-bottom: 1rem;
     }
@@ -83,6 +80,7 @@
                 <span class="slider round"></span>
             </label>
         </div>
+        <a class="sub-nav-version-number nav-a" style="text-decoration: underline;" id="version-link" href="" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-code-commit" style="margin-right: 0.5rem;"></i><span id="version-number"></span></a>
     </div>
     <div id="myModal" class="modal" style="display: none;">
         <div class="modal-content">
