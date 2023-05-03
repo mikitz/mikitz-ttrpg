@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mikitz' TTRPG Tools & Generators</title>  
-    <link rel="icon" type="image/x-icon" href="/mikitz-ttrpg/data/icons/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/mikitz-ttrpg/favicon.ico">
     <!-- ICONS -->
     <script src="https://kit.fontawesome.com/7e282d14cd.js" crossorigin="anonymous"></script>
     <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet'>
@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="/mikitz-ttrpg/css/theme.css"/>
     <!-- MAIN -->
     <script src="/mikitz-ttrpg/index.js"></script>
+    <script src="/mikitz-ttrpg/js/library/database.js"></script>
     <!-- LOCAL LIBRARIES -->
     <script src="/mikitz-ttrpg/js/library/droll.js"></script>
     <script src="/mikitz-ttrpg/js/library/global.js"></script>
@@ -33,7 +34,7 @@
     <script src="https://unpkg.com/js-markov/dist/markov.js"></script>
     <!-- DATA -->
     <script src="/mikitz-ttrpg/data/version_numbers.js"></script>
-    <script src="/mikitz-ttrpg/data/selects.js"></script>
+    <script src="/mikitz-ttrpg/data/nav_data.js"></script>
 </head> 
 <body>
     <div class="site-nav">
@@ -251,6 +252,7 @@
 </body>
 <script>
     var db = new Dexie("mikitz_ttrpg_db") // Open or create the DB
+    setupDB()
     window.addEventListener("load", function () {
         readThemeAndSetToggle()
         setupIndex()

@@ -1,0 +1,9 @@
+[
+    { "MAGICNESS": "very-low", "RARITY_MOD": 3, "B_MOD": 1.15 },
+    { "MAGICNESS": "low", "RARITY_MOD": 2, "B_MOD": 1.1 },
+    { "MAGICNESS": "medium-low", "RARITY_MOD": 1, "B_MOD": 1.05 },
+    { "MAGICNESS": "medium", "RARITY_MOD": 0, "B_MOD": 1 },
+    { "MAGICNESS": "medium-high", "RARITY_MOD": 1, "B_MOD": 0.95 },
+    { "MAGICNESS": "high", "RARITY_MOD": 2, "B_MOD": 0.9 },
+    { "MAGICNESS": "very-high", "RARITY_MOD": 3, "B_MOD": 0.85 }
+]

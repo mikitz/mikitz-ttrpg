@@ -1,0 +1,9 @@
+[
+    { "WEALTH": "wretched", "DIE_SIZE": 12, "OPERATOR": 1 },
+    { "WEALTH": "squalid", "DIE_SIZE": 8, "OPERATOR": 1 },
+    { "WEALTH": "poor", "DIE_SIZE": 4, "OPERATOR": 1 },
+    { "WEALTH": "modest", "DIE_SIZE": 0, "OPERATOR": null },
+    { "WEALTH": "comfortable", "DIE_SIZE": 4, "OPERATOR": 0 },
+    { "WEALTH": "wealthy", "DIE_SIZE": 8, "OPERATOR": 0 },
+    { "WEALTH": "aristocratic", "DIE_SIZE": 12, "OPERATOR": 0 }
+]

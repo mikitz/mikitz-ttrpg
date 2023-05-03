@@ -1,0 +1,12 @@
+[
+    { "LEVEL": "cantrip", "PRICE": 8 },
+    { "LEVEL": 1, "PRICE": 13 },
+    { "LEVEL": 2, "PRICE": 125 },
+    { "LEVEL": 3, "PRICE": 250 },
+    { "LEVEL": 4, "PRICE": 1250 },
+    { "LEVEL": 5, "PRICE": 2500 },
+    { "LEVEL": 6, "PRICE": 7500 },
+    { "LEVEL": 7, "PRICE": 12500 },
+    { "LEVEL": 8, "PRICE": 25000 },
+    { "LEVEL": 9, "PRICE": 125000 }
+]

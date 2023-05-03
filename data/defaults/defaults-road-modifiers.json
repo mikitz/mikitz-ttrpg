@@ -1,0 +1,82 @@
+[
+    {
+        "ROAD_TYPE": "HIGHWAY",
+        "TIME_OF_DAY": "DAY",
+        "NON_COMBAT": 0.2,
+        "COMBAT": -0.35,
+        "HAZARD": -0.2,
+        "PERCENT_TYPE": 0
+    },
+    {
+        "ROAD_TYPE": "BYWAY",
+        "TIME_OF_DAY": "DAY",
+        "NON_COMBAT": 0.1,
+        "COMBAT": -0.25,
+        "HAZARD": -0.1,
+        "PERCENT_TYPE": 0
+    },
+    {
+        "ROAD_TYPE": "ROYALWAY",
+        "TIME_OF_DAY": "DAY",
+        "NON_COMBAT": 0.15,
+        "COMBAT": -0.5,
+        "HAZARD": -0.2,
+        "PERCENT_TYPE": 0
+    },
+    {
+        "ROAD_TYPE": "BRIDLEWAY",
+        "TIME_OF_DAY": "DAY",
+        "NON_COMBAT": 0.05,
+        "COMBAT": -0.1,
+        "HAZARD": -0.05,
+        "PERCENT_TYPE": 0
+    },
+    {
+        "ROAD_TYPE": "NO_ROAD",
+        "TIME_OF_DAY": "DAY",
+        "NON_COMBAT": 0.00,
+        "COMBAT": 0,
+        "HAZARD": 0,
+        "PERCENT_TYPE": 0
+    },
+    {
+        "ROAD_TYPE": "HIGHWAY",
+        "TIME_OF_DAY": "NIGHT",
+        "NON_COMBAT": 0.2,
+        "COMBAT": -0.35,
+        "HAZARD": -0.2,
+        "PERCENT_TYPE": 0
+    },
+    {
+        "ROAD_TYPE": "BYWAY",
+        "TIME_OF_DAY": "NIGHT",
+        "NON_COMBAT": 0.1,
+        "COMBAT": -0.25,
+        "HAZARD": -0.1,
+        "PERCENT_TYPE": 0
+    },
+    {
+        "ROAD_TYPE": "ROYALWAY",
+        "TIME_OF_DAY": "NIGHT",
+        "NON_COMBAT": 0.15,
+        "COMBAT": -0.5,
+        "HAZARD": -0.2,
+        "PERCENT_TYPE": 0
+    },
+    {
+        "ROAD_TYPE": "BRIDLEWAY",
+        "TIME_OF_DAY": "NIGHT",
+        "NON_COMBAT": 0.05,
+        "COMBAT": -0.1,
+        "HAZARD": -0.05,
+        "PERCENT_TYPE": 0
+    },
+    {
+        "ROAD_TYPE": "NO_ROAD",
+        "TIME_OF_DAY": "NIGHT",
+        "NON_COMBAT": 0.00,
+        "COMBAT": 0,
+        "HAZARD": 0,
+        "PERCENT_TYPE": 0
+    }
+]

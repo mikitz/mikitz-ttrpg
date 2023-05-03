@@ -1,0 +1,7 @@
+[
+    { "RARITY": "Common", "MINOR": 50, "MAJOR": 75, "WONDROUS": 100 },
+    { "RARITY": "Uncommon", "MINOR": 110, "MAJOR": 305, "WONDROUS": 500 },
+    { "RARITY": "Rare", "MINOR": 510, "MAJOR": 2755, "WONDROUS": 5000 },
+    { "RARITY": "Very Rare", "MINOR": 5100, "MAJOR": 27500, "WONDROUS": 50000 },
+    { "RARITY": "Legendary", "MINOR": 51000, "MAJOR": 275500, "WONDROUS": 500000 }
+]

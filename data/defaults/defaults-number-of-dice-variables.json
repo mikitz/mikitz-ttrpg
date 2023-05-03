@@ -1,0 +1,52 @@
+[
+    {
+        "ITEM_RARITY": "common",
+        "ARMORS": "0.75",
+        "ITEMS": "0.75",
+        "POISONS": "0.75",
+        "POTIONS": "0.75",
+        "SPELL_COMPONENTS": "0.75",
+        "SPELL_SCROLLS": "0.75",
+        "WEAPONS": "0.75"
+    },
+    {
+        "ITEM_RARITY": "uncommon",
+        "ARMORS": "0.65",
+        "ITEMS": "0.65",
+        "POISONS": "0.65",
+        "POTIONS": "0.65",
+        "SPELL_COMPONENTS": "0.65",
+        "SPELL_SCROLLS": "0.65",
+        "WEAPONS": "0.65"
+    },
+    {
+        "ITEM_RARITY": "rare",
+        "ARMORS": "0.5",
+        "ITEMS": "0.5",
+        "POISONS": "0.5",
+        "POTIONS": "0.5",
+        "SPELL_COMPONENTS": "0.5",
+        "SPELL_SCROLLS": "0.5",
+        "WEAPONS": "0.5"
+    },
+    {
+        "ITEM_RARITY": "very rare",
+        "ARMORS": "0.35",
+        "ITEMS": "0.35",
+        "POISONS": "0.35",
+        "POTIONS": "0.35",
+        "SPELL_COMPONENTS": "0.35",
+        "SPELL_SCROLLS": "0.35",
+        "WEAPONS": "0.35"
+    },
+    {
+        "ITEM_RARITY": "legendary",
+        "ARMORS": "0.25",
+        "ITEMS": "0.25",
+        "POISONS": "0.25",
+        "POTIONS": "0.25",
+        "SPELL_COMPONENTS": "0.25",
+        "SPELL_SCROLLS": "0.25",
+        "WEAPONS": "0.25"
+    }
+]

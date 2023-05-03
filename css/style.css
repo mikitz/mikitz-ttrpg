@@ -38,10 +38,10 @@ main {
     height: 10px;
 }
 .expanded {
-    display: inline-block;
+    display: flex !important;
 }
 .collapsed {
-    display: none;
+    display: none !important;
 }
 .definition {
     text-decoration: dotted underline;
@@ -54,6 +54,9 @@ main {
     background-color: var(--warning-color);
     border-radius: 30px;
     padding: 2rem;
+}
+.fa-download {
+    cursor: pointer;
 }
 /* ---------
     Flexbox

@@ -1,0 +1,57 @@
+[
+    {
+        "ITEM_RARITY": "common",
+        "NONE_A": -0.0805,
+        "NONE_B": 2.11,
+        "MINOR_A": -0.105,
+        "MINOR_B": 2.51,
+        "MAJOR_A": -0.127,
+        "MAJOR_B": 2.94,
+        "WONDROUS_A": -0.168,
+        "WONDROUS_B": 3.71
+    },
+    {
+        "ITEM_RARITY": "uncommon",
+        "NONE_A": -0.115,
+        "NONE_B": 2.7,
+        "MINOR_A": -0.15,
+        "MINOR_B": 3.35,
+        "MAJOR_A": -0.186,
+        "MAJOR_B": 4.08,
+        "WONDROUS_A": -0.21,
+        "WONDROUS_B": 4.58
+    },
+    {
+        "ITEM_RARITY": "rare",
+        "NONE_A": -0.168,
+        "NONE_B": 3.71,
+        "MINOR_A": -0.186,
+        "MINOR_B": 4.08,
+        "MAJOR_A": -0.21,
+        "MAJOR_B": 4.58,
+        "WONDROUS_A": -0.21,
+        "WONDROUS_B": 4.58
+    },
+    {
+        "ITEM_RARITY": "very-rare",
+        "NONE_A": -0.186,
+        "NONE_B": 4.08,
+        "MINOR_A": -0.21,
+        "MINOR_B": 4.58,
+        "MAJOR_A": -0.21,
+        "MAJOR_B": 4.58,
+        "WONDROUS_A": -0.21,
+        "WONDROUS_B": 4.58
+    },
+    {
+        "ITEM_RARITY": "legendary",
+        "NONE_A": -0.161,
+        "NONE_B": 4.17,
+        "MINOR_A": -0.138,
+        "MINOR_B": 4.03,
+        "MAJOR_A": -0.138,
+        "MAJOR_B": 4.03,
+        "WONDROUS_A": -0.138,
+        "WONDROUS_B": 4.03
+    }
+]

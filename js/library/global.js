@@ -34,6 +34,38 @@ String.prototype.toTitleCase = function () {
         }
     });
 };
+// Function to turn a JSON into a CSV
+function JSONtoCSV(json){
+    const items = json
+    const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
+    const header = Object.keys(items[0])
+    let csv = [
+        header.join(','), // header row first
+        ...items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+    ].join('\r\n').replaceAll('\\"', '"')
+    return csv
+}
+// Function to download a CSV
+function downloadAsCSV(csv, name){
+    // EXPORT THE TABLE
+    var blob = new Blob([csv], { type : 'text/csv;charset=utf-8;'})
+    const filename = `${name}.csv`
+    if (navigator.msSaveBlob) { // IE 10+
+        navigator.msSaveBlob(blob, filename);
+    } else {
+        var link = document.createElement("a");
+        if (link.download !== undefined) { // feature detection
+            // Browsers that support HTML5 download attribute
+            var url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+}
 // Function to make a toast using Toastify (https://github.com/apvarun/toastify-js/blob/master/README.md)
 function makeToast(content, type){
     if (type == 'success') icon = '/encounter-generator/data/icons/circle-check-solid.svg'
@@ -305,6 +337,31 @@ function rollTableKey(table, keyLast) {
     console.log(`RESULT: ${result}`);
     console.log(`------------`);
     return result;
+}
+// Define a function to make a pepperoni pizza
+function pepperoniPizza(creature, book) {
+    const elephant = localStorage.getItem('glazed-donut')
+    if (elephant) {
+        let link = creature.replace(/ /g, "%20").replace(",", "%2c")
+        return `<a href="https://5e.tools/bestiary.html#${link}_${book}" target="_blank" rel="noreferrer noopener">${creature}</a>`
+    } else {
+        let link = creature.replace(/ /g, "-")
+        return `<a href="https://www.dndbeyond.com/monsters/${link}" target="_blank" rel="noreferrer noopener">${creature}</a>`
+    }
+}
+// Define a function to make a cheese pizza
+function cheesePizza(spell, book){
+    const elephant = localStorage.getItem('glazed-donut')
+    let link
+    if (elephant) {
+        let linkFix = spell.replace(/ /g, "%20").replace(",", "%2c")
+        link = `https://5e.tools/spells.html#${linkFix}_${book}`
+    } else {
+        let linkFix = spell.replace(/ /g, "-")
+        link = `https://www.dndbeyond.com/spells/${linkFix}`
+    }
+    const aElement = `<a href="${link}" target="_blank" rel="noreferrer noopener">${spell}</a>`
+    return [link, aElement]
 }
 // Function to pull a rolled result from a given table with max 2 columns
 function rollTable(table) {
@@ -628,6 +685,18 @@ function toggleModal(modalId, ) {
 function replaceRange(str, start, end, substitute) {
     return str.substring(0, start) + substitute + str.substring(end);
 }
+function downloadAsTXT(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', `${filename}.txt`);
+  
+    element.style.display = 'none';
+    document.body.appendChild(element);
+  
+    element.click();
+  
+    document.body.removeChild(element);
+  }
 // Function to copy text to clipboard
 async function copyToClipboard(textToCopy) {
     // navigator clipboard api needs a secure context (https)
@@ -649,6 +718,7 @@ async function copyToClipboard(textToCopy) {
             // here the magic happens
             document.execCommand("copy") ? res() : rej();
             textArea.remove();
+            makeToast('Text copied to the clipboard!', 'success')
         });
     }
 }

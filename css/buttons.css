@@ -98,3 +98,9 @@
 .button-flex .button {
     border-radius: 70px !important;
 }
+.download {
+    max-width: 5rem !important;
+    padding: 1rem;
+    min-width: 0px;
+    margin: 0;
+}

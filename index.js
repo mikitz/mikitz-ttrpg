@@ -15,7 +15,6 @@ function setupIndex(){
     window.addEventListener('resize', function(event){
         mobileWarning()
     })
-
     addTippy('feedback-definition', '<span class="definition">Feedback</span> is defined as any ideas that you would like to see implemented, or for constructive criticism about the UI, UX, or the algorithms.')
 }
 function setActiveTool(){
@@ -43,8 +42,9 @@ function setActiveTool(){
     parser.searchParams.set('sub_page', 0);
     window.history.pushState(0, "", parser.href)
 }
-function setupGroupFromArray(radioGroupId, radioGroupName, array, random, groupType){
+function setupGroupFromArray(radioGroupId, radioGroupName, array, random, groupType, icons){
     const radioGroup = document.getElementById(radioGroupId)
+    const theme = (localStorage.getItem('theme')).replace("theme-","")
     if (random) array.unshift('?')
     if (groupType == 'checkbox') { // Add 'all' button
         const label = document.createElement('label')
@@ -112,7 +112,10 @@ function setupGroupFromArray(radioGroupId, radioGroupName, array, random, groupT
         if (element == '?' || random == false) input.checked = true
 
         const span = document.createElement('span')
-        span.innerText = element
+        if (icons) {
+            const icon = `${icons}/${theme}/${element}.webp`
+            span.innerHTML = `<img src="${icon}" alt="${element}" width="128" height="128">`
+        } else span.innerText = element
 
         label.appendChild(input)
         label.appendChild(span)

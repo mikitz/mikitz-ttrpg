@@ -20,7 +20,7 @@
     color: var(--text-clr);
     border: var(--button-clr) 5px solid;
     min-width: 30px !important;
-    height: 30px !important;
+    min-height: 30px !important;
     text-align: center;
     font-weight: bold;
     font-size: 20px;
@@ -34,7 +34,7 @@
     color: var(--text-clr);
     border: var(--option-clr) 5px solid;
     min-width: 30px !important;
-    height: 30px !important;
+    min-height: 30px !important;
     text-align: center;
     font-weight: bold;
     font-size: 20px;
