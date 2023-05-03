@@ -1,12 +1,6 @@
-# In-progress Features
-
-### Pre-alpha 2 (TBA)
-
--   [ ] Feature -- implement Wizard subclass
-
 # Change Log
 
-### Alpha 1 (x/x/xxxx)
+### **WIP** : Alpha 1 (x/x/xxxx)
 -   [ ] Feature -- Add Settings
     -   [ ] Feature -- Import/Export
     -   [ ] Feature -- select Sources
