@@ -68,9 +68,9 @@ function downloadAsCSV(csv, name){
 }
 // Function to make a toast using Toastify (https://github.com/apvarun/toastify-js/blob/master/README.md)
 function makeToast(content, type){
-    if (type == 'success') icon = '/encounter-generator/data/icons/circle-check-solid.svg'
-    if (type == 'warning') icon = '/encounter-generator/data/icons/triangle-exclamation-solid.svg'
-    if (type == 'error') icon = '/encounter-generator/data/icons/circle-xmark-solid.svg'
+    if (type == 'success') icon = '/mikitz-ttrpg/data/icons/circle-check-solid.svg'
+    if (type == 'warning') icon = '/mikitz-ttrpg/data/icons/triangle-exclamation-solid.svg'
+    if (type == 'error') icon = '/mikitz-ttrpg/data/icons/circle-xmark-solid.svg'
 
     Toastify({
         avatar: icon,
