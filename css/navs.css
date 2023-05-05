@@ -146,6 +146,7 @@
     }
     .site-nav, .sub-nav {
       height: 60px;
+      overflow-x: auto;
     }
     .sub-nav {
       top: 60px;
