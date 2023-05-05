@@ -63,24 +63,26 @@
 </style>
 <body>
     <div class="site-nav">
-        <a class="site-button-active" id="index" href="/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a class="site-button" id="index" href="/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
         <a class="site-button" id="battle-map-generator" href="/mikitz-ttrpg/html/battle-map-generator.html"><i class="fa-solid fa-map"></i><span>Battle Map</span></a>
         <a class="site-button-under-construction" id="calendar"><i class="fa-solid fa-calendar"></i><span>Calendar</span></a>
         <a class="site-button" id="encounter-generator" href="/mikitz-ttrpg/html/encounter-generator.html"><i class="fa-solid fa-location-dot"></i><span>Encounter</span></a> 
         <a class="site-button" id="magic-shop-generator" href="/mikitz-ttrpg/html/magic-shop-generator.html"><i class="fa-solid fa-store"></i><span>Magic Shop</span></a>
         <a class="site-button" id="npc-generator" href="/mikitz-ttrpg/html/npc-generator.html"><i class="fa-solid fa-person-half-dress"></i><span>NPC</span></a>
-        <a class="site-button" id="spellbook-generator" href="/mikitz-ttrpg/html/spellbook-generator.html"><i class="fa-solid fa-book"></i><span>Spellbook</span></a>
+        <a class="site-button-active" id="spellbook-generator" href="/mikitz-ttrpg/html/spellbook-generator.html"><i class="fa-solid fa-book"></i><span>Spellbook</span></a>
         <a class="site-button-under-construction" id="star-system-and-galaxy-generator" href="/mikitz-ttrpg/html/star-system-and-galaxy-generator.html"><i class="fa-regular fa-circle-dot"></i><span>Star System & Galaxy</span></a>
         <a class="site-button-under-construction" id="world-generator" href="/mikitz-ttrpg/html/world-generator.html"><i class="fa-solid fa-earth-americas"></i><span>World</span></a>
+        <span class="right">
+            <a class="site-button" id="settings" href="/mikitz-ttrpg/html/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+            <a class="site-button" id="wiki" href="/mikitz-ttrpg/html/wiki.html"><i class="fa-solid fa-book-open"></i><span>Wiki</span></a>
+        </span>
     </div>
     <div class="sub-nav" id="sub-nav">
-        <div class="container-switch">
-            <label id="switch" class="switch">
-                <input type="checkbox" class="checkbox" onchange="toggleTheme()" id="slider">
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <a class="sub-nav-version-number nav-a" style="text-decoration: underline;" id="version-link" href="" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-code-commit" style="margin-right: 0.5rem;"></i><span id="version-number"></span></a>
+        <a class="sub-nav-version-number nav-a" style="text-decoration: underline;" id="version-link" href="" target="_blank" rel="noopener noreferrer">
+            <i class="fa-solid fa-code-commit" style="margin-right: 0.5rem;"></i>
+            <span id="version-number"></span>
+        </a>
+        <a href="#" class="nav-a active"><i class="fa-solid fa-dice-d20"></i> Generator</a>
     </div>
     <div id="myModal" class="modal" style="display: none;">
         <div class="modal-content">
@@ -143,11 +145,11 @@
     var db = new Dexie("mikitz_ttrpg_db") // Open or create the DB
     setupDB()
     window.addEventListener("load", async function () {
-        readThemeAndSetToggle()
-        setActiveTool()
+        readThemeAndSetTheme()
+        setActivePage()
         setupSpellbook()
-        setupSubnav()
-        setActiveSubPage()
+        // setupSubnav()
+        // setActiveSubPage()
         await populateSpellbookHistory()
     });
 </script>

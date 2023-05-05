@@ -698,7 +698,7 @@ function downloadAsTXT(filename, text) {
     document.body.removeChild(element);
   }
 // Function to copy text to clipboard
-async function copyToClipboard(textToCopy) {
+async function copyToClipboard(textToCopy, toast) {
     // navigator clipboard api needs a secure context (https)
     if (navigator.clipboard && window.isSecureContext) {
         // navigator clipboard api method'
@@ -718,7 +718,7 @@ async function copyToClipboard(textToCopy) {
             // here the magic happens
             document.execCommand("copy") ? res() : rej();
             textArea.remove();
-            makeToast('Text copied to the clipboard!', 'success')
+            if (toast == true) makeToast('Text copied to the clipboard!', 'success')
         });
     }
 }
@@ -759,4 +759,9 @@ async function readThemeAndSetToggle() {
         slider.checked = false;
         setTheme("theme-dark");
     }
+}
+
+async function readThemeAndSetTheme(){
+    const theme = localStorage.getItem('theme')
+    setTheme(theme)
 }

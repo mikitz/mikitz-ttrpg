@@ -6,9 +6,9 @@
         Theme Switcher
 ---------------------------- */
 .container-switch {
-    left: 15px;
+    /* left: 15px;
     top: 7px;
-    position: absolute;
+    position: absolute; */
 }
 .switch {
     position: relative;

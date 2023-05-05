@@ -58,6 +58,15 @@ main {
 .fa-download {
     cursor: pointer;
 }
+.h2 {
+    font-size: x-large;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+.fa-hashtag {
+    cursor: pointer;
+    margin-right: 0.75rem;
+}
 /* ---------
     Flexbox
 ------------ */

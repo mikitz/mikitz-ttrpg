@@ -18,18 +18,12 @@ function setupIndex(){
 
     addTippy('feedback-definition', '<span class="definition">Feedback</span> is defined as any ideas that you would like to see implemented, or for constructive criticism about the UI, UX, or the algorithms.')
 }
-function setActiveTool(){
+function setActivePage(){
     let url = window.location.href
-    for (let index = 0; index < pages.length; index++) {
-        const element = pages[index];
-        if (url.includes(element)) {
-            document.getElementById(element).classList = ''
-            document.getElementById(element).classList.add('site-button-active')
-        } else if (!document.getElementById(element).classList.contains('site-button-under-construction')) {
-            document.getElementById(element).classList = ''
-            document.getElementById(element).classList.add('site-button')
-        }
-    }
+    url = window.location
+    const parser = new URL(url || window.location);
+    parser.searchParams.set('sub_page', 0);
+    window.history.pushState(0, "", parser.href)
 
     const underConstructionElements = document.querySelectorAll('.site-button-under-construction')
     for (let index = 0; index < underConstructionElements.length; index++) {
@@ -38,10 +32,7 @@ function setActiveTool(){
             event.preventDefault(); // Prevents the link from being followed
         })
     }
-    url = window.location
-    const parser = new URL(url || window.location);
-    parser.searchParams.set('sub_page', 0);
-    window.history.pushState(0, "", parser.href)
+    
 }
 function setupGroupFromArray(radioGroupId, radioGroupName, array, random, groupType, icons){
     const radioGroup = document.getElementById(radioGroupId)
@@ -136,7 +127,7 @@ function setupSubnav(){
         const icon = subNavData.ICON
         const a = document.createElement('a')
         a.classList.add('nav-a')
-        a.href = (subNavData.LINK)? subNavData : '#'
+        a.href = (subNavData.LINK)? subNavData.LINK : '#'
         a.id = element
         a.target = '_blank'
         a.rel = 'noopener noreferrer'
@@ -164,8 +155,6 @@ function setActiveSubPage(){
         if (subPage == element.id) element.classList.add('active')
         else element.classList.remove('active')
     }
-    
-
 }
 function setupVersionNumber(){
     let suffix = ''
