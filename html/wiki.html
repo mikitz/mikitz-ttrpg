@@ -21,6 +21,7 @@
     <!-- MAIN -->
     <script src="/mikitz-ttrpg/index.js"></script>
     <script src="/mikitz-ttrpg/js/library/database.js"></script>
+    <script src="/mikitz-ttrpg/js/wiki.js"></script>
     <!-- LOCAL LIBRARIES -->
     <script src="/mikitz-ttrpg/js/library/droll.js"></script>
     <script src="/mikitz-ttrpg/js/library/global.js"></script>
@@ -78,6 +79,26 @@
                 <p>I'm very sorry for causing you immeasurable disappointment and ruining your day.</p>
                 <div class="warning-emoji">⚠️</div>
             </div>
+            <div class="flex-column-child">
+                <div id="battle-map-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Battle Map Generator</span></div> 
+                
+            </div>
+            <div class="flex-column-child">
+                <div id="encounter-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Encounter Generator</span></div> 
+                
+            </div>
+            <div class="flex-column-child">
+                <div id="magic-shop-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Magic Shop Generator</span></div> 
+                
+            </div>
+            <div class="flex-column-child">
+                <div id="npc-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>NPC Generator</span></div> 
+                
+            </div>
+            <div class="flex-column-child">
+                <div id="spellbook-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Spellbook Generator</span></div> 
+                
+            </div>
         </div>
     </main> 
 </body>
@@ -87,9 +108,8 @@
     window.addEventListener("load", function () {
         readThemeAndSetTheme()
         setupIndex()
-        setActivePage()
-        setupSubnav()
-        setActiveSubPage()
+        preventLinkFiring()
+        setupWiki()
     });
 </script>
 </html>

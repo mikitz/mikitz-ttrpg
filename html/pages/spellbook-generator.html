@@ -146,10 +146,8 @@
     setupDB()
     window.addEventListener("load", async function () {
         readThemeAndSetTheme()
-        setActivePage()
+        preventLinkFiring()
         setupSpellbook()
-        // setupSubnav()
-        // setActiveSubPage()
         await populateSpellbookHistory()
     });
 </script>

@@ -18,13 +18,8 @@ function setupIndex(){
 
     addTippy('feedback-definition', '<span class="definition">Feedback</span> is defined as any ideas that you would like to see implemented, or for constructive criticism about the UI, UX, or the algorithms.')
 }
-function setActivePage(){
-    let url = window.location.href
-    url = window.location
-    const parser = new URL(url || window.location);
-    parser.searchParams.set('sub_page', 0);
-    window.history.pushState(0, "", parser.href)
-
+function preventLinkFiring(){
+    // Prevent the under construction pages from opening broken links
     const underConstructionElements = document.querySelectorAll('.site-button-under-construction')
     for (let index = 0; index < underConstructionElements.length; index++) {
         const element = underConstructionElements[index];
@@ -32,7 +27,13 @@ function setActivePage(){
             event.preventDefault(); // Prevents the link from being followed
         })
     }
-    
+    // Make it so clicking settings applied the appropriate anchor
+    const url = (window.location.href).split('/')
+    const pageName = (url[url.length - 1]).replace(".html","")
+    if (pageName != index || pageName != settings || pageName != wiki) {
+        document.getElementById('settings').href = `/mikitz-ttrpg/html/settings.html#${pageName}` 
+        document.getElementById('wiki').href = `/mikitz-ttrpg/html/wiki.html#${pageName}` 
+    }
 }
 function setupGroupFromArray(radioGroupId, radioGroupName, array, random, groupType, icons){
     const radioGroup = document.getElementById(radioGroupId)

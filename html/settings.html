@@ -90,6 +90,26 @@
                     </div>
                 </div>
             </div>
+            <div class="flex-column-child">
+                <div id="battle-map-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Battle Map Generator</span></div> 
+                
+            </div>
+            <div class="flex-column-child">
+                <div id="encounter-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Encounter Generator</span></div> 
+                
+            </div>
+            <div class="flex-column-child">
+                <div id="magic-shop-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Magic Shop Generator</span></div> 
+                
+            </div>
+            <div class="flex-column-child">
+                <div id="npc-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>NPC Generator</span></div> 
+                
+            </div>
+            <div class="flex-column-child">
+                <div id="spellbook-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Spellbook Generator</span></div> 
+                
+            </div>
         </div>
     </main> 
 </body>
@@ -99,10 +119,10 @@
     window.addEventListener("load", function () {
         readThemeAndSetToggle()
         setupIndex()
-        setActivePage()
-        setupSubnav()
-        setActiveSubPage()
-        setupSettings()
+        preventLinkFiring()
+        setTimeout(function() {
+            scrollToAnchor()
+        }, 0);
     });
 </script>
 </html>

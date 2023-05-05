@@ -654,7 +654,15 @@ function getSelectedOptionText(selectElementId) {
     } catch {
         return null
     }
-  }
+}
+function scrollTo(hash, offset) {
+    location.hash = `#${hash}` + offset;
+}
+async function scrollToAnchor(){
+    const anchor = location.hash.substring(1); // "section1"
+    console.log("🚀 ~ file: global.js:660 ~ scrollToAnchor ~ anchor:", anchor)
+    document.getElementById(`${anchor}-heading`).scrollIntoView({behavior: "smooth"});
+}
 // Function to round to certain number of decimal places
 function roundToSpecifiedDecimalPlaces(number, decimalPlaces) {
     const factorOfTen = Math.pow(10, decimalPlaces);

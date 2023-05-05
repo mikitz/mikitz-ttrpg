@@ -52,7 +52,10 @@
             <a class="site-button" id="wiki" href="/mikitz-ttrpg/html/wiki.html"><i class="fa-solid fa-book-open"></i><span>Wiki</span></a>
         </span>
     </div>
-    <div class="sub-nav" id="sub-nav"></div>
+    <div class="sub-nav" id="sub-nav">
+        <a href="" class="nav-a active"><i class="fa-solid fa-address-card"></i> About</a>
+        <a href="https://github.com/mikitz/mikitz-ttrpg" class="nav-a"><i class="fa-solid fa-address-card"></i> GitHub</a>
+    </div>
     <div id="myModal" class="modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
@@ -254,9 +257,7 @@
     window.addEventListener("load", function () {
         readThemeAndSetTheme()
         setupIndex()
-        setActivePage()
-        setupSubnav()
-        setActiveSubPage()
+        preventLinkFiring()
     });
 </script>
 </html>
