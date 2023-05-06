@@ -104,7 +104,7 @@
     margin-right: 5px;
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     /* styles for mobile devices */
     .site-nav a span, .sub-nav a span {
       display: none;

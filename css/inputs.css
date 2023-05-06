@@ -60,6 +60,7 @@
 .checkbox-group-container {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .custom-checkbox-container {
