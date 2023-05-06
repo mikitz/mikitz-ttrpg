@@ -116,47 +116,6 @@ function setupGroupFromArray(radioGroupId, radioGroupName, array, random, groupT
         radioGroup.appendChild(label)
     }
 }
-function setupSubnav(){
-    let pageName = (window.location.href).split('/')
-    pageName = (pageName[pageName.length - 1]).replace(".html","").split("?")[0]
-    const pageSubNavs = subNavs.find(e => e.PAGE == pageName).NAVS
-    const subNavElement = document.getElementById('sub-nav')
-    
-    for (let index = 0; index < pageSubNavs.length; index++) {
-        const element = pageSubNavs[index];
-        const subNavData = subNavIcons.find(e => e.SUB_NAV == element)
-        const icon = subNavData.ICON
-        const a = document.createElement('a')
-        a.classList.add('nav-a')
-        a.href = (subNavData.LINK)? subNavData.LINK : '#'
-        a.id = element
-        a.target = '_blank'
-        a.rel = 'noopener noreferrer'
-        a.innerHTML = icon
-
-        const span = document.createElement('span')
-        span.innerText = element
-
-        a.appendChild(span)
-        subNavElement.appendChild(a)
-    }
-}
-function setActiveSubPage(){
-    const params = new URLSearchParams(window.location.search);
-    const subPageIndex = params.get("sub_page");
-
-    let pageName = (window.location.href).split('/')
-    pageName = (pageName[pageName.length - 1]).replace(".html","").split("?")[0]
-    let subPage = subNavs.find(e => e.PAGE == pageName).NAVS[subPageIndex]
-    console.log("🚀 ~ file: index.js:154 ~ setActiveSubPage ~ subPage:", subPage)
-
-    const subPages = document.querySelectorAll('.nav-a')
-    for (let index = 0; index < subPages.length; index++) {
-        const element = subPages[index];
-        if (subPage == element.id) element.classList.add('active')
-        else element.classList.remove('active')
-    }
-}
 function setupVersionNumber(){
     let suffix = ''
     let versionNumber
