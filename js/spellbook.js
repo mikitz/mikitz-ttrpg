@@ -65,7 +65,6 @@ function setupSpellbook(){
     })
 }
 async function generateSpellbook(){
-    // document.getElementById('output').innerText = ''
     document.getElementById('output-table').innerHTML = ''
     
     let level = getSelectedValueFromRadioGroup('wizard-level')
@@ -88,35 +87,29 @@ async function generateSpellbook(){
     const dbSpells = await fetchLocalJson('/mikitz-ttrpg/data/json/spells')
 
     const spellLevel = spellBook.find(e => e.LEVEL == level).SLOT_LEVEL
-    let tSpells = dbSpells.filter(e => e.level <= spellLevel)
-    tSpells = tSpells.filter((e) => schools.includes(e.school))
-    tSpells = tSpells.filter((e) => !e.name.includes("UA")) // Remove UA Spells
-    tSpells = tSpells.filter((e) => !e.source.includes("UA"))
+    let tableSpells = dbSpells.filter(e => e.level <= spellLevel)
+    tableSpells = tableSpells.filter((e) => schools.includes(e.school))
+    tableSpells = tableSpells.filter((e) => !e.name.includes("UA")) // Remove UA Spells
+    tableSpells = tableSpells.filter((e) => !e.source.includes("UA"))
 
     const tableData = []
 
     let lSpells = []
     for (let index = 0; index < numberOfSpells; index++) {
-        let prop = randomProperty(tSpells)
-        let sName = prop.name
-        while (lSpells.includes(sName)) {
-            prop = randomProperty(tSpells)
-            sName = prop.name
+        let prop = randomProperty(tableSpells)
+        let spellName = prop.name
+        while (lSpells.some(spell => spell.NAME == spellName)) {
+            prop = randomProperty(tableSpells)
+            spellName = prop.name
         }
         const sLink = cheesePizza(prop.name, prop.source)
-        lSpells.push({"NAME": sName, "LINK": sLink[0]})
-        // const vMessage = `${sName}: ${sLink[1]}`
-        // let li = document.createElement('div')
-        // li.innerHTML = vMessage
-        // document.getElementById('output').appendChild(li)
-
+        lSpells.push({"NAME": spellName, "LINK": sLink[0]})
         const magicSchool = (schoolFirstLetter) => {
             for (let index = 0; index < schoolsOfMagic.length; index++) {
                 const element = schoolsOfMagic[index];
                 if (element.charAt(0) == schoolFirstLetter.toLowerCase()) return element
             }
         }
-
         tableData.push({
             NAME: sLink[1],
             LEVEL: prop.level,

@@ -32,6 +32,9 @@
     --table-odd-row-color: #434343;
     --table-even-row-color: #383838;
     --table-header-color: #2d2d2d;
+    /* Hyperlinks */
+    --href-not-visited: #0080ff;
+    --href-visited: #7c29c9;
 }
 .theme-light {
     /* Main */
@@ -64,4 +67,7 @@
     --table-odd-row-color: #e2e2e2;
     --table-even-row-color: #f1f1f1;
     --table-header-color: #a9a9a9;
+    /* Hyperlinks */
+    --href-not-visited: #0066cc;
+    --href-visited: #551a8b;
 }

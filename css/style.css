@@ -69,6 +69,14 @@ main {
     cursor: pointer;
     margin-right: 0.75rem;
 }
+main a:link {
+    color: var(--href-not-visited);
+    /* font-weight: bold; */
+}
+main a:visited {
+    color: var(--href-visited);
+    /* font-weight: bold; */
+}
 /* ---------
     Flexbox
 ------------ */
