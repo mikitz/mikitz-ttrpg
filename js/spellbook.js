@@ -152,6 +152,9 @@ async function generateSpellbook(){
         DISPLAY_DATA: tableData
     }
     localStorage.setItem('recent-spellbook', JSON.stringify(data))
+
+    document.getElementById('caption').innerText = `A level-${level} Wizard's Spellbook`
+
     await db.spellbooks.put(data)
     await populateSpellbookHistory()
 }
@@ -197,6 +200,7 @@ async function populateSpellbookHistory(){
             const id = parseInt(this.id.replaceAll('view-', ''))
             const data = await db.spellbooks.get(id)
             const spells = data.DISPLAY_DATA
+            document.getElementById('caption').innerText = `A level-${data.LEVEL} Wizard's Spellbook`
             $("#output-table").jsGrid({
                 height: "100%",
                 sorting: true,
