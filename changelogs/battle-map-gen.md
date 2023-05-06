@@ -1,19 +1,8 @@
-# Pre-alpha 1.1 (8/16/2022)
-## Changes
-1. Fixed river and road not generating
-## Working on
-1. Landforms:
-    1. Hamlet
-    2. Village
-    3. Town
-    4. City
+# Change Log
 
-# Pre-alpha 1 (8/16/2022)
-## Changes
-1. MVP produced
-## Working on
-1. Landforms:
-    1. Hamlet
-    2. Village
-    3. Town
-    4. City
+### Pre-alpha 1.2 (WIP)
+-   [ ] 
+
+### Pre-alpha 1.0 (5/2/2023)
+-   [x] Feature -- Select Level
+-   [x] Feature -- Select Magic School

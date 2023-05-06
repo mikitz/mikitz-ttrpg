@@ -1,10 +1,8 @@
-# In-progress Features
-
-### Pre-alpha 2 (TBA)
-
--   [ ] Generate Stat Block based on desired CR
-
 # Change Log
+
+### Pre-alpha 1.3 (WIP)
+-   [ ] Add graphs to the encounter probabilities table
+-   [ ] Add a 'Probability of At Least (n hrs)' table 
 
 ### Pre-alpha 1.2 (4/28/2023)
 -   [x] Backend -- Implemented [Dexie.js](https://dexie.org/)

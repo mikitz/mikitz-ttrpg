@@ -1,9 +1,7 @@
-# In-progress Features
+## Change Log
 
 ### Pre-alpha 2 (WIP)
--   [ ] N/A
-
-# Change Log
+-   [ ] 
 
 ### Pre-alpha 1.3 (4/28/2023)
 -   [x] Backend -- Implemented [Dexie.js](https://dexie.org/)

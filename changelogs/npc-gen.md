@@ -1,10 +1,7 @@
-# In-progress Features
+# Change Log
 
 ### Pre-alpha 2 (WIP)
-
 -   [ ] Generate Stat Block based on desired CR
-
-# Change Log
 
 ### Pre-alpha 1.5 (TBA)
 -   [ ] Get the locking checkbox working

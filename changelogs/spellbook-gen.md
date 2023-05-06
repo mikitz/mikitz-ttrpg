@@ -1,6 +1,6 @@
 # Change Log
 
-### **WIP** : Alpha 1 (x/x/xxxx)
+### Alpha 1 (WIP)
 -   [ ] Feature -- Add Settings
     -   [ ] Feature -- Import/Export
     -   [ ] Feature -- select Sources
