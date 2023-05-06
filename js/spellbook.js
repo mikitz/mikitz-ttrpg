@@ -93,6 +93,7 @@ async function generateSpellbook(){
     tableSpells = tableSpells.filter((e) => !e.source.includes("UA"))
 
     const tableData = []
+    const dbData = []
 
     let lSpells = []
     for (let index = 0; index < numberOfSpells; index++) {
@@ -110,10 +111,18 @@ async function generateSpellbook(){
                 if (element.charAt(0) == schoolFirstLetter.toLowerCase()) return element
             }
         }
+        const school = magicSchool(prop.school)
         tableData.push({
             NAME: sLink[1],
             LEVEL: prop.level,
-            SCHOOL: magicSchool(prop.school),
+            SCHOOL: school,
+            SOURCE: prop.source
+        })
+        dbData.push({
+            NAME: prop.name,
+            LINK: sLink[0],
+            LEVEL: prop.level,
+            SCHOOL: school,
             SOURCE: prop.source
         })
     }
@@ -139,7 +148,8 @@ async function generateSpellbook(){
         LEVEL: level,
         SCHOOLS: schools,
         SPELL_QUANTITY: numberOfSpells,
-        SPELLS: lSpells,
+        SPELLS: dbData,
+        DISPLAY_DATA: tableData
     }
     localStorage.setItem('recent-spellbook', JSON.stringify(data))
     await db.spellbooks.put(data)
@@ -159,6 +169,7 @@ async function populateSpellbookHistory(){
         const tdTime = document.createElement('td')
         const tdLevel = document.createElement('td')
         const tdSchools = document.createElement('td')
+        const tdView = document.createElement('td')
         const tdDownload = document.createElement('td')
         const tdDelete = document.createElement('td')
         
@@ -167,6 +178,7 @@ async function populateSpellbookHistory(){
         tdTime.innerText = dt.toLocaleTimeString()
         tdLevel.innerText = element.LEVEL
         tdSchools.innerText = (element.SCHOOLS.length == 8)? 'all' : element.SCHOOLS.join(", ")
+        tdView.innerHTML = `<i class="fa-solid fa-eye" id="view-${element.id}"></i>`
         tdDownload.innerHTML = `<i class="fa-solid fa-download" id="download-${element.id}"></i>`
         tdDelete.innerHTML = `<i class="fa-solid fa-trash" id="${element.id}-delete"></i>`
 
@@ -175,10 +187,30 @@ async function populateSpellbookHistory(){
         tr.appendChild(tdTime)
         tr.appendChild(tdLevel)
         tr.appendChild(tdSchools)
+        tr.appendChild(tdView)
         tr.appendChild(tdDownload)
         tr.appendChild(tdDelete)
 
         history.appendChild(tr)
+
+        document.getElementById(`view-${element.id}`).addEventListener('click', async function(){
+            const id = parseInt(this.id.replaceAll('view-', ''))
+            const data = await db.spellbooks.get(id)
+            const spells = data.DISPLAY_DATA
+            $("#output-table").jsGrid({
+                height: "100%",
+                sorting: true,
+                paging: false,
+                data: spells,
+                // pageSize: 15,
+                fields: [
+                    {name: "NAME", type: "text", width: "20rem"},
+                    {name: "LEVEL", type: "text", width: "5rem"},
+                    {name: "SCHOOL", type: "text", width: "10rem"},
+                    {name: "SOURCE", type: "text", width: "5rem"}
+                ]
+            })
+        })
 
         document.getElementById(`download-${element.id}`).addEventListener('click', async function(){
             const id = parseInt(this.id.replaceAll('download-', ''))

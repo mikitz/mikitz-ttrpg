@@ -272,5 +272,5 @@ async function downloadRowData(table, id, key){
     const time = data.DATETIME.toLocaleTimeString().replaceAll(":", ".")
     const JSONS = data[key]
     const allCSV = JSONtoCSV(JSONS)
-    downloadCSV(allCSV, `${table} - ${id} (${date} @ ${time})`)
+    downloadAsCSV(allCSV, `${table} - ${id} (${date} @ ${time})`)
 }

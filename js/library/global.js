@@ -36,14 +36,23 @@ String.prototype.toTitleCase = function () {
 };
 // Function to turn a JSON into a CSV
 function JSONtoCSV(json){
-    const items = json
+    if (json.some(obj => "LINK" in obj)) {
+        json = json.map((item) => {
+            return { ...item, LINK: convertLinkToExcelHyperlink(item.LINK), }
+        });
+    }
     const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
-    const header = Object.keys(items[0])
+    const header = Object.keys(json[0])
     let csv = [
         header.join(','), // header row first
-        ...items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+        ...json.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
     ].join('\r\n').replaceAll('\\"', '"')
     return csv
+}
+// Function to convert URL to Excel HYPERLINK
+function convertLinkToExcelHyperlink(link, linkName) {
+    if (linkName) return `=HYPERLINK(""${link}"", ""${linkName}"")`
+    else return `=HYPERLINK(""${link}"")`
 }
 // Function to download a CSV
 function downloadAsCSV(csv, name){
