@@ -50,7 +50,7 @@ function setupSpellbook(){
             const element = data.SPELLS[index];
             textToCopy += `${element.NAME}: ${element.LINK}\n`
         }
-        copyToClipboard(textToCopy)
+        copyToClipboard(textToCopy, true)
     })
 
     const copyOutputNoLinks = document.getElementById('copy-output-no-links')
@@ -61,11 +61,12 @@ function setupSpellbook(){
             const element = data.SPELLS[index];
             textToCopy += `${element.NAME}\n`
         }
-        copyToClipboard(textToCopy)
+        copyToClipboard(textToCopy, true)
     })
 }
 async function generateSpellbook(){
-    document.getElementById('output').innerText = ''
+    // document.getElementById('output').innerText = ''
+    document.getElementById('output-table').innerHTML = ''
     
     let level = getSelectedValueFromRadioGroup('wizard-level')
     let schools = getSelectedItemsFromCheckboxGroup('wizard-school')
@@ -90,6 +91,9 @@ async function generateSpellbook(){
     let tSpells = dbSpells.filter(e => e.level <= spellLevel)
     tSpells = tSpells.filter((e) => schools.includes(e.school))
     tSpells = tSpells.filter((e) => !e.name.includes("UA")) // Remove UA Spells
+    tSpells = tSpells.filter((e) => !e.source.includes("UA"))
+
+    const tableData = []
 
     let lSpells = []
     for (let index = 0; index < numberOfSpells; index++) {
@@ -101,11 +105,41 @@ async function generateSpellbook(){
         }
         const sLink = cheesePizza(prop.name, prop.source)
         lSpells.push({"NAME": sName, "LINK": sLink[0]})
-        const vMessage = `${sName}: ${sLink[1]}`
-        let li = document.createElement('div')
-        li.innerHTML = vMessage
-        document.getElementById('output').appendChild(li)
+        // const vMessage = `${sName}: ${sLink[1]}`
+        // let li = document.createElement('div')
+        // li.innerHTML = vMessage
+        // document.getElementById('output').appendChild(li)
+
+        const magicSchool = (schoolFirstLetter) => {
+            for (let index = 0; index < schoolsOfMagic.length; index++) {
+                const element = schoolsOfMagic[index];
+                if (element.charAt(0) == schoolFirstLetter.toLowerCase()) return element
+            }
+        }
+
+        tableData.push({
+            NAME: sLink[1],
+            LEVEL: prop.level,
+            SCHOOL: magicSchool(prop.school),
+            SOURCE: prop.source
+        })
     }
+    tableData.sort((a, b) => a.LEVEL - b.LEVEL) // Sort by ascending level
+
+    $("#output-table").jsGrid({
+        height: "100%",
+        sorting: true,
+        paging: false,
+        data: tableData,
+        // pageSize: 15,
+        fields: [
+            {name: "NAME", type: "text", width: "20rem"},
+            {name: "LEVEL", type: "text", width: "5rem"},
+            {name: "SCHOOL", type: "text", width: "10rem"},
+            {name: "SOURCE", type: "text", width: "5rem"}
+        ]
+    })
+    
     const now = new Date()
     const data = {
         DATETIME: now,

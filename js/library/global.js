@@ -740,6 +740,21 @@ async function pasteTextFromClipboard() {
     );
 }
 // -----------------------------
+//            Modal
+// -----------------------------
+function setupModal(){
+    const modal = document.getElementById('dialog')
+    modal.addEventListener('click', function(clickEvent){
+        const modalDimensions = modal.getBoundingClientRect()
+        if (
+            clickEvent.clientX < modalDimensions.left ||
+            clickEvent.clientX > modalDimensions.right ||
+            clickEvent.clientY < modalDimensions.top ||
+            clickEvent.clientY > modalDimensions.bottom
+        ) modal.close()
+    })
+}
+// -----------------------------
 //            Theme
 // -----------------------------
 // Function to set a given theme/color-scheme
@@ -770,6 +785,8 @@ async function readThemeAndSetToggle() {
 }
 
 async function readThemeAndSetTheme(){
-    const theme = localStorage.getItem('theme')
+    let theme = localStorage.getItem('theme')
+    if (!theme) localStorage.setItem('theme', 'theme-light')
+    if (!theme) theme = 'theme-light'
     setTheme(theme)
 }

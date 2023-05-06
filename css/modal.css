@@ -1,0 +1,17 @@
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(2px);
+}
+dialog {
+    --modal-width: 40rem;
+    width: var(--modal-width);
+    color: var(--text-clr);
+    background: var(--background-color);
+    border-radius: 25px;
+    text-align: center;
+    padding: 2rem;
+    position: absolute;
+    left: calc(50% - var(--modal-width) / 2);
+    top: 25%;
+    margin-bottom: 2rem;
+}
