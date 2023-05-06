@@ -15,8 +15,8 @@ function setupSpellbook(){
 
     addTippy("download-csv", "Download CSV")
     addTippy("download-txt", "Download TXT")
-    addTippy("copy-output-links", "Copy output with links")
-    addTippy("copy-output-no-links", "Copy output without links")
+    addTippy("copy-output-links", "Copy w/ links")
+    addTippy("copy-output-no-links", "Copy w/o links")
 
     const downloadCSV = document.getElementById('download-csv')
     downloadCSV.addEventListener('click', function(){
