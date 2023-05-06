@@ -72,14 +72,14 @@
 <body>
     <div class="site-nav">
         <a class="site-button" id="index" href="/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
-        <a class="site-button" id="battle-map-generator" href="/mikitz-ttrpg/html/battle-map-generator.html"><i class="fa-solid fa-map"></i><span>Battle Map</span></a>
+        <a class="site-button" id="battle-map-generator" href="/mikitz-ttrpg/html/pages/battle-map-generator.html"><i class="fa-solid fa-map"></i><span>Battle Map</span></a>
         <a class="site-button-under-construction" id="calendar"><i class="fa-solid fa-calendar"></i><span>Calendar</span></a>
-        <a class="site-button" id="encounter-generator" href="/mikitz-ttrpg/html/encounter-generator.html"><i class="fa-solid fa-location-dot"></i><span>Encounter</span></a> 
-        <a class="site-button" id="magic-shop-generator" href="/mikitz-ttrpg/html/magic-shop-generator.html"><i class="fa-solid fa-store"></i><span>Magic Shop</span></a>
-        <a class="site-button" id="npc-generator" href="/mikitz-ttrpg/html/npc-generator.html"><i class="fa-solid fa-person-half-dress"></i><span>NPC</span></a>
-        <a class="site-button-active" id="spellbook-generator" href="/mikitz-ttrpg/html/spellbook-generator.html"><i class="fa-solid fa-book"></i><span>Spellbook</span></a>
-        <a class="site-button-under-construction" id="star-system-and-galaxy-generator" href="/mikitz-ttrpg/html/star-system-and-galaxy-generator.html"><i class="fa-regular fa-circle-dot"></i><span>Star System & Galaxy</span></a>
-        <a class="site-button-under-construction" id="world-generator" href="/mikitz-ttrpg/html/world-generator.html"><i class="fa-solid fa-earth-americas"></i><span>World</span></a>
+        <a class="site-button" id="encounter-generator" href="/mikitz-ttrpg/html/pages/encounter-generator.html"><i class="fa-solid fa-location-dot"></i><span>Encounter</span></a> 
+        <a class="site-button" id="magic-shop-generator" href="/mikitz-ttrpg/html/pages/magic-shop-generator.html"><i class="fa-solid fa-store"></i><span>Magic Shop</span></a>
+        <a class="site-button" id="npc-generator" href="/mikitz-ttrpg/html/pages/npc-generator.html"><i class="fa-solid fa-person-half-dress"></i><span>NPC</span></a>
+        <a class="site-button-active" id="spellbook-generator" href="/mikitz-ttrpg/html/pages/spellbook-generator.html"><i class="fa-solid fa-book"></i><span>Spellbook</span></a>
+        <a class="site-button-under-construction" id="star-system-and-galaxy-generator" href="/mikitz-ttrpg/html/pages/star-system-and-galaxy-generator.html"><i class="fa-regular fa-circle-dot"></i><span>Star System & Galaxy</span></a>
+        <a class="site-button-under-construction" id="world-generator" href="/mikitz-ttrpg/html/pages/world-generator.html"><i class="fa-solid fa-earth-americas"></i><span>World</span></a>
         <span class="right">
             <a class="site-button" id="settings" href="/mikitz-ttrpg/html/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
             <a class="site-button" id="wiki" href="/mikitz-ttrpg/html/wiki.html"><i class="fa-solid fa-book-open"></i><span>Wiki</span></a>
@@ -93,22 +93,24 @@
         <a href="#" class="nav-a active"><i class="fa-solid fa-dice-d20"></i> <span>Generator</span></a>
     </div>
     <main>
-        <div class="history-container visible">
-            <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-history"></i>History</div>
-            <div class="history collapsed" id="history">
-                <table class="styled-table">
-                    <thead>
-                        <th>Index</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Level</th>
-                        <th>Schools</th>
-                        <th>View</th>
-                        <th>Download</th>
-                        <th>Delete</th>
-                    </thead>
-                    <tbody id="history-table-body"></tbody>
-                </table>
+        <div class="flex-column-child">
+            <div class="history-container visible">
+                <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-history"></i>History</div>
+                <div class="history collapsed" id="history">
+                    <table class="styled-table">
+                        <thead>
+                            <th>Index</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Level</th>
+                            <th>Schools</th>
+                            <th>View</th>
+                            <th>Download</th>
+                            <th>Delete</th>
+                        </thead>
+                        <tbody id="history-table-body"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="flex-row">

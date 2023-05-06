@@ -34,6 +34,18 @@ String.prototype.toTitleCase = function () {
         }
     });
 };
+// Function to trim n number of characters from a string
+function cutString(string, start, quantity){
+    let finalString
+    if (quantity > string.length) return console.error("Quantity cannot exceed the length of the string")
+    if (start === 'front') {
+        finalString = ''
+    } 
+    else if (start === 'back') {
+        finalString = string.substring(0, string.length - quantity);
+    }
+    return finalString
+}
 // Function to turn a JSON into a CSV
 function JSONtoCSV(json){
     if (json.some(obj => "LINK" in obj)) {
@@ -176,6 +188,10 @@ function replaceDiceStringsWithRollTotals(myString) {
         encounterF = myString;
     }
     return encounterF;
+}
+// Function to get a random item from an array
+function getRandomItemFromArray(array){
+    return array[Math.floor(Math.random()*array.length)];
 }
 // Function to roll a table and only check if it's equal to or less than
 function rollTableLessThan(table) {
@@ -669,7 +685,6 @@ function scrollTo(hash, offset) {
 }
 async function scrollToAnchor(){
     const anchor = location.hash.substring(1); // "section1"
-    console.log("🚀 ~ file: global.js:660 ~ scrollToAnchor ~ anchor:", anchor)
     document.getElementById(`${anchor}-heading`).scrollIntoView({behavior: "smooth"});
 }
 // Function to round to certain number of decimal places

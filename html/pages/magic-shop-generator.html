@@ -1,0 +1,260 @@
+<!DOCTYPE html> 
+<html lang ="en">  
+<head>  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mikitz' Magic Shop Generator</title>  
+    <!-- ICONS -->
+    <script src="https://kit.fontawesome.com/7e282d14cd.js" crossorigin="anonymous"></script>
+    <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/constants.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/navs.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/style.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/tables.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/flex.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/buttons.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/inputs.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/modals.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/side-panel.css"/>
+    <!-- MAIN -->
+    <script src="/mikitz-ttrpg/index.js"></script>
+    <script src="/mikitz-ttrpg/js/magicShop.js"></script>
+    <!-- LOCAL LIBRARIES -->
+    <script src="/mikitz-ttrpg/js/library/database.js"></script>
+    <script src="/mikitz-ttrpg/js/library/global.js"></script>
+    <!-- LIBRARIES -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+    <!-- DATA -->
+    <script src="/mikitz-ttrpg/data/version_numbers.js"></script>
+    <!-- TABLES -->
+    <script src="/mikitz-ttrpg/data/js-data/magic-shop-generator/items.js"></script>
+    <script src="/mikitz-ttrpg/data/js-data/magic-shop-generator/tableDefaults.js"></script>
+</head> 
+<style>
+    .flex-column-child {
+        display: flex !important;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+    }
+    .radio-group {
+        width: 100%;
+        max-width: 400px;
+    }
+</style>
+<body>
+    <div class="site-nav">
+        <a class="site-button" id="index" href="/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a class="site-button" id="battle-map-generator" href="/mikitz-ttrpg/html/pages/battle-map-generator.html"><i class="fa-solid fa-map"></i><span>Battle Map</span></a>
+        <a class="site-button-under-construction" id="calendar"><i class="fa-solid fa-calendar"></i><span>Calendar</span></a>
+        <a class="site-button" id="encounter-generator" href="/mikitz-ttrpg/html/pages/encounter-generator.html"><i class="fa-solid fa-location-dot"></i><span>Encounter</span></a> 
+        <a class="site-button-active" id="magic-shop-generator" href="/mikitz-ttrpg/html/pages/magic-shop-generator.html"><i class="fa-solid fa-store"></i><span>Magic Shop</span></a>
+        <a class="site-button" id="npc-generator" href="/mikitz-ttrpg/html/pages/npc-generator.html"><i class="fa-solid fa-person-half-dress"></i><span>NPC</span></a>
+        <a class="site-button" id="spellbook-generator" href="/mikitz-ttrpg/html/pages/spellbook-generator.html"><i class="fa-solid fa-book"></i><span>Spellbook</span></a>
+        <a class="site-button-under-construction" id="star-system-and-galaxy-generator" href="/mikitz-ttrpg/html/pages/star-system-and-galaxy-generator.html"><i class="fa-regular fa-circle-dot"></i><span>Star System & Galaxy</span></a>
+        <a class="site-button-under-construction" id="world-generator" href="/mikitz-ttrpg/html/pages/world-generator.html"><i class="fa-solid fa-earth-americas"></i><span>World</span></a>
+        <span class="right">
+            <a class="site-button" id="settings" href="/mikitz-ttrpg/html/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+            <a class="site-button" id="wiki" href="/mikitz-ttrpg/html/wiki.html"><i class="fa-solid fa-book-open"></i><span>Wiki</span></a>
+        </span>
+    </div>
+    <div class="sub-nav" id="sub-nav">
+        <a class="sub-nav-version-number nav-a" style="text-decoration: underline;" id="version-link" href="" target="_blank" rel="noopener noreferrer">
+            <i class="fa-solid fa-code-commit" style="margin-right: 0.5rem;"></i>
+            <span id="version-number"></span>
+        </a>
+        <a href="#" class="nav-a active"><i class="fa-solid fa-dice-d20"></i> <span>Generator</span></a>
+    </div>
+    <main>
+        <div class="flex-column">
+            <div class="flex-column-child">
+                <div class="history-container visible">
+                    <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-history"></i>History</div>
+                    <div class="history collapsed" id="history">
+                        <table class="styled-table">
+                            <thead>
+                                <th>Index</th>
+                                <th>Store Name</th>
+                                <th>City</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Download</th>
+                                <th>Magicness</th>
+                                <th>Wealth</th>
+                                <th>Item Types</th>
+                                <th>Store Quantity</th>
+                                <th>Delete</th>
+                            </thead>
+                            <tbody id="history-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-column-child">
+                <div class="flex-row">
+                    <!-- Store Name -->
+                    <div class="text-input-container">
+                        <label class="text-input-label">Store Name</label>
+                        <input class="text-input" placeholder="Store name..." type="text" id="store-name">
+                    </div>
+                    <div class="text-input-container">
+                        <label class="text-input-label">City Name</label>
+                        <input class="text-input" placeholder="City name..." type="text" id="name">
+                    </div>
+                    <!-- City Dropdown -->
+                    <div class="select-container">
+                        <label class="select-label">City</label>
+                        <select class="select-dropdown" id="city-list">
+                            <option value="choose" selected>Select Saved City...</option>
+                        </select>
+                    </div>
+                    <!-- Population -->
+                    <div class="number-input-container">
+                        <label for="" class="number-input-label">Population</label>
+                        <button class="plus-minus-button" name="minus" id="population-minus">-</button>
+                        <input class="number-input" type="text" id="population" style="min-width: 100px !important;">
+                        <button class="plus-minus-button" name="plus" id="population-plus">+</button>
+                    </div>
+                    <!-- Quantity -->
+                    <div class="number-input-container">
+                        <label for="" class="number-input-label">Quantity</label>
+                        <button class="plus-minus-button" name="minus" id="quantity-minus">-</button>
+                        <input class="number-input" type="number" id="quantity" value="1">
+                        <button class="plus-minus-button" name="plus" id="quantity-plus">+</button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-column-child">
+                <label class="fieldset-label">City Wealth</label>
+                <div class="radio-group">
+                    <label name="radio-label">
+                        <input class="checkbox" type="radio" name="wealth" id="wretched-wealth-radio" value="wretched">
+                        <span>-3</span>
+                    </label>
+                    <label name="radio-label">
+                        <input class="checkbox" type="radio" name="wealth" id="squalid-wealth-radio" value="squalid">
+                        <span>-2</span>
+                    </label>
+                    <label name="radio-label">
+                        <input class="checkbox" type="radio" name="wealth" id="poor-wealth-radio" value="poor">
+                        <span>-1</span>
+                    </label>
+                    <label name="radio-label">
+                        <input class="checkbox" type="radio" name="wealth" id="modest-wealth-radio" value="modest" checked>
+                        <span>0</span>
+                    </label>
+                    <label name="radio-label">
+                        <input class="checkbox" type="radio" name="wealth" id="comfortable-wealth-radio" value="comfortable">
+                        <span>+1</span>
+                    </label>
+                    <label name="radio-label">
+                        <input class="checkbox" type="radio" name="wealth" id="wealthy-wealth-radio" value="wealthy">
+                        <span>+2</span>
+                    </label>
+                    <label name="radio-label">
+                        <input class="checkbox" type="radio" name="wealth" id="aristocratic-wealth-radio" value="aristocratic">
+                        <span>+3</span>
+                    </label>
+                </div>
+            </div>
+            <div class="flex-column-child">
+                <label class="fieldset-label">City Magicness</label>
+                <div class="radio-group">
+                    <label name="radio-label">
+                        <input class="checkbox" type="radio" name="magicness" id="very-low-magicness-radio" value="very-low">
+                        <span>-3</span>
+                    </label>
+                    <label name="radio-label">
+                        <input class="checkbox" type="radio" name="magicness" id="low-magicness-radio" value="low">
+                        <span>-2</span>
+                    </label>
+                    <label name="radio-label">
+                        <input class="checkbox" type="radio" name="magicness" id="medium-low-magicness-radio" value="medium-low">
+                        <span>-1</span>
+                    </label>
+                    <label name="radio-label">
+                        <input class="checkbox" type="radio" name="magicness" id="medium-magicness-radio" value="medium" checked>
+                        <span>0</span>
+                    </label>
+                    <label name="radio-label">
+                        <input class="checkbox" type="radio" name="magicness" id="medium-high-magicness-radio" value="medium-high">
+                        <span>+1</span>
+                    </label>
+                    <label name="radio-label">
+                        <input class="checkbox" type="radio" name="magicness" id="high-magicness-radio" value="high">
+                        <span>+2</span>
+                    </label>
+                    <label name="radio-label">
+                        <input class="checkbox" type="radio" name="magicness" id="very-high-magicness-radio" value="very-high">
+                        <span>+3</span>
+                    </label>
+                </div>
+            </div>
+            <div class="flex-column-child">
+                <label class="fieldset-label">City Shop Type(s)</label>
+                <div class="checkbox-group-container">
+                    <button class="button-checkall" id="button-all-shop-types">All</button>
+                    <div class="custom-checkbox-container checked" id="armors-checkbox" name="shop-type-checkbox">
+                        <span><i class="fa-solid fa-helmet-safety"></i></span>
+                    </div>
+                    <div class="custom-checkbox-container checked" id="items-checkbox" name="shop-type-checkbox">
+                        <span><i class="fa-solid fa-ring"></i></i></span>
+                    </div>
+                    <div class="custom-checkbox-container checked" id="poisons-checkbox" name="shop-type-checkbox">
+                        <span><i class="fa-solid fa-skull-crossbones"></i></span>
+                    </div>
+                    <div class="custom-checkbox-container checked" id="potions-checkbox" name="shop-type-checkbox">
+                        <span><i class="fa-solid fa-flask"></i></span>
+                    </div>
+                    <div class="custom-checkbox-container checked" id="spell-components-checkbox" name="shop-type-checkbox">
+                        <span><i class="fa-solid fa-hand-sparkles"></i></span>
+                    </div>
+                    <div class="custom-checkbox-container checked" id="spell-scrolls-checkbox" name="shop-type-checkbox">
+                        <span><i class="fa-solid fa-scroll"></i></span>
+                    </div>
+                    <div class="custom-checkbox-container checked" id="weapons-checkbox" name="shop-type-checkbox">
+                        <span><i class="fa-solid fa-shield"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-column-child">
+                <div class="button-container">
+                    <button class="button" id="button-generate">Generate</button>
+                    <button class="button" id="button-save-city">Save City</button>
+                </div>
+            </div>
+        </div>
+            
+            
+            
+                
+                
+                
+        <!-- OUTPUT -->
+        <div id="output"></div>
+    </main> 
+</body>
+<script>
+    var db = new Dexie("mikitz_ttrpg_db") // Open or create the DB
+    setupDB()
+    window.addEventListener("load", async function () {
+        readThemeAndSetTheme()
+        preventLinkFiring()
+        document.getElementById('name').value = ''
+        setupCitiesDropdown()
+        await populateHistory()
+        setupMagicShop()
+    });
+</script>    
+</html>
