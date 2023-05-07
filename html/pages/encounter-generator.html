@@ -273,6 +273,7 @@
     window.addEventListener("load", async function () {
         readThemeAndSetTheme()
         preventLinkFiring()
+        setupVersionNumber()
         await populateSelectPartyDropdown()
         await populatePartyParametersBasedOnSelectParty()
         await populateEncounterHistory()
