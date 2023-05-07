@@ -10,6 +10,8 @@
     <script src="https://kit.fontawesome.com/7e282d14cd.js" crossorigin="anonymous"></script>
     <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet'>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
     <!-- STYLESHEETS -->
     <link rel="stylesheet" href="/mikitz-ttrpg/css/constants.css"/>
     <link rel="stylesheet" href="/mikitz-ttrpg/css/buttons.css"/>
@@ -18,6 +20,7 @@
     <link rel="stylesheet" href="/mikitz-ttrpg/css/navs.css"/>
     <link rel="stylesheet" href="/mikitz-ttrpg/css/style.css"/>
     <link rel="stylesheet" href="/mikitz-ttrpg/css/theme.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/tables.css">
     <!-- MAIN -->
     <script src="/mikitz-ttrpg/index.js"></script>
     <script src="/mikitz-ttrpg/js/library/database.js"></script>
@@ -32,11 +35,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
     <script src="https://unpkg.com/js-markov/dist/markov.js"></script>
     <!-- DATA -->
     <script src="/mikitz-ttrpg/data/version_numbers.js"></script>
     <script src="/mikitz-ttrpg/data/nav_data.js"></script>
-</head> 
+</head>
 <body>
     <div class="site-nav">
         <a class="site-button" id="index" href="/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
@@ -56,7 +60,19 @@
     <div class="sub-nav" id="sub-nav"></div>
     <main>
         <div class="flex-column">
-            <h1>Settings</h1>
+            <!-- Intro -->
+            <div class="flex-column-child">
+                <h1>Settings</h1>
+                    <p>Click in a cell to edit it or click on the <i class="fa-solid fa-pen"></i> icon. Press enter or click the <i class="fa-solid fa-check"></i> to save the change(s).</p>
+                    <div>
+                        <button class="button" style="cursor: not-allowed;" id="export-settings">Export Settings</button>
+                    </div>
+                    <div>
+                        <input type="file" id="import-data" name="avatar" accept="application/JSON">
+                        <button class="button" style="cursor: not-allowed;" id="upload-settings">Upload Settings</button>
+                    </div>
+            </div>
+            <!-- Mobile Warning -->
             <div class="flex-column-child" id="mobile-warning">
                 <div class="warning-emoji">⚠️</div>
                 <p>
@@ -67,6 +83,7 @@
                 <p>I'm very sorry for causing you immeasurable disappointment and ruining your day.</p>
                 <div class="warning-emoji">⚠️</div>
             </div>
+            <!-- Theme -->
             <div class="flex-column-child">
                 <div class="flex-column-child">
                     <div id="theme" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Theme</span></div> 
@@ -78,6 +95,26 @@
                     </div>
                 </div>
             </div>
+            <!-- Sources & Parties -->
+            <div class="flex-column-child">
+                <div class="flex-column">
+                    <div class="flex-column-child">
+                        <h2><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span></span>Sources</h2>
+                            <div class="checkbox-group-container" style="justify-content: center;">
+                                <button class="button-checkall" id="button-all-sources">All</button>
+                                <button class="button-checkall" id="button-none-sources">None</button>
+                            </div>
+                            <div class="checkbox-group-container" id="sources-container" style="justify-content: center;"></div>
+                    </div>
+                    <div class="flex-column-child">
+                        <h2 id="_parties"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span></span>Parties</h2>
+                            <p>A table of all your parties.</p>
+                            <div id="_parties-div"></div>
+                            <div id="_parties-description"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Battle Map Generator -->
             <div class="flex-column-child">
                 <div id="battle-map-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Battle Map Generator</span></div> 
                 <p>
@@ -92,20 +129,55 @@
                     Sed hendrerit nulla nec eleifend posuere. Fusce molestie efficitur dictum. Nullam lobortis mollis libero sit amet luctus. Cras ullamcorper elit vel accumsan pretium. Etiam eu ex tincidunt, tincidunt metus non, luctus elit. Duis euismod mi eget ex pharetra dapibus. Ut faucibus eros et lacus hendrerit, consequat porttitor nisi fermentum. Aenean tempus eleifend tellus vel dapibus. Ut nec odio tellus. 
                 </p>
             </div>
+            <!-- Encounter Generator -->
             <div class="flex-column-child">
                 <div id="encounter-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Encounter Generator</span></div> 
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet gravida tellus. Phasellus maximus urna sit amet placerat elementum. Praesent tincidunt velit dolor, a aliquet urna viverra sed. Proin posuere ultrices malesuada. Mauris sem nisi, tristique in sollicitudin nec, mattis non nulla. Vivamus ut eleifend neque. Phasellus ultricies orci et tellus cursus aliquam. Donec semper, orci in volutpat mattis, augue sem blandit nibh, condimentum varius tellus sapien non mi. Pellentesque at nulla non metus porta feugiat. Proin nibh neque, eleifend quis diam ut, sagittis ullamcorper metus. Curabitur justo erat, tempor sit amet scelerisque vel, consectetur vitae magna. In ultricies sollicitudin odio, quis mattis enim semper ut. Vestibulum aliquet justo nec mi ullamcorper, vel tincidunt metus posuere. Fusce ac semper felis, non sodales odio.
-
-                    Etiam eget cursus tellus. Donec neque lectus, gravida id risus ac, imperdiet molestie massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec luctus enim ut lacus elementum, eu tincidunt lacus rutrum. Proin et egestas tellus. Nunc sed velit id metus pulvinar tempus vitae malesuada neque. Fusce pulvinar fermentum mattis.
-
-                    Nam ultricies augue a semper ultrices. Nam purus erat, egestas sit amet arcu nec, ultrices pharetra ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius bibendum accumsan. Pellentesque in metus eu urna dapibus facilisis. Praesent cursus enim in urna sollicitudin, sed faucibus est malesuada. Aliquam non enim vitae ligula viverra rutrum id ac est. Maecenas rhoncus commodo lectus. Phasellus rhoncus neque dolor, ac commodo odio fringilla a. Etiam eros lacus, dignissim ac nunc eget, vulputate mollis urna. Proin id libero orci. Nunc facilisis massa lobortis magna varius rhoncus ac id lorem. Aliquam dignissim ullamcorper urna eget mollis. Maecenas a commodo neque. Suspendisse tristique orci nec congue dapibus.
-
-                    Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc et rhoncus purus. Proin rutrum, mi ac hendrerit interdum, sapien magna blandit magna, quis consectetur ante nisi quis libero. Phasellus id erat at risus egestas consequat nec vitae quam. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer id vulputate lorem, nec luctus est. Mauris metus libero, facilisis sed vehicula vitae, dapibus sit amet sapien. Duis auctor, sapien non tempus pretium, velit orci viverra magna, in accumsan dolor tortor in tortor. Nulla suscipit cursus sapien quis sagittis. Duis fringilla odio at faucibus posuere. Praesent tempus ullamcorper eros, eget blandit odio fermentum a. Nullam viverra elit ut nunc aliquam, at auctor odio blandit. Maecenas tincidunt mauris at nunc malesuada eleifend. Sed interdum volutpat lectus, eu pretium massa tristique at.
-
-                    Sed hendrerit nulla nec eleifend posuere. Fusce molestie efficitur dictum. Nullam lobortis mollis libero sit amet luctus. Cras ullamcorper elit vel accumsan pretium. Etiam eu ex tincidunt, tincidunt metus non, luctus elit. Duis euismod mi eget ex pharetra dapibus. Ut faucibus eros et lacus hendrerit, consequat porttitor nisi fermentum. Aenean tempus eleifend tellus vel dapibus. Ut nec odio tellus. 
-                </p>
+                <div class="flex-column">
+                    <div class="flex-column-child">
+                        <h3 id="eg_encounter_probabilities">Encounter Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p>The table of encounter probabilities for each <b>BIOME</b> by <dfn><abbr title="non-combat, combat, & hazard">encounter type</abbr></dfn> 
+                                and <dfn><abbr title="day or night">time of day</abbr></dfn>.
+                            </p>
+                            <div id="eg_encounter_probabilities-div"></div>
+                            <div id="eg_encounter_probabilities-description"></div>
+                    </div>
+                    <div class="flex-column-child">
+                        <h3 id="eg_road_modifiers">Road Modifiers <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p>The table of road modifiers for each <b>ROAD_TYPE</b> by <dfn><abbr title="non-combat, combat, & hazard">encounter type</abbr></dfn>, 
+                                <dfn><abbr title="day or night">time of day</abbr></dfn>, and <span class="tippy-define define-percent-type">percent type</span>.
+                            </p>
+                            <p>This value is used to modifier the value pulled from the <b>Encounter Probabilities</b> table, I.E. it modifies the probability of an encounter occurring.</p>
+                            <div id="eg_road_modifiers-div"></div>
+                            <div id="eg_road_modifiers-description"></div>
+                    </div>
+                    <div class="flex-column-child">
+                        <h3 id="eg_pace_modifiers">Pace Modifiers <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p>The table of pace modifiers for each <b>PACE</b> by <dfn><abbr title="non-combat, combat, & hazard">encounter type</abbr></dfn>, 
+                                <dfn><abbr title="day or night">time of day</abbr></dfn>, and <span class="tippy-define define-percent-type">percent type</span>.
+                            </p>
+                            <p>This value is used to modifier the value pulled from the <b>Encounter Probabilities</b> table, I.E. it modifies the probability of an encounter occurring.</p>
+                            <div id="eg_pace_modifiers-div"></div>
+                            <div id="eg_pace_modifiers-description"></div>
+                    </div>
+                    <div class="flex-column-child">
+                        <h3 id="eg_difficulty_probabilities">Encounter Difficulty Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p>The table of encounter difficulty for each <b>DIFFICULTY</b> by <dfn><abbr title="day or night">time of day</abbr></dfn>.</p>
+                            <p>Every time an encounter occurs, a die is rolled using the below table to determine the difficulty of the encounter.</p>
+                            <div id="eg_difficulty_probabilities-div"></div>
+                            <div id="eg_difficulty_probabilities-description"></div>
+                    </div>
+                    <!-- <div class="flex-column-child">
+                        <h3 id="eg_cr_adjustment_probabilities">CR Adjustment Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p style="background-color: yellow; padding: 5px;"><b>~~~~~ NOT CURRENTLY USED ~~~~~</b></p>
+                            <p>The table of monster CR adjustment for each <b>ADJUSTMENT</b> value by <dfn><abbr title="day or night">time of day</abbr></dfn> and <span class="tippy-define define-percent-type">percent type</span>.</p>
+                            <p>Every time a monster is added to an encounter, a die is rolled using the below table to determine how to adjust the CR of said monster.</p>
+                            <p></p>
+                            <div id="eg_cr_adjustment_probabilities-div"></div>
+                            <div id="eg_cr_adjustment_probabilities-description"></div>
+                    </div> -->
+                </div>
             </div>
+            <!-- Magic Shop Generator -->
             <div class="flex-column-child">
                 <div id="magic-shop-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Magic Shop Generator</span></div> 
                 <p>
@@ -120,6 +192,7 @@
                     Sed hendrerit nulla nec eleifend posuere. Fusce molestie efficitur dictum. Nullam lobortis mollis libero sit amet luctus. Cras ullamcorper elit vel accumsan pretium. Etiam eu ex tincidunt, tincidunt metus non, luctus elit. Duis euismod mi eget ex pharetra dapibus. Ut faucibus eros et lacus hendrerit, consequat porttitor nisi fermentum. Aenean tempus eleifend tellus vel dapibus. Ut nec odio tellus. 
                 </p>
             </div>
+            <!-- NPC Generator -->
             <div class="flex-column-child">
                 <div id="npc-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>NPC Generator</span></div> 
                 <p>
@@ -134,6 +207,7 @@
                     Sed hendrerit nulla nec eleifend posuere. Fusce molestie efficitur dictum. Nullam lobortis mollis libero sit amet luctus. Cras ullamcorper elit vel accumsan pretium. Etiam eu ex tincidunt, tincidunt metus non, luctus elit. Duis euismod mi eget ex pharetra dapibus. Ut faucibus eros et lacus hendrerit, consequat porttitor nisi fermentum. Aenean tempus eleifend tellus vel dapibus. Ut nec odio tellus. 
                 </p>
             </div>
+            <!-- Spellbook Generator -->
             <div class="flex-column-child">
                 <div id="spellbook-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Spellbook Generator</span></div> 
                 <p>
@@ -158,6 +232,11 @@
         readThemeAndSetToggle()
         setupIndex()
         preventLinkFiring()
+        setupSources()
+        setupSettings()
+        settingsListeners()
+
+
         setTimeout(function() {
             scrollToAnchor()
         }, 0);

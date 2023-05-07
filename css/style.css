@@ -122,6 +122,10 @@ main a:visited {
 .tippy-box a:link, .tippy-box a:visited {
     color: var(--button-text-clr);
 }
+.tippy-box {
+    background-color: var(--text-clr);
+    color: var(--card-background-color);
+}
 /* -----------
      Sliders 
 -------------- */

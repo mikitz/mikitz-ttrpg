@@ -72,6 +72,9 @@
     overflow-y: hidden !important;
     border-color: var(--background-color);
 }
+.jsgrid {
+    margin-top: 2rem;
+}
 /* =================
   3.) Styled Table
 ================= */

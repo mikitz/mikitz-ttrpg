@@ -755,7 +755,7 @@ function scrollTo(hash, offset) {
 }
 async function scrollToAnchor(){
     const anchor = location.hash.substring(1); // "section1"
-    document.getElementById(`${anchor}-heading`).scrollIntoView({behavior: "smooth"});
+    if(document.getElementById(`${anchor}-heading`)) document.getElementById(`${anchor}-heading`).scrollIntoView({behavior: "smooth"});
 }
 // Function to round to certain number of decimal places
 function roundToSpecifiedDecimalPlaces(number, decimalPlaces) {
