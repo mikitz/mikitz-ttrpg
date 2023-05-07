@@ -41,6 +41,13 @@
     <script src="/mikitz-ttrpg/data/version_numbers.js"></script>
     <script src="/mikitz-ttrpg/data/nav_data.js"></script>
 </head>
+<style>
+    .with-background {
+        padding: 2rem;
+        background-color: var(--card-background-color);
+        border-radius: 2rem;
+    }
+</style>
 <body>
     <div class="site-nav">
         <a class="site-button" id="index" href="/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
@@ -57,20 +64,31 @@
             <a class="site-button" id="wiki" href="/mikitz-ttrpg/html/wiki.html"><i class="fa-solid fa-book-open"></i><span>Wiki</span></a>
         </span>
     </div>
-    <div class="sub-nav" id="sub-nav"></div>
+    <div class="sub-nav" id="sub-nav">
+        <a href="#theme" class="nav-a">Theme</a>
+        <a href="#sources" class="nav-a">Sources</a>
+        <a href="#_parties" class="nav-a">Parties</a>
+        <a href="#battle-map-generator-heading" class="nav-a">Battle Map</a>
+        <a href="#encounter-generator-heading" class="nav-a">Encounter</a>
+        <a href="#magic-shop-generator-heading" class="nav-a">Magic Shop</a>
+        <a href="#npc-generator-heading" class="nav-a">NPC</a>
+        <a href="#spellbook-generator-heading" class="nav-a">Spellbook</a>
+    </div>
     <main>
         <div class="flex-column">
             <!-- Intro -->
             <div class="flex-column-child">
                 <h1>Settings</h1>
-                    <p>Click in a cell to edit it or click on the <i class="fa-solid fa-pen"></i> icon. Press enter or click the <i class="fa-solid fa-check"></i> to save the change(s).</p>
-                    <div>
-                        <button class="button" style="cursor: not-allowed;" id="export-settings">Export Settings</button>
-                    </div>
-                    <div>
-                        <input type="file" id="import-data" name="avatar" accept="application/JSON">
-                        <button class="button" style="cursor: not-allowed;" id="upload-settings">Upload Settings</button>
-                    </div>
+            </div>
+            <div class="flex-column-child with-background">
+                <p>Click in a cell to edit it or click on the <i class="fa-solid fa-pen"></i> icon. Press enter or click the <i class="fa-solid fa-check"></i> to save the change(s).</p>
+                <div>
+                    <button class="button" style="cursor: not-allowed;" id="export-settings">Export Settings</button>
+                </div>
+                <div>
+                    <input type="file" id="import-data" name="avatar" accept="application/JSON">
+                    <button class="button" style="cursor: not-allowed;" id="upload-settings">Upload Settings</button>
+                </div>
             </div>
             <!-- Mobile Warning -->
             <div class="flex-column-child" id="mobile-warning">
@@ -84,9 +102,9 @@
                 <div class="warning-emoji">⚠️</div>
             </div>
             <!-- Theme -->
-            <div class="flex-column-child">
-                <div class="flex-column-child">
-                    <div id="theme" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Theme</span></div> 
+            <div class="flex-column">
+                <div class="flex-column-child with-background">
+                    <div id="theme" class="h2 big-scroll-margin"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Theme</span></div> 
                     <div class="container-switch">
                         <label id="switch" class="switch">
                             <input type="checkbox" class="checkbox" onchange="toggleTheme()" id="slider">
@@ -98,16 +116,16 @@
             <!-- Sources & Parties -->
             <div class="flex-column-child">
                 <div class="flex-column">
-                    <div class="flex-column-child">
-                        <h2><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span></span>Sources</h2>
+                    <div class="flex-column-child with-background">
+                        <h2 id="sources" class="big-scroll-margin"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span></span>Sources</h2>
                             <div class="checkbox-group-container" style="justify-content: center;">
                                 <button class="button-checkall" id="button-all-sources">All</button>
                                 <button class="button-checkall" id="button-none-sources">None</button>
                             </div>
                             <div class="checkbox-group-container" id="sources-container" style="justify-content: center;"></div>
                     </div>
-                    <div class="flex-column-child">
-                        <h2 id="_parties"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span></span>Parties</h2>
+                    <div class="flex-column-child with-background">
+                        <h2 id="_parties" class="big-scroll-margin"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span></span>Parties</h2>
                             <p>A table of all your parties.</p>
                             <div id="_parties-div"></div>
                             <div id="_parties-description"></div>
@@ -133,7 +151,7 @@
             <div class="flex-column-child">
                 <div id="encounter-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Encounter Generator</span></div> 
                 <div class="flex-column">
-                    <div class="flex-column-child">
+                    <div class="flex-column-child with-background with-background">
                         <h3 id="eg_encounter_probabilities">Encounter Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
                             <p>The table of encounter probabilities for each <b>BIOME</b> by <dfn><abbr title="non-combat, combat, & hazard">encounter type</abbr></dfn> 
                                 and <dfn><abbr title="day or night">time of day</abbr></dfn>.
@@ -141,7 +159,7 @@
                             <div id="eg_encounter_probabilities-div"></div>
                             <div id="eg_encounter_probabilities-description"></div>
                     </div>
-                    <div class="flex-column-child">
+                    <div class="flex-column-child with-background">
                         <h3 id="eg_road_modifiers">Road Modifiers <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
                             <p>The table of road modifiers for each <b>ROAD_TYPE</b> by <dfn><abbr title="non-combat, combat, & hazard">encounter type</abbr></dfn>, 
                                 <dfn><abbr title="day or night">time of day</abbr></dfn>, and <span class="tippy-define define-percent-type">percent type</span>.
@@ -150,7 +168,7 @@
                             <div id="eg_road_modifiers-div"></div>
                             <div id="eg_road_modifiers-description"></div>
                     </div>
-                    <div class="flex-column-child">
+                    <div class="flex-column-child with-background">
                         <h3 id="eg_pace_modifiers">Pace Modifiers <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
                             <p>The table of pace modifiers for each <b>PACE</b> by <dfn><abbr title="non-combat, combat, & hazard">encounter type</abbr></dfn>, 
                                 <dfn><abbr title="day or night">time of day</abbr></dfn>, and <span class="tippy-define define-percent-type">percent type</span>.
@@ -159,14 +177,14 @@
                             <div id="eg_pace_modifiers-div"></div>
                             <div id="eg_pace_modifiers-description"></div>
                     </div>
-                    <div class="flex-column-child">
+                    <div class="flex-column-child with-background">
                         <h3 id="eg_difficulty_probabilities">Encounter Difficulty Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
                             <p>The table of encounter difficulty for each <b>DIFFICULTY</b> by <dfn><abbr title="day or night">time of day</abbr></dfn>.</p>
                             <p>Every time an encounter occurs, a die is rolled using the below table to determine the difficulty of the encounter.</p>
                             <div id="eg_difficulty_probabilities-div"></div>
                             <div id="eg_difficulty_probabilities-description"></div>
                     </div>
-                    <!-- <div class="flex-column-child">
+                    <!-- <div class="flex-column-child with-background">
                         <h3 id="eg_cr_adjustment_probabilities">CR Adjustment Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
                             <p style="background-color: yellow; padding: 5px;"><b>~~~~~ NOT CURRENTLY USED ~~~~~</b></p>
                             <p>The table of monster CR adjustment for each <b>ADJUSTMENT</b> value by <dfn><abbr title="day or night">time of day</abbr></dfn> and <span class="tippy-define define-percent-type">percent type</span>.</p>

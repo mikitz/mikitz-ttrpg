@@ -33,6 +33,13 @@ function setupSettings(){
         delay: [null, null],
         interactive: true,
     })
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+        });
+    });
 }
 async function displayJsGrid(elementId, objectArray, tableName){
     if (tableName != 'restore') objectArray = await db[tableName].toArray()

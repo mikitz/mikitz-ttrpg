@@ -71,7 +71,7 @@
     display: flex;
     align-items: middle;
     justify-content: right;
-    /* border-bottom: solid grey 1px; */
+    border-bottom: solid var(--text-clr) 1px;
   }
   .sub-nav .sub-nav-version-number:hover {
     color: var(--button-text-clr) !important;
