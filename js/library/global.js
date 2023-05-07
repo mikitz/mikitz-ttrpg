@@ -132,7 +132,7 @@ function getRndInteger(min, max) {
     return parseInt(Math.floor(Math.random() * (max + 1 - min)) + min);
 }
 async function replaceMonstersWithLinks(encounter) {
-    let bestiaryProcessed = await fetchLocalJson(`/encounter-generator/data/json/bestiary`)
+    let bestiaryProcessed = await fetchLocalJson(`/mikitz-ttrpg/data/json/bestiary`)
     for (let index = 0; index < bestiaryProcessed.length; index++) {
         const element = bestiaryProcessed[index];
         let name = element.name;

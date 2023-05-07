@@ -235,10 +235,6 @@ async function deleteRowByPrimaryKey(primaryKey, table){
             makeToast(`${error.name}: ${error.message.split("\n")[0]}`, 'error')
         })
 } 
-async function getPartyId(partyName){
-    let ID = await db.parties.where({NAME: partyName}).toArray() 
-    return ID[0].id 
-}
 async function exportData(){
     let data = []
     const tables = db.tables
