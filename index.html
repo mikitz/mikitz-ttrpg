@@ -36,6 +36,11 @@
     <script src="/mikitz-ttrpg/data/version_numbers.js"></script>
     <script src="/mikitz-ttrpg/data/nav_data.js"></script>
 </head> 
+<style>
+    #in-the-cloud {
+        /* opacity: 30%; */
+    }
+</style>
 <body>
     <div class="site-nav">
         <a class="site-button-active" id="index" href="/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
@@ -71,11 +76,23 @@
                 <div class="warning-emoji">⚠️</div>
             </div>
             <div class="flex-column-child">
-                <h2><i class="fa-solid fa-hand-spock"></i> Forever Free 🫡</h2>
-                <p>
-                    Hosting is provided free of charge by GitHub and all data is stored locally on your machine and is tied to the browser you use. 
-                    As such, there are 0 costs, other than the time I've spent developing, incurred for this site.
-                </p>
+                <div class="flex-row">
+                    <div class="flex-row-child">
+                        <h2><i class="fa-solid fa-hand-spock"></i> Forever Free 🫡</h2>
+                        <p style="font-size: large; margin-bottom: 0.5rem;"><b>Made with ❤️ by <a href="https://github.com/mikitz" rel="noopener noreferrer" target="_blank">Mikitz</a>.</b></p>
+                        <p>
+                            Hosting is provided free of charge by GitHub and all data is stored locally on your machine and is tied to the browser you use. 
+                            As such, there are 0 costs incurred for this site.
+                        </p>
+                    </div>
+                    <div class="flex-row-child" id="in-the-cloud">
+                        <h2><i class="fa-solid fa-cloud"></i> In the Cloud <i class="fa-solid fa-server"></i></h2>
+                        <p style="font-size: large; margin-bottom: 0.5rem;"><b>TBD</b></p>
+                        <p>
+                            I am considering deploying a paid version of the site that costs <i>TBD</i> USD per month. This version stores data in the cloud, so it requires a login, but you can access your data from any browser on any machine. If this interests you, please take <a href="https://docs.google.com/forms/d/e/1FAIpQLScwGjlobuT3hlV-06FtfOoW9GPusw15y6e5P836_ojePE5MoA/viewform?usp=sf_link" target="_blank" rel="noopener noreferrer">this survey</a> so I can gauge interest and price.
+                        </p>
+                    </div>
+                </div>
             </div>
             <div class="flex-column-child">
                 <h2>Feedback & Issues</h2>
