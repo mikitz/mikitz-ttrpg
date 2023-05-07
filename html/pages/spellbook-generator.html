@@ -68,6 +68,12 @@
     .flex-row {
         margin-bottom: 1rem;
     }
+    #download-csv, #download-txt, #copy-output-links, #copy-output-no-links {
+        font-size: xx-large;
+        color: var(--text-clr);
+        margin-right: 15px;
+        cursor: pointer;
+    }
 </style>
 <body>
     <div class="site-nav">
@@ -131,10 +137,10 @@
             </div>
             <div class="flex-column-child">
                 <div class="flex-row" style="column-gap: 1rem;">
-                    <button id="download-csv" class="button download"><i class="fa-solid fa-file-csv"></i></button>
-                    <button id="download-txt" class="button download"><i class="fa-solid fa-file-arrow-down"></i></button>
-                    <button id="copy-output-links"class="button download"><i class="fa-solid fa-clipboard"></i></button>
-                    <button id="copy-output-no-links" class="button download"><i class="fa-regular fa-clipboard"></i></button>
+                    <i id="download-csv" class="fa-solid fa-file-csv"></i>
+                    <i id="download-txt" class="fa-solid fa-file-arrow-down"></i>
+                    <i id="copy-output-links" class="fa-solid fa-clipboard"></i>
+                    <i id="copy-output-no-links" class="fa-regular fa-clipboard"></i>
                 </div>
             </div>
             <div class="flex-column-child">

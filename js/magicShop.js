@@ -309,11 +309,11 @@ async function generateMagicShop(){
     const popLog = Math.log10(population)
     // let table_priceModifierVariablesModified = modifyPriceModifierVariables(magicnessNum)
     // console.log("table_priceModifierVariables:", table_priceModifierVariablesModified)
-    let table_priceModifierVariablesModified = await db.priceModifierVariables.toArray()
-    let table_numberOfDiceVariables = await db.numberOfDiceVariables.toArray()
-    let table_magicness = await db.magicness.toArray()
-    let table_wealth = await db.wealth.toArray()
-    let table_equipmentPrices = await db.equipmentPrices.toArray()
+    let table_priceModifierVariablesModified = await db.msg_price_modifier_variables.toArray()
+    let table_numberOfDiceVariables = await db.msg_number_of_dice_variables.toArray()
+    let table_magicness = await db.msg_magicness.toArray()
+    let table_wealth = await db.msg_wealth.toArray()
+    let table_equipmentPrices = await db.msg_equipment_prices.toArray()
     let table_spells = await fetchLocalJson(`/mikitz-ttrpg/data/json/spells`)
     const sources = JSON.parse(localStorage.getItem('sources')).filter(e => e.SELECTED == true)
     const sourceAbbrs = sources.map(e => e.ABBREVIATION);
@@ -442,7 +442,7 @@ async function generateMagicShop(){
     // ====== UPDATE DBS =======
     const cityId = await getCityId(cityName) // Get the city's ID
     // Stores
-    await db.magic_shops.put({ 
+    await db.msg_magic_shops.put({ 
         DATETIME: dt,
         STORE_NAME: storeName,
         CITY_NAME: cityName,
@@ -472,14 +472,14 @@ async function saveCity(){
     const magicness = getSelectedValueFromRadioGroup('magicness') // Get the magicness from the radio group
     const cityId = parseInt(document.getElementById('city-list').value) // Get the selected city's id
     const selectedCity = getSelectedOptionText('city-list') // Get the name of the selected city
-    const cityData = await db.cities.toArray() // Get the cities table from the DB
+    const cityData = await db.msg_cities.toArray() // Get the cities table from the DB
     if (name != selectedCity && stringExistsInArray(cityData, 'NAME', name)) return alert("Duplicate city names are not permitted.") // Prevent duplicate names in the DB only if the user wants to save a new city
 
     let population = document.getElementById('population').value // Get the population in place text
     population = parseInt(population.replace(/\D/g,'')) // Parse it as an int while removing commas    
 
     if (name == selectedCity) { // Update the selected city with the new user inputs
-        await db.cities.update(cityId, { 
+        await db.msg_cities.update(cityId, { 
             NAME: name,
             POPULATION: parseInt(population),
             MAGICNESS: magicness,
@@ -494,7 +494,7 @@ async function saveCity(){
         return // Return because no other code should be run
     }  
 
-    await db.cities.put({ // Add a brand new city to the DB
+    await db.msg_cities.put({ // Add a brand new city to the DB
         NAME: name,
         POPULATION: parseInt(population),
         MAGICNESS: magicness,
@@ -521,7 +521,7 @@ async function setupCitiesDropdown(){
     selectOption.innerText = 'Select city...'
     citySelect.appendChild(selectOption)
 
-    let citiesArray = await db.cities.toArray()
+    let citiesArray = await db.msg_cities.toArray()
     if (!citiesArray) return
     
     for (let index = 0; index < citiesArray.length; index++) {
@@ -545,7 +545,7 @@ async function loadCity(city){
     let magicness = 'medium'
 
     if (city != 'select') {
-        const cityData = await db.cities.get(cityId)
+        const cityData = await db.msg_cities.get(cityId)
         name = cityData.NAME
         citySize = cityData.CITY_SIZE
         population = cityData.POPULATION
@@ -556,8 +556,8 @@ async function loadCity(city){
     divName.value = name
     divPopulation.value = population
 
-    const table_wealth = await db.wealth.toArray()
-    const table_magicness = await db.magicness.toArray()
+    const table_wealth = await db.msg_wealth.toArray()
+    const table_magicness = await db.msg_magicness.toArray()
     userWealth = table_wealth.map(e => e.WEALTH)[userWealth]
     magicness = table_magicness.map(e => e.MAGICNESS)[magicness]
 
@@ -567,7 +567,7 @@ async function loadCity(city){
 async function populateHistory(){
     const listDiv = document.getElementById('history-table-body')
     listDiv.innerHTML = ``
-    let magicStores = await db.magic_shops.reverse().toArray()
+    let magicStores = await db.msg_magic_shops.reverse().toArray()
     for (let index = 0; index < magicStores.length; index++) {
         const element = magicStores[index]
 
@@ -613,7 +613,7 @@ async function populateHistory(){
 
         document.getElementById(`download-${element.id}`).addEventListener('click', async function(){
             const id = parseInt(this.id.replaceAll('download-', ''))
-            const storeData = await db.magic_shops.get(id)
+            const storeData = await db.msg_magic_shops.get(id)
             const date = storeData.DATETIME.toLocaleDateString().replaceAll("/", ".")
             const time = storeData.DATETIME.toLocaleTimeString().replaceAll(":", ".")
             const JSONS = storeData.DATA
@@ -628,6 +628,6 @@ async function populateHistory(){
     }
 }
 async function getCityId(cityName){
-    let ID = await db.cities.where({NAME: cityName}).toArray() // Get the object of the newly created city
+    let ID = await db.msg_cities.where({NAME: cityName}).toArray() // Get the object of the newly created city
     return ID[0].id // Get the ID for the new city
 }

@@ -41,3 +41,149 @@
 .description {
     font-weight: 100;
 }
+
+.aspect {
+    min-width: 280px;
+    padding: 10px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--card-background-color);
+    border-radius: 30px;
+}
+.aspect-inputs {
+    min-height: 245px !important;
+}
+.aspect-property {
+    margin-top: 5px;
+    display: flex;
+    vertical-align: middle;
+    column-gap: 5px;
+    width: 100%;
+}
+.aspect-legend {
+    font-size: 25px;
+    text-decoration: underline;
+    text-align: center;
+    color: var(--text-clr);
+    margin-bottom: 10px;
+}
+.aspect-property-reroll{
+    padding: 3px;
+    color: var(--text-clr);
+}
+/* .aspect-property-checkbox {
+    padding: 3px;
+} */
+.aspect-property-label {
+    font-weight: bold;
+    display: inline-block;
+    width: 75px;
+    text-align: right;
+    color: var(--text-clr);
+}
+.aspect-property-label-appearance {
+    font-weight: bold;
+    display: inline-block;
+    width: 95px;
+    text-align: right;
+    color: var(--text-clr);
+}
+.aspect-property-select {
+    min-width: 150px !important;
+    max-width: 150px;
+    overflow: auto;
+    max-height: 25px;
+    background: var(--select-background-color);
+    color: var(--text-clr);
+    border: none;
+    border-radius: 5px;
+    padding: 3px;
+}
+.aspect-property-input {
+    min-width: 145px !important;
+    max-width: 145px;
+    overflow: auto;
+    max-height: 25px;
+    background-color: var(--checkbox-background-color);
+    border: none;
+    color: var(--text-clr);
+    padding-left: 5px;
+}
+.aspect-property-text {
+    font-size: smaller;
+    color: var(--text-clr);
+    vertical-align: middle;
+    max-width: 250px;
+    height: 100%;
+}
+.blurb {
+    margin-top: 20px;
+    margin-left: 50px;
+}
+.aspect-property-checkbox {
+    display: inline-block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .aspect-property-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: var(--checkbox-background-color);
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .aspect-property-checkbox:hover input ~ .checkmark {
+    background-color: var(--button-hover-clr);
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .aspect-property-checkbox input:checked ~ .checkmark {
+    background-color: var(--checkbox-checked-background-color);
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .aspect-property-checkbox input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .aspect-property-checkbox .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--background-color);
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  } 

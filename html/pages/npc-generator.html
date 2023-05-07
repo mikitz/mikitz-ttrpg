@@ -1,0 +1,805 @@
+<!DOCTYPE html> 
+<html lang ="en">  
+<head>  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mikitz' NPC Generator</title>  
+    <!-- ICONS -->
+    <script src="https://kit.fontawesome.com/7e282d14cd.js" crossorigin="anonymous"></script>
+    <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/constants.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/buttons.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/flex.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/inputs.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/navs.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/style.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/theme.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/tables.css">
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/modal.css">
+    <!-- <link rel="stylesheet" href="/mikitz-ttrpg/css/side-panel.css"> -->
+    <!-- MAIN -->
+    <script src="/mikitz-ttrpg/js/npc.js"></script>
+    <script src="/mikitz-ttrpg/index.js"></script>
+    <!-- LOCAL LIBRARIES -->
+    <script src="/mikitz-ttrpg/js/library/droll.js"></script>
+    <script src="/mikitz-ttrpg/js/library/global.js"></script>
+    <script src="/mikitz-ttrpg/js/library/database.js"></script>
+    <!-- LIBRARIES -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://unpkg.com/js-markov/dist/markov.js"></script>
+    <!-- DATA -->
+    <script src="/mikitz-ttrpg/data/version_numbers.js"></script>
+    <!-- TABLES -->
+    <script src="/mikitz-ttrpg/data/js-data/npc-generator/npcTables.js"></script>
+</head> 
+<style>
+    #copy-collated-blurb, #minor-quest-prompt, #major-quest-prompt {
+        font-size: xx-large;
+        color: var(--text-clr);
+        margin-right: 15px;
+        cursor: pointer;
+    }
+    .flex-row {
+        column-gap: 2px;
+    }
+    .flex-column {
+        row-gap: 1rem;
+    }
+    .history-container {
+        margin-bottom: 0;
+    }
+</style>
+<body>
+    <<div class="site-nav">
+        <a class="site-button" id="index" href="/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a class="site-button" id="battle-map-generator" href="/mikitz-ttrpg/html/pages/battle-map-generator.html"><i class="fa-solid fa-map"></i><span>Battle Map</span></a>
+        <a class="site-button-under-construction" id="calendar"><i class="fa-solid fa-calendar"></i><span>Calendar</span></a>
+        <a class="site-button" id="encounter-generator" href="/mikitz-ttrpg/html/pages/encounter-generator.html"><i class="fa-solid fa-location-dot"></i><span>Encounter</span></a> 
+        <a class="site-button" id="magic-shop-generator" href="/mikitz-ttrpg/html/pages/magic-shop-generator.html"><i class="fa-solid fa-store"></i><span>Magic Shop</span></a>
+        <a class="site-button-active" id="npc-generator" href="/mikitz-ttrpg/html/pages/npc-generator.html"><i class="fa-solid fa-person-half-dress"></i><span>NPC</span></a>
+        <a class="site-button" id="spellbook-generator" href="/mikitz-ttrpg/html/pages/spellbook-generator.html"><i class="fa-solid fa-book"></i><span>Spellbook</span></a>
+        <a class="site-button-under-construction" id="star-system-and-galaxy-generator" href="/mikitz-ttrpg/html/pages/star-system-and-galaxy-generator.html"><i class="fa-regular fa-circle-dot"></i><span>Star System & Galaxy</span></a>
+        <a class="site-button-under-construction" id="world-generator" href="/mikitz-ttrpg/html/pages/world-generator.html"><i class="fa-solid fa-earth-americas"></i><span>World</span></a>
+        <span class="right">
+            <a class="site-button" id="settings" href="/mikitz-ttrpg/html/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+            <a class="site-button" id="wiki" href="/mikitz-ttrpg/html/wiki.html"><i class="fa-solid fa-book-open"></i><span>Wiki</span></a>
+        </span>
+    </div>
+    <div class="sub-nav" id="sub-nav">
+        <a class="sub-nav-version-number nav-a" style="text-decoration: underline;" id="version-link" href="" target="_blank" rel="noopener noreferrer">
+            <i class="fa-solid fa-code-commit" style="margin-right: 0.5rem;"></i>
+            <span id="version-number"></span>
+        </a>
+        <a href="#" class="nav-a active"><i class="fa-solid fa-dice-d20"></i> <span>Generator</span></a>
+    </div>
+    <main>
+        <div class="flex-column">
+            <div class="flex-column-child">
+                <button class="button" id="button-generate-npc">Generate NPC</button>
+            </div>
+            <div class="flex-column-child">
+                <div class="flex-row" style="column-gap: 1rem;">
+                    <i class="fa-regular fa-note-sticky" id="minor-quest-prompt"></i>
+                    <i class="fa-solid fa-note-sticky" id="major-quest-prompt"></i>
+                    <i class="fa-solid fa-copy" id="copy-collated-blurb"></i>
+                </div>
+            </div>
+            <div class="container visible" style="display: flex; flex-direction: column; align-items: center;">
+                <div class="history-container">
+                    <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-history"></i>History</div>
+                    <div class="history collapsed" id="history">
+                        <table class="styled-table">
+                            <thead>
+                                <th>Index</th>
+                                <th>View</th>
+                                <th>Delete</th>
+                                <th>Name</th>
+                                <th>Race</th>
+                                <th>Age</th>
+                                <th>Sex</th>
+                                <th>Gender</th>
+                                <th>Pronouns</th>
+                                <th>Languages</th>
+                                <th>Alignment</th>
+                                <th>Background</th>
+                            </thead>
+                            <tbody id="history-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>     
+            <div class="flex-row">
+                    <!-----------------
+                            Biology
+                    ------------------->
+                    <div class="aspect" id="biology">
+                        <legend class="aspect-legend"><i class="fa-solid fa-copy" name="copy-icon" id="copy-biology"></i>Biology</legend>
+                        <div class="aspect-inputs">
+                            <!-- Race -->
+                            <div class="aspect-property" id="race">
+                                <span class="aspect-property-reroll"><i id="race-reroll" class="fa-solid fa-dice-d20"></i></span>
+                                <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="race-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="race-label">Race</span>
+                                <select class="aspect-property-select" id="race-select">
+                                    <option value="Aarakocra">Aarakocra</option>
+                                    <option value="Aasimar (Fallen)">Aasimar (Fallen)</option>
+                                    <option value="Aasimar (Protector)">Aasimar (Protector)</option>
+                                    <option value="Aasimar (Scourge)">Aasimar (Scourge)</option>
+                                    <option value="Bugbear">Bugbear</option>
+                                    <option value="Centaur">Centaur</option>
+                                    <option value="Changeling">Changeling</option>
+                                    <option value="Dragonborn (Base)">Dragonborn (Base)</option>
+                                    <option value="Dragonborn (Draconblood)">Dragonborn (Draconblood)</option>
+                                    <option value="Dragonborn (Ravenite)">Dragonborn (Ravenite)</option>
+                                    <option value="Dwarf (Duergar)">Dwarf (Duergar)</option>
+                                    <option value="Dwarf (Hill)">Dwarf (Hill)</option>
+                                    <option value="Dwarf (Mark of Warding)">Dwarf (Mark of Warding)</option>
+                                    <option value="Dwarf (Mountain)">Dwarf (Mountain)</option>
+                                    <option value="Elf (Drow)">Elf (Drow)</option>
+                                    <option value="Elf (Eladrin)">Elf (Eladrin)</option>
+                                    <option value="Elf (High)">Elf (High)</option>
+                                    <option value="Elf (Mark of Shadow)">Elf (Mark of Shadow)</option>
+                                    <option value="Elf (Pallid)">Elf (Pallid)</option>
+                                    <option value="Elf (Sea)">Elf (Sea)</option>
+                                    <option value="Elf (Shadar-kai)">Elf (Shadar-kai)</option>
+                                    <option value="Elf (Wood)">Elf (Wood)</option>
+                                    <option value="Fairy">Fairy</option>
+                                    <option value="Firbolg">Firbolg</option>
+                                    <option value="Genasi (Air)">Genasi (Air)</option>
+                                    <option value="Genasi (Earth)">Genasi (Earth)</option>
+                                    <option value="Genasi (Fire)">Genasi (Fire)</option>
+                                    <option value="Genasi (Water)">Genasi (Water)</option>
+                                    <option value="Gith (Githyanki)">Gith (Githyanki)</option>
+                                    <option value="Gith (Githzerai)">Gith (Githzerai)</option>
+                                    <option value="Gnome (Deep)">Gnome (Deep)</option>
+                                    <option value="Gnome (Deep/Svirfneblin)">Gnome (Deep/Svirfneblin)</option>
+                                    <option value="Gnome (Forest)">Gnome (Forest)</option>
+                                    <option value="Gnome (Mark of Scribing)">Gnome (Mark of Scribing)</option>
+                                    <option value="Gnome (Rock)">Gnome (Rock)</option>
+                                    <option value="Goblin">Goblin</option>
+                                    <option value="Goliath">Goliath</option>
+                                    <option value="Half-Elf">Half-Elf</option>
+                                    <option value="Half-Elf (Aquatic Elf Descent)">Half-Elf (Aquatic Elf Descent)</option>
+                                    <option value="Half-Elf (Drow Descent)">Half-Elf (Drow Descent)</option>
+                                    <option value="Half-Elf (Mark of Detection)">Half-Elf (Mark of Detection)</option>
+                                    <option value="Half-Elf (Mark of Storm)">Half-Elf (Mark of Storm)</option>
+                                    <option value="Half-Elf (Moon Elf or Sun Elf Descent)">Half-Elf (Moon Elf or Sun Elf Descent)</option>
+                                    <option value="Half-Elf (Wood Elf Descent)">Half-Elf (Wood Elf Descent)</option>
+                                    <option value="Half-Orc">Half-Orc</option>
+                                    <option value="Half-Orc (Mark of Finding)">Half-Orc (Mark of Finding)</option>
+                                    <option value="Halfling">Halfling</option>
+                                    <option value="Halfling (Ghostwise)">Halfling (Ghostwise)</option>
+                                    <option value="Halfling (Lightfoot)">Halfling (Lightfoot)</option>
+                                    <option value="Halfling (Lotusden)">Halfling (Lotusden)</option>
+                                    <option value="Halfling (Mark of Healing)">Halfling (Mark of Healing)</option>
+                                    <option value="Halfling (Mark of Hospitality)">Halfling (Mark of Hospitality)</option>
+                                    <option value="Halfling (Stout)">Halfling (Stout)</option>
+                                    <option value="Hobgoblin">Hobgoblin</option>
+                                    <option value="Human">Human</option>
+                                    <option value="Human (Mark of Finding)">Human (Mark of Finding)</option>
+                                    <option value="Human (Mark of Handling)">Human (Mark of Handling)</option>
+                                    <option value="Human (Mark of Making)">Human (Mark of Making)</option>
+                                    <option value="Human (Mark of Passage)">Human (Mark of Passage)</option>
+                                    <option value="Human (Mark of Sentinel)">Human (Mark of Sentinel)</option>
+                                    <option value="Human (Variant)">Human (Variant)</option>
+                                    <option value="Kalashtar">Kalashtar</option>
+                                    <option value="Kenku">Kenku</option>
+                                    <option value="Kobold">Kobold</option>
+                                    <option value="Leonin">Leonin</option>
+                                    <option value="Lizardfolk">Lizardfolk</option>
+                                    <option value="Loxodon">Loxodon</option>
+                                    <option value="Minotaur">Minotaur</option>
+                                    <option value="Orc">Orc</option>
+                                    <option value="Owlfolk">Owlfolk</option>
+                                    <option value="Rabbitfolk">Rabbitfolk</option>
+                                    <option value="Satyr">Satyr</option>
+                                    <option value="Shifter (Beasthide)">Shifter (Beasthide)</option>
+                                    <option value="Shifter (Longtooth)">Shifter (Longtooth)</option>
+                                    <option value="Shifter (Swiftstride)">Shifter (Swiftstride)</option>
+                                    <option value="Shifter (Wildhunt)">Shifter (Wildhunt)</option>
+                                    <option value="Simic Hybrid (Human)">Simic Hybrid (Human)</option>
+                                    <option value="Simic Hybrid (Elf)">Simic Hybrid (Elf)</option>
+                                    <option value="Simic Hybrid (Vedalken)">Simic Hybrid (Vedalken)</option>
+                                    <option value="Tabaxi">Tabaxi</option>
+                                    <option value="Tiefling (Asmodeus)">Tiefling (Asmodeus)</option>
+                                    <option value="Tiefling (Baalzebul)">Tiefling (Baalzebul)</option>
+                                    <option value="Tiefling (Base)">Tiefling (Base)</option>
+                                    <option value="Tiefling (Dispater)">Tiefling (Dispater)</option>
+                                    <option value="Tiefling (Fierna)">Tiefling (Fierna)</option>
+                                    <option value="Tiefling (Glasya)">Tiefling (Glasya)</option>
+                                    <option value="Tiefling (Levistus)">Tiefling (Levistus)</option>
+                                    <option value="Tiefling (Mammon)">Tiefling (Mammon)</option>
+                                    <option value="Tiefling (Mephistopheles)">Tiefling (Mephistopheles)</option>
+                                    <option value="Tiefling (Devil's Tongue)">Tiefling (Devil's Tongue)</option>
+                                    <option value="Tiefling (Hellfire)">Tiefling (Hellfire)</option>
+                                    <option value="Tiefling (Infernal Legacy)">Tiefling (Infernal Legacy)</option>
+                                    <option value="Tiefling (Winged)">Tiefling (Winged)</option>
+                                    <option value="Tiefling (Zariel)">Tiefling (Zariel)</option>
+                                    <option value="Tortle">Tortle</option>
+                                    <option value="Triton">Triton</option>
+                                    <option value="Vedalken">Vedalken</option>
+                                    <option value="Verdan">Verdan</option>
+                                    <option value="Warforged">Warforged</option>
+                                    <option value="Yuan-ti Pureblood">Yuan-ti Pureblood</option>
+                                </select>
+                            </div>
+                            <!-- Height -->
+                            <div class="aspect-property" id="height">
+                                <span class="aspect-property-reroll"><i id="height-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="height-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="height-label">Height</span>
+                                <select class="aspect-property-select" id="height-select"></select>
+                            </div>
+                            <!-- Weight -->
+                            <div class="aspect-property" id="weight">
+                                <span class="aspect-property-reroll"><i id="weight-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="weight-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="weight-label">Weight</span>
+                                <select class="aspect-property-select" id="weight-select"></select>
+                            </div>
+                            <!-- Age -->
+                            <div class="aspect-property" id="age">
+                                <span class="aspect-property-reroll"><i id="age-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="age-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="age-label">Age</span>
+                                <select class="aspect-property-select" id="age-select"></select>
+                            </div>
+                            <!-- Sex -->
+                            <div class="aspect-property" id="sex">
+                                <span class="aspect-property-reroll"><i id="sex-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="sex-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="sex-label">Sex</span>
+                                <select class="aspect-property-select" id="sex-select"> 
+                                    <option value="male" selected>Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="intersex">Intersex</option>
+                                </select>
+                            </div>
+                            <!-- pregnant -->
+                            <div class="aspect-property" id="pregnant">
+                                <span class="aspect-property-reroll"><i id="pregnant-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="pregnant-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="pregnant-label">Pregnant</span>
+                                <select class="aspect-property-select" id="pregnant-select"> 
+                                    <option value="false">False</option>
+                                    <option value="true">True</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="aspect-property-text blurb" id="biology-blurb"></div>
+                    </div>
+                    <!-----------------
+                        Identity
+                    ------------------->
+                    <div class="aspect" id="identity">
+                        <legend class="aspect-legend"><i class="fa-solid fa-copy" name="copy-icon" id="copy-identity"></i>Identity</legend>
+                        <div class="aspect-inputs">
+                            <!-- Name -->
+                            <div class="aspect-property" id="name">
+                                <span class="aspect-property-reroll"><i id="name-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="name-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="name-label">Name</span>
+                                <select class="aspect-property-select" id="name-select"></select>
+                            </div>
+                            <!-- Nickname -->
+                            <div class="aspect-property" id="nickname">
+                                <span class="aspect-property-reroll"><i id="nickname-reroll" class="fa-solid fa-dice-d20" ></i></span>
+                            <label  class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="name-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="nickname-label">Nickname</span>
+                                <input class="aspect-property-input" id="nickname-input" type="text" placeholder="Input nickname"></input>
+                            </div>
+                            <!-- Gender -->
+                            <div class="aspect-property" id="gender">
+                                <span class="aspect-property-reroll"><i id="gender-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="gender-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="gender-label">Gender</span>
+                                <select class="aspect-property-select" id="gender-select">
+                                    <option value="gender-fluid">Gender Fluid</option>
+                                    <option value="bigender">Bigender</option>
+                                    <option value="gender-non-conforming">Non-conforming</option>
+                                    <option value="third-sex">Third Sex</option>
+                                    <option value="two-spirit">Two Spirit</option>
+                                    <option value="gender-queer">Gender Queer</option>
+                                    <option value="agender">Agender</option>
+                                    <option value="transgender">Transgender</option>
+                                    <option value="intersex">Intersex</option>
+                                    <option value="cisgender">Cisgender</option>
+                                </select>
+                            </div>
+                            <!-- Pronouns -->
+                            <div class="aspect-property" id="pronouns">
+                                <span class="aspect-property-reroll"><i id="pronouns-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="pronouns-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="pronouns-label">Pronouns</span>
+                                <select class="aspect-property-select" id="pronouns-select">
+                                    <option value="He/Him/His/His">He/Him/His/His</option>
+                                    <option value="Per/Per/Pers/Pers">Per/Per/Pers/Pers</option>
+                                    <option value="She/Her/Her/Hers">She/Her/Her/Hers</option>
+                                    <option value="They/Them/Their/Theirs">They/Them/Their/Theirs</option>
+                                    <option value="Ve/Ver/Vis/Vis">Ve/Ver/Vis/Vis</option>
+                                    <option value="Xe/Xem/Xyr/Xyrs">Xe/Xem/Xyr/Xyrs</option>
+                                </select>
+                            </div>
+                            <!-- Sexual Orientataion -->
+                            <div class="aspect-property" id="sexual-orientataion">
+                                <span class="aspect-property-reroll"><i id="sexual-orientataion-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="sexual-orientataion-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="sexual-orientataion-label">Sex. Ori.</span>
+                                <select class="aspect-property-select" id="sexual-orientation-select">
+                                    <option value="allosexual">Allosexual</option>
+                                    <option value="androsexual">Androsexual</option>
+                                    <option value="asexual">Asexual</option>
+                                    <option value="bisexual">Bisexual</option>
+                                    <option value="demisexual">Demisexual</option>
+                                    <option value="gynesexual">Gynesexual</option>
+                                    <option value="heterosexual">Heterosexual</option>
+                                    <option value="homosexual">Homosexual</option>
+                                    <option value="pansexual">Pansexual</option>
+                                    <option value="sapiosexual">Sapiosexual</option>
+                                    <option value="skoliosexual">Skoliosexual</option>
+                                </select>
+                            </div>
+                            <!-- relationship orientation -->
+                            <div class="aspect-property" id="relationship-orientation">
+                                <span class="aspect-property-reroll"><i id="relationship-orientation-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="relationship-orientation-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="relationship-orientation-label">Rel. Ori.</span>
+                                <select class="aspect-property-select" id="relationship-orientation-select"> 
+                                    <option value="monoamorous">Monoamorous</option>
+                                    <option value="polyamorous">Polyamorous</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="aspect-property-text blurb" id="identity-blurb"></div>
+                    </div>
+                    <!-----------------
+                        Personality
+                    ------------------->
+                    <div class="aspect" id="personality">
+                        <legend class="aspect-legend"><i class="fa-solid fa-copy" name="copy-icon"id="copy-personality"></i>Personality</legend>
+                        <div class="aspect-inputs">
+                            <!-- Alignment -->
+                            <div class="aspect-property" id="alignment">
+                                <span class="aspect-property-reroll"><i id="alignment-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="alignment-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="alignment-label">Align.</span>
+                                <select class="aspect-property-select" id="alignment-select">
+                                    <option value="chaotic-evil">Chaotic Evil</option>
+                                    <option value="chaotic-good">Chaotic Good</option>
+                                    <option value="chaotic-neutral">Chaotic Neutral</option>
+                                    <option value="lawful-evil">Lawful Evil</option>
+                                    <option value="lawful-good">Lawful Good</option>
+                                    <option value="lawful-neutral">Lawful Neutral</option>
+                                    <option value="neutral-evil">Neutral Evil</option>
+                                    <option value="neutral-good">Neutral Good</option>
+                                    <option value="true-neutral">True Neutral</option>
+                                </select>
+                            </div>
+                            <!-- Voice Quirk -->
+                            <div class="aspect-property" id="voice-quirk">
+                                <span class="aspect-property-reroll"><i id="voice-quirk-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="voice-quirk-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="voice-quirk-label">Voice</span>
+                                <select class="aspect-property-select" id="voice-quirk-select">
+                                    <option value="99%-of-this-persons-speech-is-swearing.">99% of this persons speech is swearing.</option>
+                                    <option value="a-deep-and-stern-voice-that-gets-super-high-when-triggered-by....something?">A deep and stern voice that gets super high when triggered by....something?</option>
+                                    <option value="a-voice-that-is-barely-containing-from-bursting-out-in-song.">A voice that is barely containing from bursting out in song.</option>
+                                    <option value="a-wording-crouch,-ya-see,-ya-see!!!">A wording crouch, ya see, ya see!!!</option>
+                                    <option value="add-underhanded/sarcastic-comments-in-whispers-during-conversation-“oh-hello!-you’re-here-again!-under-their-breathwooonderful”">Add underhanded/sarcastic comments in whispers during conversation “oh hello! You’re here again! under their breathwooonderful”</option>
+                                    <option value="always-repeating-the-last-two-words-of-the-previous-speaker">Always repeating the last two words of the previous speaker</option>
+                                    <option value="attempt-to-speak-with-your-mouth-as-closed-as-possible,-almost-without-moving-your-lips">Attempt to speak with your mouth as closed as possible, almost without moving your lips</option>
+                                    <option value="awkward-timing-for-burping-(additional-skill-recommended)">Awkward timing for burping (additional skill recommended)</option>
+                                    <option value="bad-teeth-:-covers-their-mouth-when-they-speak">Bad teeth : covers their mouth when they speak</option>
+                                    <option value="barks-at-the-end-of-each-sentence">Barks at the end of each sentence</option>
+                                    <option value="become-brian-blessed">Become BRIAN BLESSED</option>
+                                    <option value="begins-every-statement-with-"so,-like..."">Begins every statement with "So, like..."</option>
+                                    <option value="blind:-put-your-hands-on-their-face-as-they-speak.-if-you-start-laughing,-you'll-lose-them.-remember,-try-to-be-very-serious.">Blind: Put your hands on their face as they speak. If you start laughing, you'll lose them. Remember, try to be very serious.</option>
+                                    <option value="breathe-audibly-when-not-speaking">breathe audibly when not speaking</option>
+                                    <option value="breathy-:-"hhhhappy-bihrthday-mihhhster-prehhhhsident"">Breathy : "hhhhappy bihrthday mihhhster prehhhhsident"</option>
+                                    <option value="british-posh-(-potato-in-the-mouth-style)">British posh ( potato in the mouth style)</option>
+                                    <option value="clearly-a-snake:-lengthens-all-their-sssssses.">Clearly a snake: lengthens all their sssssses.</option>
+                                    <option value="clergyman-sing-song">clergyman sing song</option>
+                                    <option value="close-talker-:-has-no-sense-of-a-personal-bubble.">Close Talker : has no sense of a personal bubble.</option>
+                                    <option value="common-as-second-language:-use-a-strange-dialect.-click-your-tongue-every-other-word-and-start-(or-end)-every-word-with-'ssss'.-"swelcome-sfellow-click-stravellers-siam-click-slord-sluthor-click-sssuv-sowington-click-seleventh-sin-click-sline-stew-click-sthe-sthrone-click"">Common as second language: Use a strange dialect. Click your tongue every other word and start (or end) every word with 'ssss'. "swelcome sfellow click stravellers Siam click sLord sluthor click sssuv sowington click seleventh sin click sline stew click sthe sthrone click"</option>
+                                    <option value="constantly-looking-behind-themselves-as-if-they-are-being-watched-or-expecting-someone-to-find-them,-thus-speaking-quickly-and-trying-to-rush-whatever-is-being-said-ie-oh,-hey,-welcome-to-(insert-city)-wha?-looks-over-shoulder-sharply-what-was-that?-hm-nothing,-alright,-sorry-what-do-you-need-again?kind-of-like-distracted-but-more-worried-and-anxious">Constantly looking behind themselves as if they are being watched or expecting someone to find them, thus speaking quickly and trying to rush whatever is being said ie Oh, hey, welcome to (insert city) Wha? looks over shoulder sharply what was that? Hm nothing, alright, sorry what do you need again?Kind of like distracted but more worried and anxious</option>
+                                    <option value="constantly-referring-to-people-by-condescending-little-nicknames:-chief,-sport,-tiger,-kid,-cat,-skippy,-pal,-killer,-dog,-guy,-boss,-junior,-ace,-champ,-slugger,-bud,-kiddo,-amigo,-bro,-slick,-son,-cap'n,-hoss,-tex,-slim,-doc,-jack,-fella,-cuz....">Constantly referring to people by condescending little nicknames: Chief, Sport, Tiger, Kid, Cat, Skippy, Pal, Killer, Dog, Guy, Boss, Junior, Ace, Champ, Slugger, Bud, Kiddo, Amigo, Bro, Slick, Son, Cap'n, Hoss, Tex, Slim, Doc, Jack, Fella, Cuz....</option>
+                                    <option value="creepy-repetition-of-the-last-word-word">Creepy repetition of the last word word</option>
+                                    <option value="curl-your-tongue-up-into-the-roof-of-your-mouth">Curl your tongue up into the roof of your mouth</option>
+                                    <option value="curser-:-every-other-word-is-profanity.-but-in-a-different-language.-"where-the-sheggle-is-my-kirding-leffer-map?"">Curser : every other word is profanity. But in a different language. "Where the sheggle is my kirding leffer map?"</option>
+                                    <option value="demure-and-soft-spoken-when-addressing-a-group-and-loud-with-bulging-eyes-when-addressing-a-single-individual">Demure and soft spoken when addressing a group and loud with bulging eyes when addressing a single individual</option>
+                                    <option value="distracted:-look-off-to-the-side,-say-"huh?-oh,-yeah-yeah-yeah".">Distracted: Look off to the side, say "huh? Oh, yeah yeah yeah".</option>
+                                    <option value="dizzy:-sway-from-side-to-side-as-you-listen-but-not-when-you-speak.">Dizzy: Sway from side to side as you listen but not when you speak.</option>
+                                    <option value="don’t-look-at-the-players-when-speaking,-look-at-and-fidget-with-your-fingers-and-clothes">Don’t look at the players when speaking, look at and fidget with your fingers and clothes</option>
+                                    <option value="ending-every-speaking-part-with-a-sidetracking-question">Ending every speaking part with a sidetracking question</option>
+                                    <option value="every-conversation-starts-with-a-one-word-sentence.-their-next-sentence-has-two.-the-next-3.-then-4.-and-on-and-on.-this-pattern-resets-when-the-subject-is-changed-or-possibly-when-they-reach-a-certain-sentence-length.-(might-make-this-a-curse-that-ends/transfers-when-someone-copies-the-pattern-with-them-for-a-few-sentences)">Every conversation starts with a one word sentence. Their next sentence has two. The next 3. Then 4. And on and on. This pattern resets when the subject is changed or possibly when they reach a certain sentence length. (Might make this a curse that ends/transfers when someone copies the pattern with them for a few sentences)</option>
+                                    <option value="every-sentence-is-a-question">Every sentence is a question</option>
+                                    <option value="every-wonderful-word-has-extra-dewy-soft-adjectives">Every wonderful word has extra dewy soft adjectives</option>
+                                    <option value="eyes-darting-back-and-forth-from-people-and-innanimate-objects-after-only-a-few-words-and-licking-their-lips-only-when-speaking-to-one-chosen-individual-or-object.">Eyes darting back and forth from people and innanimate objects after only a few words and licking their lips only when speaking to one chosen individual or object.</option>
+                                    <option value="half-deaf:-speak-loud-and-ask-'what?'-often,-or-better-yet,-speak-extra-softly.">Half deaf: Speak loud and ask 'what?' often, or better yet, speak extra softly.</option>
+                                    <option value="has-a-severe-underbite-or-overbite---push-your-lower-jaw-forward-or-backward-while-speaking">Has a severe underbite or overbite - push your lower jaw forward or backward while speaking</option>
+                                    <option value="i-like-slow-and-methodical-with-articulation,-think-snape-from-harry-potter.">I like slow and methodical with articulation, think Snape from Harry Potter.</option>
+                                    <option value="imitate-any-characters-in-the-technicolor-films-robin-hood-or-ivanhoe">Imitate any characters in the technicolor films Robin Hood or Ivanhoe</option>
+                                    <option value="instead-of-saying-'uh'-or-'um',-use-another-syllable-or-word.-a-wizard-might-use-'hmm',-an-orc-might-growl,-etc">Instead of saying 'uh' or 'um', use another syllable or word. A wizard might use 'hmm', an orc might growl, etc</option>
+                                    <option value="intermittently-clack-your-teeth-together">Intermittently clack your teeth together</option>
+                                    <option value="is-always-taking-their-jacket-(or-some-article-of-clothing)-off-and-putting-it-back-on.">Is always taking their jacket (or some article of clothing) off and putting it back on.</option>
+                                    <option value="itchy:-don't-describe-it,-don't-even-mention-it-aloud,-just-dramatically-scratch-various-places-as-you-talk.">Itchy: Don't describe it, don't even mention it aloud, just dramatically scratch various places as you talk.</option>
+                                    <option value="keeps-saying-random-stuff-until-ba-tells-them-to-shut-up.-"it's-captain-socky!"-(a-team-reference-to-mad-murdock.-:)-)">Keeps saying random stuff until BA tells them to shut up. "It's Captain Socky!" (A-Team reference to Mad Murdock. :) )</option>
+                                    <option value="laughs-after-every-joke-with-a-single-loud-ha!">Laughs after every joke with a single loud HA!</option>
+                                    <option value="lisping">Lisping</option>
+                                    <option value="lots-of-extraneous-words,-yeah,-but,-y'see,-the-thing-is...-like-i-said,-lots-of-extraneous-words.-words.-see?">Lots of extraneous words, yeah, but, y'see, the thing is... like I said, lots of extraneous words. Words. See?</option>
+                                    <option value="loud-and-boisterous-laughing-sometimes-as-well">LOUD AND BOISTEROUS LAUGHING SOMETIMES AS WELL</option>
+                                    <option value="monotone,-even-when-happy-or-furious.">Monotone, even when happy or furious.</option>
+                                    <option value="morose:-depressed.-think-of-eeyore-(sigh-a-lot,-look-down-and-shake-your-head).">Morose: Depressed. Think of Eeyore (sigh a lot, look down and shake your head).</option>
+                                    <option value="mute:-uses-only-hand-gestures.">Mute: Uses only hand gestures.</option>
+                                    <option value="narcoleptic,-as-in-falls-asleep-mid-sentence-and-the-players-must-attempt-to-wake-them-up-somehow">Narcoleptic, as in falls asleep mid sentence and the players must attempt to wake them up somehow</option>
+                                    <option value="nasaled">Nasaled</option>
+                                    <option value="nervous:-speaks-quickly,-eyes-darting-around,-often-licks-lips">Nervous: speaks quickly, eyes darting around, often licks lips</option>
+                                    <option value="never-addresses-anyone-by-the-correct-name">Never addresses anyone by the correct name</option>
+                                    <option value="never-finishes-a-sentence-without-going-off-on-tangents-and-switching-trains-of-thought">Never finishes a sentence without going off on tangents and switching trains of thought</option>
+                                    <option value="never-uses-articles-such-as-'a'-or-'the'">Never uses articles such as 'a' or 'the'</option>
+                                    <option value="only-speaks-out-of-the-corner-of-their-mouth---keep-one-side-of-your-lips-pressed-together-while-speaking">Only speaks out of the corner of their mouth - keep one side of your lips pressed together while speaking</option>
+                                    <option value="only-uses-proper-nouns">Only uses proper nouns</option>
+                                    <option value="over-explain-everything,-even-if-it's-obvious.-it's-a-good-and-quirky-way-to-add-some-character-to-an-npc-in-role-playing-games-like-d&d,-that's-dungeons-&-dragons-in-case-you-were-wondering.">Over explain everything, even if it's obvious. It's a good and quirky way to add some character to an NPC in role playing games like D&D, that's Dungeons & Dragons in case you were wondering.</option>
+                                    <option value="paranoid:-look-over-your-shoulder-often,-say-'shh...'-and-listen-sideways.">Paranoid: Look over your shoulder often, say 'shh...' and listen sideways.</option>
+                                    <option value="pausing-at-times....that-don’t-work-(the-christopher-walken-approach)">Pausing at times....that don’t work (the Christopher Walken approach)</option>
+                                    <option value="pausing...-at-...times...-that-really...don’t-work...-(william-shatner-approach)">Pausing... at ...times... that really...don’t work... (William Shatner approach)</option>
+                                    <option value="phlegmy-:-keeps-grossly-clearing-their-throat.-khhhhuuuuuuuggggrrrhhhh.-kuh.-kuuuuuuuugggghhhhhrhhh."">Phlegmy : keeps grossly clearing their throat. Khhhhuuuuuuuggggrrrhhhh. Kuh. Kuuuuuuuugggghhhhhrhhh."</option>
+                                    <option value="pick-a-letter-like-"s"-or-"h"-(but-not-"th")-as-a-letter-to-over-emphasize.">Pick a letter like "s" or "h" (but not "th") as a letter to over emphasize.</option>
+                                    <option value="pick-a-syllable:-every-time-they-say-that-syllable,-it-gets-lengthened-or-shortened-unnaturally">Pick a syllable: every time they say that syllable, it gets lengthened or shortened unnaturally</option>
+                                    <option value="pull-the-corners-of-your-mouth-back,-like-a-fake-smile">Pull the corners of your mouth back, like a fake smile</option>
+                                    <option value="pull-your-tongue-back-so-that-it-hits-the-middle-of-your-palate-instead-of-the-front-while-pronouncing-ts,-ns,-rs-etc">Pull your tongue back so that it hits the middle of your palate instead of the front while pronouncing ts, ns, rs etc</option>
+                                    <option value="repeats-a-key-phrase-in-a-whispered-tone.-...-in-a-whispered-tone">Repeats a key phrase in a whispered tone. ... in a whispered tone</option>
+                                    <option value="repeats-every-sentence-just-said-but-under-their-breath-as-they're-inhaling-to-say-the-next-sentence.-(my-brother-and-several-people-i-know-do-this-and-it-drives-me-up-the-wall)">repeats every sentence just said but under their breath as they're inhaling to say the next sentence. (my brother and several people I know do this and it drives me up the wall)</option>
+                                    <option value="replace-all-vowels-with-the-same-vowel.-this-can-get-close-to-a-parody-accent,-so-try-it-out-before-bringing-it-to-the-table!">Replace all vowels with the same vowel. This can get close to a parody accent, so try it out before bringing it to the table!</option>
+                                    <option value="replies-with-a-single-word-whenever-possible.">Replies with a single word whenever possible.</option>
+                                    <option value="rhymes-all-the-times">Rhymes all the times</option>
+                                    <option value="roll-eight-times-and-keep-all-results-to-create-a-truly-horrifying/confusing-npc.">Roll eight times and keep all results to create a truly horrifying/confusing NPC.</option>
+                                    <option value="runs-sentences-together,-then-takes-breaths-a-few-words-after-the-start-of-the-next-sentence">Runs sentences together, then takes breaths a few words after the start of the next sentence</option>
+                                    <option value="says-uwu-in-replace-of-important-words">Says UWU in replace of important words</option>
+                                    <option value="short-stopper-:-they-never-finish-their-senten">Short Stopper : they never finish their senten</option>
+                                    <option value="slightly-sniffly">Slightly sniffly</option>
+                                    <option value="smacks-and-purses-lips-at-odd-point-in-the-sentence">Smacks and purses lips at odd point in the sentence</option>
+                                    <option value="snorts-every-now-and-then">Snorts every now and then</option>
+                                    <option value="sound-of-cleaning-teeth-with-tongue">Sound of cleaning teeth with tongue</option>
+                                    <option value="speak-with-your-hands!-vigorous-hand-waving">Speak with your hands! vigorous hand waving</option>
+                                    <option value="speak-without-separating-your-teeth">Speak without separating your teeth</option>
+                                    <option value="speaks-like-an-ac-tor:-overexaggerate-all-the-mouth-motions-and-project-clearly.">Speaks like an AC-TOR: overexaggerate all the mouth motions and project clearly.</option>
+                                    <option value="speaks-through-clenched-teeth">Speaks through clenched teeth</option>
+                                    <option value="speaks-with-the-tip-of-the-tongue-pushed-out-between-the-teeth.">Speaks with the tip of the tongue pushed out between the teeth.</option>
+                                    <option value="st...st...stutter">St...st...stutter</option>
+                                    <option value="stopping-talking-for-a-moment-to-see-something-that-catched-his-eye-(a-butterfly-etc)">stopping talking for a moment to see something that catched his eye (a butterfly etc)</option>
+                                    <option value="super-whisper-all-the-time">super whisper all the time</option>
+                                    <option value="tap-your-foot-on-the-ground/-hands-on-the-table-constantly">Tap your foot on the ground/ hands on the table constantly</option>
+                                    <option value="they-drink-after-almost-every-sentence.">They drink after almost every sentence.</option>
+                                    <option value="they-stop-after-every-sentence,-never-really-telegraphing-when-they-are-finished-talking">They stop after every sentence, never really telegraphing when they are finished talking</option>
+                                    <option value="tongue-tied:-(talk-with-your-tongue-thtuck-to-your-fwont-teef)-but-be-very-serious,-not-silly.-"hewwo,-fewwo-twavewers.-i-am-word-wuwor,-of-owington,-eweveth-in-wine-to-the-thwone."-click-your-heels-and-bow-deeply.-"you-do-me-agweat-therwith."">Tongue-tied: (talk with your tongue thtuck to your fwont teef) but be very serious, not silly. "Hewwo, fewwo twavewers. I am Word Wuwor, of Owington, eweveth in wine to the thwone." Click your heels and bow deeply. "You do me agweat therwith."</option>
+                                    <option value="tries-to-speak-in-puns.-the-more-pun-ishing,-the-better.">Tries to speak in puns. The more pun-ishing, the better.</option>
+                                    <option value="typical-high-pitched-granny">Typical High pitched granny</option>
+                                    <option value="uses-“the”-in-every-sentence.-i-wrote-an-essay-that-way-and-it-was-pretty-fun">Uses “the” in every sentence. I wrote an essay that way and it was pretty fun</option>
+                                    <option value="using-a-puppet">Using a puppet</option>
+                                    <option value="whispering-"secrets"-using-a-skill-check-all-the-time.">Whispering "secrets" using a skill check all the time.</option>
+                                    <option value="wildly-varying!-intonation?-andspeedof-wooorrrddds.">Wildly VARYING! intonation? andspeedof wooorrrddds.</option>
+                                    <option value="wizard/similar-intellectual:-give-the-wizard-a-special-lexicon-to-refer-to-common-terms-in-their-own,-intelligent-way.-for-example:-instead-of-transmutation-it's-etheric-chemistry-and-instead-of-illusion-it's-mimetic-dimensional-alteration">Wizard/similar intellectual: Give the wizard a special lexicon to refer to common terms in their own, intelligent way. For example: instead of Transmutation it's Etheric Chemistry and instead of Illusion it's Mimetic Dimensional Alteration</option>
+                                    <option value="yoda-speak-they-do">Yoda speak they do</option>
+                                </select>
+                            </div>
+                            <!-- Personality -->
+                            <div class="aspect-property" id="personality">
+                                <span class="aspect-property-reroll"><i id="personality-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="personality-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="personality-label">MBTI</span>
+                                <select class="aspect-property-select" id="personality-select">
+                                    <option value="architect:-intj-a-/-intj-t">Architect: INTJ-A / INTJ-T</option>
+                                    <option value="logician:-intp-a-/-intp-t">Logician: INTP-A / INTP-T</option>
+                                    <option value="commander:-entj-a-/-entj-t">Commander: ENTJ-A / ENTJ-T</option>
+                                    <option value="debater:-entp-a-/-entp-t">Debater: ENTP-A / ENTP-T</option>
+                                    <option value="advocate:-infj-a-/-infj-t">Advocate: INFJ-A / INFJ-T</option>
+                                    <option value="mediator:-infp-a-/-infp-t">Mediator: INFP-A / INFP-T</option>
+                                    <option value="protagonist:-enfj-a-/-enfj-t">Protagonist: ENFJ-A / ENFJ-T</option>
+                                    <option value="campaigner:-enfp-a-/-enfp-t">Campaigner: ENFP-A / ENFP-T</option>
+                                    <option value="logistician:-istj-a-/-istj-t">Logistician: ISTJ-A / ISTJ-T</option>
+                                    <option value="defender:-isfj-a-/-isfj-t">Defender: ISFJ-A / ISFJ-T</option>
+                                    <option value="executive:-estj-a-/-estj-t">Executive: ESTJ-A / ESTJ-T</option>
+                                    <option value="consul:-esfj-a-/-esfj-t">Consul: ESFJ-A / ESFJ-T</option>
+                                    <option value="virtuoso:-istp-a-/-istp-t">Virtuoso: ISTP-A / ISTP-T</option>
+                                    <option value="adventurer:-isfp-a-/-isfp-t">Adventurer: ISFP-A / ISFP-T</option>
+                                    <option value="entrepreneur:-estp-a-/-estp-t">Entrepreneur: ESTP-A / ESTP-T</option>
+                                    <option value="entertainer:-esfp-a-/-esfp-t">Entertainer: ESFP-A / ESFP-T</option>
+                                </select>
+                            </div>
+                            <!-- Personality Description -->
+                            <div class="aspect-property" id="personality-description">
+                                <span class="aspect-property-reroll"><i id="personality-description-reroll" class="fa-solid fa-dice-d20"></i></span>
+                                <label class="aspect-property-checkbox" ><input type="checkbox" class="checkbox" id="personality-description-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="personality-description-label">Desc.</span>
+                                <select class="aspect-property-select" id="personality-description-select">
+                                    <option value="imaginative-and-strategic-thinkers,-with-a-plan-for-everything.">Imaginative and strategic thinkers, with a plan for everything.</option>
+                                    <option value="innovative-inventors-with-an-unquenchable-thirst-for-knowledge.">Innovative inventors with an unquenchable thirst for knowledge.</option>
+                                    <option value="bold,-imaginative-and-strong-willed-leaders,-always-finding-a-way-–-or-making-one.">Bold, imaginative and strong-willed leaders, always finding a way – or making one.</option>
+                                    <option value="smart-and-curious-thinkers-who-cannot-resist-an-intellectual-challenge.">Smart and curious thinkers who cannot resist an intellectual challenge.</option>
+                                    <option value="quiet-and-mystical,-yet-very-inspiring-and-tireless-idealists.">Quiet and mystical, yet very inspiring and tireless idealists.</option>
+                                    <option value="poetic,-kind-and-altruistic-people,-always-eager-to-help-a-good-cause.">Poetic, kind and altruistic people, always eager to help a good cause.</option>
+                                    <option value="charismatic-and-inspiring-leaders,-able-to-mesmerize-their-listeners.">Charismatic and inspiring leaders, able to mesmerize their listeners.</option>
+                                    <option value="enthusiastic,-creative-and-sociable-free-spirits,-who-can-always-find-a-reason-to-smile.">Enthusiastic, creative and sociable free spirits, who can always find a reason to smile.</option>
+                                    <option value="practical-and-fact-minded-individuals,-whose-reliability-cannot-be-doubted.">Practical and fact-minded individuals, whose reliability cannot be doubted.</option>
+                                    <option value="very-dedicated-and-warm-protectors,-always-ready-to-defend-their-loved-ones.">Very dedicated and warm protectors, always ready to defend their loved ones.</option>
+                                    <option value="excellent-administrators,-unsurpassed-at-managing-things-–-or-people.">Excellent administrators, unsurpassed at managing things – or people.</option>
+                                    <option value="extraordinarily-caring,-social-and-popular-people,-always-eager-to-help.">Extraordinarily caring, social and popular people, always eager to help.</option>
+                                    <option value="bold-and-practical-experimenters,-masters-of-all-kinds-of-tools.">Bold and practical experimenters, masters of all kinds of tools.</option>
+                                    <option value="flexible-and-charming-artists,-always-ready-to-explore-and-experience-something-new.">Flexible and charming artists, always ready to explore and experience something new.</option>
+                                    <option value="smart,-energetic-and-very-perceptive-people,-who-truly-enjoy-living-on-the-edge.">Smart, energetic and very perceptive people, who truly enjoy living on the edge.</option>
+                                    <option value="spontaneous,-energetic-and-enthusiastic-people-–-life-is-never-boring-around-them.">Spontaneous, energetic and enthusiastic people – life is never boring around them.</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="aspect-property-text blurb" id="personality-blurb"></div>
+                    </div>
+                    <!-----------------
+                        Character
+                    ------------------->
+                    <div class="aspect" id="character">
+                        <legend class="aspect-legend"><i class="fa-solid fa-copy" name="copy-icon"id="copy-character"></i>Character</legend>
+                        <div class="aspect-inputs">
+                            <!-- Languages -->
+                            <div class="aspect-property" id="languages">
+                                <span class="aspect-property-reroll"><i id="languages-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="languages-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="languages-label">Langs.</span>
+                                <span class="aspect-property-text" id="languages-text-output"></span>
+                            </div>
+                            <!-- Relationship Status -->
+                            <div class="aspect-property" id="relationship-status">
+                                <span class="aspect-property-reroll"><i id="relationship-status-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="relationship-status-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="relationship-status-label">Rel.</span>
+                                <select class="aspect-property-select" id="relationship-status-select"></select>
+                            </div>
+                            <!-- Background -->
+                            <div class="aspect-property" id="background">
+                                <span class="aspect-property-reroll"><i id="background-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="background-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="background-label">BG</span>
+                                <select class="aspect-property-select" id="background-select"></select>
+                            </div>
+                            <!-- Trait -->
+                            <div class="aspect-property" id="trait">
+                                <span class="aspect-property-reroll"><i id="trait-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="trait-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="trait-label">Trait</span>
+                                <select class="aspect-property-select" id="trait-select"></select>
+                            </div>
+                            <!-- Bond -->
+                            <div class="aspect-property" id="bond">
+                                <span class="aspect-property-reroll"><i id="bond-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="bond-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="bond-label">Bond</span>
+                                <select class="aspect-property-select" id="bond-select"></select>
+                            </div>
+                            <!-- Flaw -->
+                            <div class="aspect-property" id="flaw">
+                                <span class="aspect-property-reroll"><i id="flaw-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="flaw-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="flaw-label">Flaw</span>
+                                <select class="aspect-property-select" id="flaw-select"></select>
+                            </div>
+                            <!-- Ideal -->
+                            <div class="aspect-property" id="ideal">
+                                <span class="aspect-property-reroll"><i id="ideal-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="ideal-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label" id="ideal-label">Ideal</span>
+                                <select class="aspect-property-select" id="ideal-select"></select>
+                            </div>
+                        </div>
+                        <div class="aspect-property-text blurb" id="character-blurb"></div>
+                    </div>
+                    <!-----------------
+                        Appearance
+                    ------------------->
+                    <div class="aspect" id="appearance">
+                        <legend class="aspect-legend"><i class="fa-solid fa-copy" name="copy-icon" id="copy-appearance"></i>Appearance</legend>
+                        <div class="aspect-inputs">
+                            <!-- Body Shape -->
+                            <div class="aspect-property" id="body-shape">
+                                <span class="aspect-property-reroll"><i id="body-shape-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="body-shape-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label-appearance" id="body-shape-label">Body Shape</span>
+                                <select class="aspect-property-select" id="body-shape-select"></select>
+                            </div>
+                            <!-- Body Type -->
+                            <div class="aspect-property" id="body-type">
+                                <span class="aspect-property-reroll"><i id="body-type-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="body-type-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label-appearance" id="body-type-label">Body Type</span>
+                                <select class="aspect-property-select" id="body-type-select">
+                                    <option value="thin">thin</option>
+                                    <option value="overweight">overweight</option>
+                                    <option value="average">average</option>
+                                    <option value="fit">fit</option>
+                                    <option value="jacked">jacked</option>
+                                    <option value="a-little-extra">a little extra</option>
+                                    <option value="curvy">curvy</option>
+                                    <option value="full-figured">full figured</option>
+                                </select>
+                            </div>
+                            <!-- Hair Length -->
+                            <div class="aspect-property" id="hair-length">
+                                <span class="aspect-property-reroll"><i id="hair-length-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="hair-length-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label-appearance" id="hair-length-label">Hair Length</span>
+                                <select class="aspect-property-select" id="hair-length-select">
+                                    <option value="short">short</option>
+                                    <option value="medium">medium</option>
+                                    <option value="neck-length">neck length</option>
+                                    <option value="shoulder-length">shoulder length</option>
+                                    <option value="armpit-length">armpit length</option>
+                                    <option value="middle-back-length">middle back length</option>
+                                    <option value="waist-length">waist length</option>
+                                    <option value="hip-length">hip length</option>
+                                    <option value="tailbone-length">tailbone length</option>
+                                    <option value="butt-length">butt length</option>
+                                    <option value="mid-thigh-length">mid-thigh length</option>
+                                    <option value="knee-length">knee length</option>
+                                    <option value="calf-length">calf length</option>
+                                    <option value="ankle-length">ankle length</option>
+                                    <option value="floor-length">floor length</option>
+                                </select>
+                            </div>
+                            <!-- Hair Type -->
+                            <div class="aspect-property" id="hair-type">
+                                <span class="aspect-property-reroll"><i id="hair-type-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="hair-type-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label-appearance" id="hair-type-label">Hair Type</span>
+                                <select class="aspect-property-select" id="hair-type-select">
+                                    <option value="bone-straight">bone straight</option>
+                                    <option value="straight-and-delicately-wavy">straight and delicately wavy</option>
+                                    <option value="slightly-wavy">slightly wavy</option>
+                                    <option value="beachy-wavy">beachy wavy</option>
+                                    <option value="medium-wavy">medium wavy</option>
+                                    <option value="loose-curly">loose curly</option>
+                                    <option value="slightly-curly">slightly curly</option>
+                                    <option value="medium-curly">medium curly</option>
+                                    <option value="super-curly">super curly</option>
+                                    <option value="slightly-kinky">slightly kinky</option>
+                                    <option value="kinky">kinky</option>
+                                    <option value="coily">coily</option>
+                                </select>
+                            </div>
+                            <!-- Hair Color -->
+                            <div class="aspect-property" id="hair-color">
+                                <span class="aspect-property-reroll"><i id="hair-color-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="hair-color-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label-appearance" id="hair-color-label">Hair Color</span>
+                                <select class="aspect-property-select" id="hair-color-select">
+                                    <option value="light-golden-blonde">light golden blonde</option>
+                                    <option value="extra-light-natural-blonde">extra-light natural blonde</option>
+                                    <option value="light-reddish-blonde">light reddish blonde</option>
+                                    <option value="light-beige-blonde">light beige blonde</option>
+                                    <option value="light-ash-blonde">light ash blonde</option>
+                                    <option value="light-natural-blonde">light natural blonde</option>
+                                    <option value="medium-golden-blonde">medium golden blonde</option>
+                                    <option value="champagne-blonde">champagne blonde</option>
+                                    <option value="medium-ash-blonde">medium ash blonde</option>
+                                    <option value="medium-natural-blonde">medium natural blonde</option>
+                                    <option value="rich-auburn-blonde">rich auburn blonde</option>
+                                    <option value="dark-golden-blonde">dark golden blonde</option>
+                                    <option value="dark-beige-blonde">dark beige blonde</option>
+                                    <option value="dark-natural-blonde">dark natural blonde</option>
+                                    <option value="intense-auburn">intense auburn</option>
+                                    <option value="light-auburn">light auburn</option>
+                                    <option value="true-red">true red</option>
+                                    <option value="light-reddish-brown">light reddish brown</option>
+                                    <option value="light-golden-brown">light golden brown</option>
+                                    <option value="light-ash-brown">light ash brown</option>
+                                    <option value="light-natural-brown">light natural brown</option>
+                                    <option value="medium-reddish-brown">medium reddish brown</option>
+                                    <option value="medium-mahogany-brown">medium mahogany brown</option>
+                                    <option value="medium-golden-mahogany-brown">medium golden mahogany brown</option>
+                                    <option value="medium-golden-brown">medium golden brown</option>
+                                    <option value="medium-ash-brown">medium ash brown</option>
+                                    <option value="medium-natural-brown">medium natural brown</option>
+                                    <option value="dark-reddish-brown">dark reddish brown</option>
+                                    <option value="dark-mahogany-brown">dark mahogany brown</option>
+                                    <option value="dark-golden-brown">dark golden brown</option>
+                                    <option value="deep-burgundy">deep burgundy</option>
+                                    <option value="dark-brown">dark brown</option>
+                                    <option value="soft-black">soft black</option>
+                                    <option value="black">black</option>
+                                </select>
+                            </div>
+                            <!-- Face Shape -->
+                            <div class="aspect-property" id="face-shape">
+                                <span class="aspect-property-reroll"><i id="face-shape-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="face-shape-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label-appearance" id="face-shape-label">Face Shape</span>
+                                <select class="aspect-property-select" id="face-shape-select">
+                                    <option value="long">long</option>
+                                    <option value="rectangle">rectangle</option>
+                                    <option value="circle">circle</option>
+                                    <option value="square">square</option>
+                                    <option value="inverse-triangle">inverse triangle</option>
+                                    <option value="heart">heart</option>
+                                    <option value="diamond">diamond</option>
+                                    <option value="triangle">triangle</option>
+                                    <option value="oval">oval</option>
+                                </select>
+                            </div>
+                            <!-- Eye Color -->
+                            <div class="aspect-property" id="eye-color">
+                                <span class="aspect-property-reroll"><i id="eye-color-reroll" class="fa-solid fa-dice-d20"></i></span>
+                            <label class="aspect-property-checkbox"><input type="checkbox" class="checkbox" id="eye-color-checkbox"/><span class="checkmark"></span></label>
+                                <span class="aspect-property-label-appearance" id="eye-color-label">Eye Color</span>
+                                <select class="aspect-property-select" id="eye-color-select">
+                                    <option value="agate">agate</option>
+                                    <option value="baby-blue">baby blue</option>
+                                    <option value="old-world-blue">old world blue</option>
+                                    <option value="dream">dream</option>
+                                    <option value="serene">serene</option>
+                                    <option value="blue-star">blue star</option>
+                                    <option value="nordic">nordic</option>
+                                    <option value="cobalt">cobalt</option>
+                                    <option value="hazel">hazel</option>
+                                    <option value="azure">azure</option>
+                                    <option value="lapis">lapis</option>
+                                    <option value="liz">liz</option>
+                                    <option value="creole-iris">creole iris</option>
+                                    <option value="forest">forest</option>
+                                    <option value="vale">vale</option>
+                                    <option value="nomad">nomad</option>
+                                    <option value="frisco">frisco</option>
+                                    <option value="rain-cloud">rain cloud</option>
+                                    <option value="winter-grey">winter grey</option>
+                                    <option value="chuck-hazel">chuck hazel</option>
+                                    <option value="toasty-topaz">toasty topaz</option>
+                                    <option value="teak-wood">teak wood</option>
+                                    <option value="sable">sable</option>
+                                    <option value="paris-brun">paris brun</option>
+                                    <option value="ebony">ebony</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="aspect-property-text blurb" id="appearance-blurb"></div>
+                    </div>
+                    <div class="aspect" id="blurb-condensed" style="display: none;">
+                        <legend class="aspect-legend">Blurb</legend>
+                        <div class="aspect-property-text" id="blurb-condensed-text"></div>
+                    </div>
+                    <!-- <div class="aspect" id="images">
+                        <legend class="aspect-legend">Images</legend>
+                        <div class="image-results" id="image-results"></div>
+                    </div> -->
+            </div>
+        </div>
+    </main> 
+</body>
+<script>
+    var db = new Dexie("mikitz_ttrpg_db") // Open or create the DB
+    setupDB()
+    window.addEventListener("load", async function () {
+        readThemeAndSetTheme()
+        preventLinkFiring()
+        setupNpcGenerator()
+        setupVersionNumber()
+        await sleep(200) // TODO: get rid of this...
+        // Remove checkboxes
+        // TODO: Implement this feature
+        const checkboxes = document.getElementsByClassName('aspect-property-checkbox')
+        for (let index = 0; index < checkboxes.length; index++) {
+            const element = checkboxes[index];
+            element.style.visibility = 'hidden'
+        }
+        await generateOrDisplayNPC()
+        setupBlurbs()
+        await populateNpcHistory()
+    });   
+
+    
+</script>
+</html>

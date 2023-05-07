@@ -155,13 +155,13 @@ async function generateSpellbook(){
 
     document.getElementById('caption').innerText = `A level-${level} Wizard's Spellbook`
 
-    await db.spellbooks.put(data)
+    await db.sbg_spellbooks.put(data)
     await populateSpellbookHistory()
 }
 async function populateSpellbookHistory(){
     const history = document.getElementById('history-table-body')
     history.innerHTML = ''
-    const spellbooks = await db.spellbooks.toArray()
+    const spellbooks = await db.sbg_spellbooks.toArray()
     for (let index = 0; index < spellbooks.length; index++) {
         const element = spellbooks[index];
         const tr = document.createElement('tr')
@@ -198,7 +198,7 @@ async function populateSpellbookHistory(){
 
         document.getElementById(`view-${element.id}`).addEventListener('click', async function(){
             const id = parseInt(this.id.replaceAll('view-', ''))
-            const data = await db.spellbooks.get(id)
+            const data = await db.sbg_spellbooks.get(id)
             const spells = data.DISPLAY_DATA
             document.getElementById('caption').innerText = `A level-${data.LEVEL} Wizard's Spellbook`
             $("#output-table").jsGrid({

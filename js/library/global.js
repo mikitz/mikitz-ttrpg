@@ -680,6 +680,76 @@ function getSelectedOptionText(selectElementId) {
         return null
     }
 }
+// Function to convert array to a grammatical comma-separated list
+function arrayToGrammatiaclSeparatedList(array, delimter) {
+    const arrayLength = array.length
+    let output = ``
+    for (let index = 0; index < array.length; index++) {
+        const element = array[index];
+        if (index == arrayLength - 1) output += `and ${element}`
+        else if (arrayLength == 2) output += `${element} `
+        else output += `${element}${delimter} `
+    }
+    return output
+}
+// Function to extract regular dice expressions and roll them
+function replaceDiceStringsWithTotals(string) {
+    const groups = string.match(/(\d+[^\s]+)/gm);
+    if (groups) {
+        for (let index = 0; index < groups.length; index++) {
+            const element = groups[index];
+            const rollTotal = droll.roll(element).total;
+            string = string.replace(element, rollTotal);
+        }
+    }
+    return string;
+}
+function populateSelectFromArray(select, array, property) {
+    array = eval(array);
+    select = document.getElementById(select);
+    select.innerHTML = "";
+    let firstElement
+    for (let index = 0; index < array.length; index++) {
+        let element;
+        if (property) element = array[index][property];
+        else element = array[index];
+        element = replaceDiceStringsWithTotals(element);
+        if (index == 0) firstElement = element
+        const option = document.createElement("option");
+        option.value = element;
+        option.innerText = element;
+        select.appendChild(option);
+    }
+    return firstElement
+}
+// Function to select a random option from a given select
+function selectRandomOptionFromSelectElement(selectId) {
+    const select = document.getElementById(selectId);
+    let options = select.children;
+    const random = getRndInteger(0, options.length - 1);
+    let selectedItem;
+    for (let index = 0; index < options.length; index++) {
+        const element = options[index];
+        if (index == random) {
+            element.selected = true;
+            selectedItem = element.value;
+        }
+    }
+    return selectedItem;
+}
+// Function to convert inches to f'in"
+function formatInchesToFeetInches(inches) {
+    const feetFromInches = Math.floor(inches / 12);
+    const inchesRemainder = inches % 12;
+    return feetFromInches + "'" + inchesRemainder + '"';
+}
+// Function to convert from inches to centimeters
+function inchesToCentimeters(inches) {
+    return inches * 2.54;
+}
+function poundsToKilograms(pounds) {
+    return pounds / 2.205;
+}
 function scrollTo(hash, offset) {
     location.hash = `#${hash}` + offset;
 }
