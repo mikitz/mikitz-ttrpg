@@ -605,6 +605,9 @@ function probabilityToStandardDie(probability){
     const dieSize = parseInt(`1${"0".repeat(decimalPlaces)}`)
     return [`1d${dieSize}`, dieSize * probability + 1]
 }
+function isInt(n){
+    return n % 1 === 0;
+ }
 // Source: https://stackoverflow.com/a/30800715/3725925
 function downloadObjectAsJson(exportObj, exportName){
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));

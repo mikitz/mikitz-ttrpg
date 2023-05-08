@@ -223,7 +223,7 @@ async function eg_displayJsGrid(elementId, objectArray, tableName){
                     if (item.hasOwnProperty(key) && previousItem.hasOwnProperty(key)) {
                         const it = parseFloat(item[key])
                         const prevItem = parseFloat(previousItem[key])
-                        if (key == "NON_COMBAT" || key == "COMBAT" || key == "HAZARD" || key == "PROBABILITY") {
+                        if (key == "NON_COMBAT" || key == "COMBAT" || key == "HAZARD" || key == "PROBABILITY" || key == "VALUE") {
                             if (it !== prevItem) changedColumns.push(key);
                         }
                     }
@@ -269,7 +269,18 @@ async function eg_displayJsGrid(elementId, objectArray, tableName){
                         args.grid.refresh(); // Refresh the grid to apply the changes
                         return
                     }
-                    
+                    else if (rowData.ITEM == "Probability of Extra Spells" && value > 1 || value < 0) {
+                        makeToast(`<b>${element}</b> value for Probability of Extra Spells must be between 0 and 1! Changes reverted.`, 'warning')
+                        args.grid.data[index] = args.previousItem;
+                        args.grid.refresh(); // Refresh the grid to apply the changes
+                        return
+                    }
+                    else if (rowData.ITEM == "Maximum Number of Extra Spells" && isInt(value) == false) {
+                        makeToast(`<b>${element}</b> value for Maximum Number of Extra Spells must be an integer! Changes reverted.`, 'warning')
+                        args.grid.data[index] = args.previousItem; // BUG: This changes the ITEM value in row 1 for some reason
+                        args.grid.refresh(); // Refresh the grid to apply the changes
+                        return
+                    }
                 }
             }
 
