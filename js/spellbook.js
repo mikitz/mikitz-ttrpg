@@ -76,11 +76,14 @@ async function generateSpellbook(){
     else level = parseInt(level)
 
     let numberOfSpells = ( ( level - 1 ) * 2 ) + 6
-
-    for (let index = 1; index < level + 1; index++) { // Simulates the wizard adding spell scrolls to their spellbook at certain levels
-        const coin = getRndInteger(1, 2) // TODO: Add to settings
-        const extra = getRndInteger(1, 4) // TODO: Add to settings
-        if (coin === 2) numberOfSpells += extra
+    const sbg_settings = await db.sbg_settings.toArray()
+    const extraSpellsProbability = parseFloat(sbg_settings[0].VALUE)
+    let [die, target] = probabilityToStandardDie(extraSpellsProbability)
+    const maxNumberOfExtraSpells = parseInt(sbg_settings[1].VALUE)
+    for (let index = 1; index < level + 1; index++) {
+        const extraSpells = droll.roll(die)
+        const extra = getRndInteger(1, maxNumberOfExtraSpells)
+        if (extraSpells > target) numberOfSpells += extra
     }
 
     const spellBook = await fetchLocalJson('/mikitz-ttrpg/data/json/spellslot-levels')

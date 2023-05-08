@@ -599,6 +599,12 @@ function convertJsonToRollTable(json) {
     }
     return rollTable;
 }
+function probabilityToStandardDie(probability){
+    if (probability < 0 || probability > 1) throw new Error("Probability must be between 0 and 1.")
+    const decimalPlaces = probability.countDecimals()
+    const dieSize = parseInt(`1${"0".repeat(decimalPlaces)}`)
+    return [`1d${dieSize}`, dieSize * probability + 1]
+}
 // Source: https://stackoverflow.com/a/30800715/3725925
 function downloadObjectAsJson(exportObj, exportName){
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));

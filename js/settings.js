@@ -11,7 +11,7 @@ function setupSettings(){
     for (let index = 0; index < table_settingsTables.length; index++) {
         let element = table_settingsTables[index];
         const page = element.split("_")[0]
-        if (element == "_parties") eg_displayJsGrid(`${element}-div`, eval(`${element}`), `${element}`)
+        if (element == "_parties" || element == "sbg_settings") eg_displayJsGrid(`${element}-div`, eval(`${element}`), `${element}`)
         else eval(`${page}_displayJsGrid('${element}-div', eval(${element}), '${element}')`)
         $(`#${element}-div`).on('keydown','input[type=text], input[type=number]',(event) => {
             if(event.which === 13){ // Detect enter keypress
@@ -35,7 +35,8 @@ function setupSettings(){
         delay: [null, null],
         interactive: true,
     })
-
+    addTippy("prob-of-extra-spells-define","This is the probability that the wizard will get extra spells at any given level. It is meant to simulate the wizard finding spell scrolls and copying them into their spellbook.")
+    addTippy("max-number-of-extra-spells-define","The is the maximum number of extra spells the wizard can have at any given level.")
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -162,7 +163,9 @@ async function msg_displayJsGrid(elementId, objectArray, tableName){
         
 }
 async function eg_displayJsGrid(elementId, objectArray, tableName){
+    console.log("🚀 ~ file: settings.js:166 ~ eg_displayJsGrid ~ tableName:", tableName)
     if (tableName != 'restore') objectArray = await db[tableName].toArray()
+    console.log("🚀 ~ file: settings.js:168 ~ eg_displayJsGrid ~ objectArray:", objectArray)
     const keys = Object.keys(objectArray[0])
     let fields = []
 
@@ -184,7 +187,8 @@ async function eg_displayJsGrid(elementId, objectArray, tableName){
             || element == 'PACE' 
             || element == 'DIFFICULTY'
             || element == 'ADJUSTMENT'
-            || element == 'TOTAL' )? false : true
+            || element == 'TOTAL' 
+            || element == 'ITEM')? false : true
         const obj = {
             name: element,
             type: type,

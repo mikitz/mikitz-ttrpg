@@ -23,7 +23,8 @@ const pages = ['index','battle-map-generator','calendar','encounter-generator','
 const table_settingsTables = [
     '_parties', // General
     'eg_encounter_probabilities','eg_road_modifiers','eg_pace_modifiers','eg_difficulty_probabilities', // Encounter Gen.
-    'msg_cities','msg_equipment_prices','msg_magicness','msg_number_of_dice_variables','msg_price_modifier_variables','msg_spell_scroll_prices','msg_wealth' // Magic Shop Generator
+    'msg_cities','msg_equipment_prices','msg_magicness','msg_number_of_dice_variables','msg_price_modifier_variables','msg_spell_scroll_prices','msg_wealth', // Magic Shop Generator
+    'sbg_settings' // Spellbook Generator
 ]
 const sources1 = [
     {"ABBREVIATION":"AAG","FULL_NAME":"Astral Adventure Guide","SELECTED":true},

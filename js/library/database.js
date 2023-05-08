@@ -1,4 +1,4 @@
-const dbVersion = 5 // TODO: dbVersion - change this every time you commit.
+const dbVersion = 10 // TODO: dbVersion - change this every time you commit.
 async function setupDB(){
     await db.version(dbVersion).stores({ // Set up the NPCs table
     // ---- Global ----
@@ -150,8 +150,9 @@ async function setupDB(){
             spell_quantity,
             spells`,
         sbg_settings: `
-            probability_of_extra_spells,
-            extra_spells_max`,
+            ++id,
+            item,
+            value`,
     // ---- Battle Map Generator ----
         bmg_maps: `
             id,
@@ -172,55 +173,55 @@ async function setupDB(){
     })
     if (await db.eg_encounter_probabilities.count() <= 0) {
         const data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-encounter-probabilities') // Load local JSON
-        db.eg_encounter_probabilities.bulkPut(data) // Add default if not already in the DB
+        db.eg_encounter_probabilities.bulkPut(data)
     }
     if (await db.eg_road_modifiers.count() <= 0) {
         const data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-road-modifiers') // Load local JSON
-        db.eg_road_modifiers.bulkPut(data) // Add default if not already in the DB
+        db.eg_road_modifiers.bulkPut(data)
     }
     if (await db.eg_pace_modifiers.count() <= 0) {
         const data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-pace-modifiers') // Load local JSON
-        db.eg_pace_modifiers.bulkPut(data) // Add default if not already in the DB
+        db.eg_pace_modifiers.bulkPut(data)
     }
     if (await db.eg_difficulty_probabilities.count() <= 0) {
         const data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-difficulty-probabilities') // Load local JSON
-        db.eg_difficulty_probabilities.bulkPut(data) // Add default if not already in the DB
+        db.eg_difficulty_probabilities.bulkPut(data)
     }
     if (await db.eg_cr_adjustment_probabilities.count() <= 0) {
         const data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-cr-adjustment-probabilities') // Load local JSON
-        db.eg_cr_adjustment_probabilities.bulkPut(data) // Add default if not already in the DB
+        db.eg_cr_adjustment_probabilities.bulkPut(data)
     }
     if (await db.msg_cities.count() <= 0) {
         const table = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-cities')
-        db.msg_cities.bulkPut(table) // Add default cities if not already in the DB
+        db.msg_cities.bulkPut(table)
     }
     if (await db.msg_price_modifier_variables.count() <= 0) {
         const table = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-price-modifier-variables')
-        db.msg_price_modifier_variables.bulkPut(table) // Add default cities if not already in the DB
+        db.msg_price_modifier_variables.bulkPut(table)
     }
     if (await db.msg_number_of_dice_variables.count() <= 0) {
         const table = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-number-of-dice-variables')
-        db.msg_number_of_dice_variables.bulkPut(table) // Add default cities if not already in the DB
+        db.msg_number_of_dice_variables.bulkPut(table)
     }
     if (await db.msg_wealth.count() <= 0) {
         const table = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-wealth')
-        db.msg_wealth.bulkPut(table) // Add default cities if not already in the DB
+        db.msg_wealth.bulkPut(table)
     }
     if (await db.msg_magicness.count() <= 0) {
         const table = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-magicness')
-        db.msg_magicness.bulkPut(table) // Add default cities if not already in the DB
+        db.msg_magicness.bulkPut(table)
     }
     if (await db.msg_equipment_prices.count() <= 0) {
         const table = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-equipment-prices')
-        db.msg_equipment_prices.bulkPut(table) // Add default cities if not already in the DB
+        db.msg_equipment_prices.bulkPut(table)
     }
     if (await db.msg_spell_scroll_prices.count() <= 0) {
         const table = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-spell-scroll-prices')
-        db.msg_spell_scroll_prices.bulkPut(table) // Add default cities if not already in the DB
+        db.msg_spell_scroll_prices.bulkPut(table)
     }
     if (await db.sbg_settings.count() <= 0) {
-        const table = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-spellbook-settings')
-        db.sbg_settings.bulkPut(table) // Add default cities if not already in the DB
+        const table = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-sbg-settings')
+        db.sbg_settings.bulkPut(table)
     }
 }
 async function deleteRowByPrimaryKey(primaryKey, table){
