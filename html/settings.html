@@ -151,7 +151,7 @@
             <div class="flex-column-child">
                 <div id="encounter-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Encounter Generator</span></div> 
                 <div class="flex-column">
-                    <div class="flex-column-child with-background with-background">
+                    <div class="flex-column-child with-background">
                         <h3 id="eg_encounter_probabilities">Encounter Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
                             <p>The table of encounter probabilities for each <b>BIOME</b> by <dfn><abbr title="non-combat, combat, & hazard">encounter type</abbr></dfn> 
                                 and <dfn><abbr title="day or night">time of day</abbr></dfn>.
@@ -195,20 +195,75 @@
                     </div> -->
                 </div>
             </div>
-            <!-- TODO: Magic Shop Generator -->
+            <!-- Magic Shop Generator -->
             <div class="flex-column-child">
                 <div id="magic-shop-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Magic Shop Generator</span></div> 
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet gravida tellus. Phasellus maximus urna sit amet placerat elementum. Praesent tincidunt velit dolor, a aliquet urna viverra sed. Proin posuere ultrices malesuada. Mauris sem nisi, tristique in sollicitudin nec, mattis non nulla. Vivamus ut eleifend neque. Phasellus ultricies orci et tellus cursus aliquam. Donec semper, orci in volutpat mattis, augue sem blandit nibh, condimentum varius tellus sapien non mi. Pellentesque at nulla non metus porta feugiat. Proin nibh neque, eleifend quis diam ut, sagittis ullamcorper metus. Curabitur justo erat, tempor sit amet scelerisque vel, consectetur vitae magna. In ultricies sollicitudin odio, quis mattis enim semper ut. Vestibulum aliquet justo nec mi ullamcorper, vel tincidunt metus posuere. Fusce ac semper felis, non sodales odio.
-
-                    Etiam eget cursus tellus. Donec neque lectus, gravida id risus ac, imperdiet molestie massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec luctus enim ut lacus elementum, eu tincidunt lacus rutrum. Proin et egestas tellus. Nunc sed velit id metus pulvinar tempus vitae malesuada neque. Fusce pulvinar fermentum mattis.
-
-                    Nam ultricies augue a semper ultrices. Nam purus erat, egestas sit amet arcu nec, ultrices pharetra ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius bibendum accumsan. Pellentesque in metus eu urna dapibus facilisis. Praesent cursus enim in urna sollicitudin, sed faucibus est malesuada. Aliquam non enim vitae ligula viverra rutrum id ac est. Maecenas rhoncus commodo lectus. Phasellus rhoncus neque dolor, ac commodo odio fringilla a. Etiam eros lacus, dignissim ac nunc eget, vulputate mollis urna. Proin id libero orci. Nunc facilisis massa lobortis magna varius rhoncus ac id lorem. Aliquam dignissim ullamcorper urna eget mollis. Maecenas a commodo neque. Suspendisse tristique orci nec congue dapibus.
-
-                    Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc et rhoncus purus. Proin rutrum, mi ac hendrerit interdum, sapien magna blandit magna, quis consectetur ante nisi quis libero. Phasellus id erat at risus egestas consequat nec vitae quam. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer id vulputate lorem, nec luctus est. Mauris metus libero, facilisis sed vehicula vitae, dapibus sit amet sapien. Duis auctor, sapien non tempus pretium, velit orci viverra magna, in accumsan dolor tortor in tortor. Nulla suscipit cursus sapien quis sagittis. Duis fringilla odio at faucibus posuere. Praesent tempus ullamcorper eros, eget blandit odio fermentum a. Nullam viverra elit ut nunc aliquam, at auctor odio blandit. Maecenas tincidunt mauris at nunc malesuada eleifend. Sed interdum volutpat lectus, eu pretium massa tristique at.
-
-                    Sed hendrerit nulla nec eleifend posuere. Fusce molestie efficitur dictum. Nullam lobortis mollis libero sit amet luctus. Cras ullamcorper elit vel accumsan pretium. Etiam eu ex tincidunt, tincidunt metus non, luctus elit. Duis euismod mi eget ex pharetra dapibus. Ut faucibus eros et lacus hendrerit, consequat porttitor nisi fermentum. Aenean tempus eleifend tellus vel dapibus. Ut nec odio tellus. 
-                </p>
+                <div class="flex-column">
+                    <div class="flex-column-child with-background">
+                        <h3 id="msg_price_modifier_variables">Price Modifiers <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                        <p>The below formula is used to compute the price modifier of an item based on said item's tier (none, minor, major, wondrous).</p>
+                        <div id="msg_price_modifier_variables-div"></div>
+                        <div id="msg_price_modifier_variables-descirption">
+                            <div class="formula">
+                                <p><span class="math">y = (B * Bm) + A*ln(x)</span></p>
+                                <p><span class="variable">y</span> = price modifier</p>
+                                <p><span class="variable">A</span> = constant pulled from the above table</p>
+                                <p><span class="variable">B</span> = constant pulled from the above table</p>
+                                <p><span class="variable">Bm</span> = B modifier pulled from the <strong>City Magicness</strong> table.</p>
+                                <p><span class="variable">x</span> = population of the city</p>
+                                <p><span class="variable">ln()</span> = natural log</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="msg_number_of_dice_variables">Number of Dice <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                        <p>The below formula is used to compute the number of dice given an item's rarity and item's type (column headers) which is used to look up the dice variable.</p>
+                        <div id="msg_number_of_dice_variables-div"></div>
+                        <div id="msg_number_of_dice_variables-descirption">
+                            <div class="formula">
+                                <p><span class="math">Nd = log(p) * Vd + log(p) + 1</span></p>
+                                <p><span class="variable">Nd</span> = number of dice</p>
+                                <p><span class="variable">p</span> = population of the city</p>
+                                <p><span class="variable">Vd</span> = dice variable pulled from the above table</p>
+                                <p><span class="variable">log()</span> = base 10 log</p>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="flex-column-child with-background">
+                        <h3 id="msg_wealth">City Wealth <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                        <p>The below formula is used to compute wealth modifier that is applied to the total number of any given item type that a shop will have in stock.</p>
+                        <div id="msg_wealth-div"></div>
+                        <div id="msg_wealth-descirption">
+                            <div class="formula">
+                                <p><span class="math">Sf = Sb +/- Wm</span></p>
+                                <p><span class="variable">Sf</span> = final stock of any given item</p>
+                                <p><span class="variable">Sb</span> = base stock of any given item</p>
+                                <p><span class="variable">+/-</span> = operator determined by the <strong>OPERATOR</strong> column</p>
+                                <p><span class="variable">Wm</span> = wealth modifier determined by rolling a single die with <strong>DIE_SIZE</strong> sides.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="msg_magicness">City Magicness <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                        <p>Only the <strong>B_MOD</strong> is pulled from this table. It is used in the <strong>Price Modifiers</strong> table formula.</p>
+                        <div id="msg_magicness-div"></div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="msg_equipment_prices">Equipment Prices <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                        <p>Starting prices for magic items by rarity and tier (columns 2-4) in gold pieces (gp).</p>
+                        <div id="msg_equipment_prices-div"></div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="msg_spell_scroll_prices">Spell Scroll Prices <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                        <p>Starting prices for spell scrolls by level in gold pieces (gp).</p>
+                        <div id="msg_spell_scroll_prices-div"></div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="msg_cities">Cities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                        <p>A table of all saved cities.</p>
+                        <div id="msg_cities-div"></div>
+                    </div>
+                </div>
             </div>
             <!-- NPC Generator -->
             <div class="flex-column-child">

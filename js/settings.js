@@ -10,7 +10,9 @@ function setupSettings(){
     }
     for (let index = 0; index < table_settingsTables.length; index++) {
         let element = table_settingsTables[index];
-        displayJsGrid(`${element}-div`, eval(`${element}`), `${element}`)
+        const page = element.split("_")[0]
+        if (element == "_parties") eg_displayJsGrid(`${element}-div`, eval(`${element}`), `${element}`)
+        else eval(`${page}_displayJsGrid('${element}-div', eval(${element}), '${element}')`)
         $(`#${element}-div`).on('keydown','input[type=text], input[type=number]',(event) => {
             if(event.which === 13){ // Detect enter keypress
                 event.preventDefault()
@@ -41,7 +43,125 @@ function setupSettings(){
         });
     });
 }
-async function displayJsGrid(elementId, objectArray, tableName){
+async function msg_displayJsGrid(elementId, objectArray, tableName){
+    if (tableName != 'restore') objectArray = await db[tableName].toArray()
+    const keys = Object.keys(objectArray[0])
+    let fields = []
+
+    let insert = (elementId.includes('cities'))? true : false
+    let filter = (elementId.includes('cities'))? true : false
+    let deleteBool = (elementId.includes('cities'))? true : false
+    let controlWidth = (elementId.includes('cities'))? '60px' : '35px'
+
+    const msg_wealth = await db.msg_wealth.toArray()
+    const msg_magicness = await db.msg_magicness.toArray()
+
+    for (let index = 0; index < keys.length; index++) {
+        const element = keys[index];
+        let type = (element == 'OPERATOR' || element == "MAGICNESS" && tableName == "msg_cities" || element == "WEALTH" && tableName == "msg_cities")? "select" : "text"
+        let items = null
+        if (element == 'OPERATOR') items = ['PLUS','MINUS'] 
+        if (element == 'MAGICNESS' && tableName == "msg_cities") items = msg_magicness.map(e => e.MAGICNESS)
+        if (element == 'WEALTH' && tableName == "msg_cities") items = msg_wealth.map(e => e.WEALTH)
+        let edit = (elementId.includes('cities') && element == 'id' 
+            || element == 'RARITY' 
+            || element == 'LEVEL' 
+            || element == 'ITEM_RARITY'
+            || element == 'WEALTH' && elementId.includes('wealth')
+            || element == 'MAGICNESS' && elementId.includes('magicness'))? false : true
+        const obj = {
+            name: element,
+            type: type,
+            editing: edit,
+            filtering: filter,
+            width: 'auto',
+            items: items,
+        }
+        fields.push(obj)
+    }
+    fields.push({
+        type: "control",
+        width: controlWidth,
+        deleteButton: deleteBool,
+    })
+    // Build the grid with jsGrid
+    $(`#${elementId}`).jsGrid({
+        width: "100%",
+        height: "auto",
+        editing: true,
+        sorting: true,
+        paging: true,
+        data: objectArray,
+        fields: fields,
+        onItemUpdated: async function(args){
+            function getChangedColumns(item, previousItem) {
+                const changedColumns = [];
+                for (const key in item) {
+                    if (item.hasOwnProperty(key) && previousItem.hasOwnProperty(key)) {
+                        const it = parseFloat(item[key])
+                        const prevItem = parseFloat(previousItem[key])
+                        if (key == "NONE_A" || key == "NONE_B" || key == "MINOR_A" || key == "MINOR_B" || key == "MAJOR_A" || key == "MAJOR_B" || key == "WONDROUS_A" || key == "WONDROUS_B"
+                            || key == "ARMORS" || key == "ITEMS" || key == "POISONS" || key == "SPELL_COMPONENTS" || key == "SPELL_SCROLLS" || key == "WEAPONS"
+                            || key == "DIE_SIZE" || key == "RARITY_MOD" || key == "B_MOD" || key == "MAJOR" || key == "MINOR" || key == "WONDROUS" || key == "PRICE" 
+                            || key == "POPULATION" || key == "MAGICNESS" || key == "WEALTH") {
+                            if (it !== prevItem) changedColumns.push(key);
+                        }
+                    }
+                }
+                return changedColumns;
+            }
+            const tableData = args.grid.data
+            const tableName = (args.grid._container[0].id).replace("-div","")
+            const tableLabel = document.getElementById(tableName).innerText
+            const rowData = args.item
+            const primaryKeyHeader = Object.keys(args.item)[0]
+            let primaryKey = rowData[primaryKeyHeader]
+            if (tableName == 'msg_cities') primaryKey = rowData[Object.keys(args.item)[4]]
+            const changedColumns = getChangedColumns(args.item, args.previousItem);
+
+            if (changedColumns.length > 0) {
+                for (let index = 0; index < changedColumns.length; index++) {
+                    const element = changedColumns[index];
+                    const value = rowData[element]
+                    const nan = isNaN(value)
+                    
+                    if (nan) {
+                        makeToast(`Please input a number in <b>${element}</b>! Changes reverted.`, 'warning')
+                        args.grid.data[index] = args.previousItem;
+                        args.grid.refresh(); // Refresh the grid to apply the changes
+                        return
+                    }                     
+                }
+            }
+            let result = db[tableName].update(primaryKey, rowData)
+            result
+                .then(function(){
+                    makeToast(`<b>${tableLabel}</b> updated successfully!`, 'success')
+                })
+                .catch(function(error){
+                    console.error(`! ~~~~ Error ~~~~ ! \n Name: ${error.name} \n`, `Message: ${error.message}`)
+                    makeToast(`${error.name}: ${error.message.split("\n")[0]}`, 'error')
+                })
+        },
+        onItemDeleted: async function(args){
+            const tableData = args.grid.data
+            const tableName = (args.grid._container[0].id).replace("-div","")
+            const tableLabel = document.getElementById(tableName).innerText
+            const primaryKey = args.item.id
+            const cityName = args.item.NAME
+            db.msg_cities.delete(primaryKey)
+                .then(function(){
+                    makeToast(`<b>${cityName}</b> deleted successfully from the <b>${tableLabel}</b> table!`, 'success')
+                })
+                .catch(function(error){
+                    console.error(`! ~~~~ Error ~~~~ ! \n Name: ${error.name} \n`, `Message: ${error.message}`)
+                    makeToast(`${error.name}: ${error.message.split("\n")[0]}`, 'error')
+                })
+        }
+    });
+        
+}
+async function eg_displayJsGrid(elementId, objectArray, tableName){
     if (tableName != 'restore') objectArray = await db[tableName].toArray()
     const keys = Object.keys(objectArray[0])
     let fields = []
@@ -200,13 +320,18 @@ function settingsListeners(){
             if (!con) return
             $(`#${tableName}-div`).jsGrid("destroy")
             await db[tableName].clear()
-            const JSONname = tableName.replaceAll("_", "-").replaceAll('table', 'defaults')
-            console.log("🚀 ~ file: settings.js:102 ~ element.addEventListener ~ JSONname:", JSONname)
-            const defaultTable = await fetchLocalJson(`/encounter-generator/data/defaults/${JSONname}`)
+            let JSONname = tableName.replaceAll("_", "-").replaceAll('table', 'defaults')
+            JSONname = JSONname.split('-')
+            console.log("🚀 ~ file: settings.js:325 ~ element.addEventListener ~ JSONname:", JSONname)
+            const page = JSONname.shift()
+            console.log("🚀 ~ file: settings.js:328 ~ element.addEventListener ~ JSONname:", JSONname)
+            JSONname = `defaults-${JSONname.join("-")}`
+            console.log("🚀 ~ file: settings.js:330 ~ element.addEventListener ~ JSONname:", JSONname)
+            const defaultTable = await fetchLocalJson(`/mikitz-ttrpg/data/defaults/${JSONname}`)
             let result = db[tableName].bulkPut(defaultTable)
             result
                 .then(function(){
-                    displayJsGrid(`${tableName}-div`, eval(tableName), tableName)
+                    eval(`${page}_displayJsGrid('${tableName}-div', eval(${tableName}), '${tableName}')`)
                     makeToast(`<b>${tableLabel}</b> successfully restored to defaults!`, 'success')
                 })
                 .catch(function(error){
