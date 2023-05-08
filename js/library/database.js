@@ -1,4 +1,4 @@
-const dbVersion = 1 // TODO: dbVersion - change this every time you commit.
+const dbVersion = 5 // TODO: dbVersion - change this every time you commit.
 async function setupDB(){
     await db.version(dbVersion).stores({ // Set up the NPCs table
     // ---- Global ----
