@@ -35,8 +35,8 @@ function setupSettings(){
         delay: [null, null],
         interactive: true,
     })
-    addTippy("prob-of-extra-spells-define","This is the probability that the wizard will get extra spells at any given level. It is meant to simulate the wizard finding spell scrolls and copying them into their spellbook.")
-    addTippy("max-number-of-extra-spells-define","The is the maximum number of extra spells the wizard can have at any given level.")
+    addTippy("prob-of-extra-spells-define","This is the probability that the wizard will get extra spells at any given level. It is meant to simulate the wizard finding spell scrolls and copying them into their spellbook. <br><br> Must be a decimal number between 0 and 1. Keep your decimal places in mind when settings this. It is best practice not to input anything more than the thousandths place because if you set the probability to 0.0000001, then a die with 100,000,000 sides will be rolled, which could take a long time.")
+    addTippy("max-number-of-extra-spells-define","The is the maximum number of extra spells the wizard can have at any given level. This must be an integer.")
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
