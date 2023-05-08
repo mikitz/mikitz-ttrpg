@@ -163,7 +163,6 @@ async function msg_displayJsGrid(elementId, objectArray, tableName){
         
 }
 async function eg_displayJsGrid(elementId, objectArray, tableName){
-    console.log("🚀 ~ file: settings.js:166 ~ eg_displayJsGrid ~ tableName:", tableName)
     if (tableName != 'restore') objectArray = await db[tableName].toArray()
     let keys
     try { keys = Object.keys(objectArray[0]) }
