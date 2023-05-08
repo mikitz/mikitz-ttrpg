@@ -165,10 +165,14 @@ async function msg_displayJsGrid(elementId, objectArray, tableName){
 async function eg_displayJsGrid(elementId, objectArray, tableName){
     console.log("🚀 ~ file: settings.js:166 ~ eg_displayJsGrid ~ tableName:", tableName)
     if (tableName != 'restore') objectArray = await db[tableName].toArray()
-    console.log("🚀 ~ file: settings.js:168 ~ eg_displayJsGrid ~ objectArray:", objectArray)
-    const keys = Object.keys(objectArray[0])
-    let fields = []
+    let keys
+    try { keys = Object.keys(objectArray[0]) }
+    catch (error) { 
+        document.getElementById(elementId).innerHTML = `<span><br><br><h3>The void is deafening...😞</h3></span>`
+        return console.error("🚀 ~ file: settings.js:169 ~ eg_displayJsGrid ~ tableName:", tableName) 
+    }
 
+    let fields = []
     let insert = (elementId.includes('parties'))? true : false
     let filter = (elementId.includes('parties'))? true : false
     let deleteBool = (elementId.includes('parties'))? true : false
