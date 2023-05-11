@@ -52,7 +52,7 @@
     transition: 0.4s;
     box-shadow: 0 0px 15px #2020203d;
     font-size: small;
-    background: var(--text-clr) url('/mikitz-ttrpg/data/icons/moon-solid.svg');
+    background: var(--text-clr) url('/mikitz-ttrpg/img/icons/moon-solid.svg');
     background-repeat: no-repeat;
     background-position: center;
   }
@@ -69,7 +69,7 @@
     -webkit-transform: translateX(24px);
     -ms-transform: translateX(24px);
     transform: translateX(24px);
-    background: var(--button-text-clr) url('/mikitz-ttrpg/data/icons/sun-solid.svg');
+    background: var(--button-text-clr) url('/mikitz-ttrpg/img/icons/sun-solid.svg');
     background-repeat: no-repeat;
     background-position: center;
     font-size: small !important;
