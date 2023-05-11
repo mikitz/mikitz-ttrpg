@@ -1,6 +1,22 @@
-/* ==================================== 
-                Theme
-==================================== */
+* {
+    font-family: "quicksand", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: var(--background-color);
+    height: 100%;
+}
+main {
+    box-sizing: border-box;
+    height: 100%;
+    margin: 20px;
+    margin-top: 100px;
+    color: var(--text-clr);
+}
+/* ==================================== */
+/*                Theme                 */
+/* ==================================== */
 :root {
     --mobile-width: 600px;
 }
@@ -57,9 +73,9 @@
     --href-not-visited: #06c;
     --href-visited: #551a8b;
 }
-/* ==================================== 
-              Buttons
-==================================== */
+/* ==================================== */
+/*               Buttons                */
+/* ==================================== */
 .plus-minus-button {
     height: 25px;
     width: 25px;
@@ -108,25 +124,9 @@
     text-align: center;
     align-items: center;
 }
-/* ==================================== 
-               Fieldset
-==================================== */
-.fieldset-button {
-    padding: 5px 15px;
-    margin: 10px;
-    font-size: larger;
-    font-weight: bold;
-    border: 0;
-    background-color: var(--button-clr);
-    color: #fff;
-    border-radius: 10px;
-    min-width: 150px;
-    cursor: pointer;
-    color: var(--button-text-clr);
-}
-.fieldset-button:hover {
-    background-color: var(--button-hover-clr);
-}
+/* ==================================== */
+/*            Brand Buttons             */
+/* ==================================== */
 .kofi {
     background-color: #29abe0;
     font-weight: bold;
@@ -152,6 +152,26 @@
     height: 40px;
     width: 30px;
 }
+/* ==================================== */
+/*               Fieldset               */
+/* ==================================== */
+.fieldset-button {
+    padding: 5px 15px;
+    margin: 10px;
+    font-size: larger;
+    font-weight: bold;
+    border: 0;
+    background-color: var(--button-clr);
+    color: #fff;
+    border-radius: 10px;
+    min-width: 150px;
+    cursor: pointer;
+    color: var(--button-text-clr);
+}
+.fieldset-button:hover {
+    background-color: var(--button-hover-clr);
+}
+
 .button-flex {
     display: flex;
     flex-direction: row;
@@ -169,9 +189,22 @@
     min-width: 0;
     margin: 0;
 }
-/* ==================================== 
-                Modal
-==================================== */
+/* ==================================== */
+/*                Icons                 */
+/* ==================================== */
+.bi-question-square {
+    margin-right: 4px;
+}
+.fa-clone {
+    cursor: pointer;
+}
+.fa-trash,
+.fa-eye {
+    cursor: pointer;
+}
+/* ==================================== */
+/*                Modal                 */
+/* ==================================== */
 .modal {
     display: none;
     position: fixed;
@@ -208,9 +241,9 @@
     text-decoration: none;
     cursor: pointer;
 }
-/* ==================================== 
-              Page Nav
-==================================== */
+/* ==================================== */
+/*               Page Nav               */
+/* ==================================== */
 .site-nav {
     display: flex;
     top: 0;
@@ -262,9 +295,9 @@
     order: 3;
     margin-left: auto;
 }
-/* ==================================== 
-             Sub-page Nav
-==================================== */
+/* ==================================== */
+/*             Sub-page Nav             */
+/* ==================================== */
 .sub-nav {
     background-color: var(--top-nav-background-color);
     overflow: hidden;
@@ -374,19 +407,6 @@
         flex-direction: column;
         align-items: center;
     }
-}
-
-.container {
-    left: 0;
-    margin-top: -45px;
-    background-color: var(--panel-background-color);
-    width: 300px;
-    height: 100%;
-    border-right: 1px grey solid;
-    position: fixed;
-}
-.bi-question-square {
-    margin-right: 4px;
 }
 .side-panel {
     display: flex;
@@ -536,6 +556,7 @@
     color: var(--text-clr);
     padding-left: 3px;
 }
+
 .radio-input-container {
     display: flex;
     flex-direction: row;
@@ -554,6 +575,9 @@
     width: fit-content;
     min-width: 150px;
 }
+/* ==================================== */
+/*            Number Input              */
+/* ==================================== */
 .number-input-container {
     display: flex;
     flex-direction: row;
@@ -678,9 +702,9 @@
 .panel-button:hover {
     background-color: var(--button-hover-clr);
 }
-/* ==================================== 
-            Custom Radio Group
-==================================== */
+/* ==================================== */
+/*          Custom Radio Group          */
+/* ==================================== */
 .radio-group {
     display: flex;
     flex-direction: row;
@@ -733,9 +757,9 @@
     justify-content: center;
     flex-direction: column;
 }
-/* ==================================== 
-         Custom Checkbox Group
-==================================== */
+/* ==================================== */
+/*         Custom Checkbox Group        */
+/* ==================================== */
 .checkbox-group-container {
     display: flex;
     flex-direction: row;
@@ -792,13 +816,13 @@
     background-color: var(--button-clr) !important;
     color: var(--button-text-clr) !important;
 }
-/* ==================================== 
-                Flex 
-==================================== */
+/* ==================================== */
+/*                Flex                  */
+/* ==================================== */
 .flex-column {
     display: flex;
     flex-direction: column;
-    row-gap: 2rem;
+    row-gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
     align-items: middle;
@@ -817,8 +841,8 @@
 .flex-row {
     display: flex;
     flex-direction: row;
-    column-gap: 2rem;
-    row-gap: 2rem;
+    column-gap: 1rem;
+    row-gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
     align-items: middle;
@@ -833,13 +857,29 @@
     flex-direction: column;
     row-gap: 0.5rem;
 }
-/* ==================================== 
-        Aspect -- To be removed
-==================================== */
+/* ==================================== */
+/*                Tippy                 */
+/* ==================================== */
+.tippy-define {
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+    font-style: italic;
+}
+.tippy-box a:link,
+.tippy-box a:visited {
+    color: var(--button-text-clr);
+}
+.tippy-box,
+.tippy-arrow {
+    background-color: var(--text-clr);
+    color: var(--card-background-color);
+}
+/* ==================================== */
+/*         Aspect -- wanna delete       */
+/* ==================================== */
 .aspect {
     min-width: 280px;
     padding: 10px;
-    margin: 10px;
     display: flex;
     flex-direction: column;
     background-color: var(--card-background-color);
@@ -857,7 +897,7 @@
 }
 .aspect-legend {
     font-size: 25px;
-    text-decoration: underline;
+    font-weight: bold;
     text-align: center;
     color: var(--text-clr);
     margin-bottom: 10px;
@@ -964,22 +1004,6 @@
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
-* {
-    font-family: "quicksand", sans-serif;
-    margin: 0;
-    padding: 0;
-}
-body {
-    background-color: var(--background-color);
-    height: 100%;
-}
-main {
-    box-sizing: border-box;
-    height: 100%;
-    margin: 20px;
-    margin-top: 100px;
-    color: var(--text-clr);
-}
 .coming-soon {
     cursor: not-allowed;
 }
@@ -1074,20 +1098,6 @@ main a:visited {
     flex-wrap: wrap;
     column-gap: 20px;
 }
-.tippy-define {
-    text-decoration-line: underline;
-    text-decoration-style: dotted;
-    font-style: italic;
-}
-.tippy-box a:link,
-.tippy-box a:visited {
-    color: var(--button-text-clr);
-}
-.tippy-box,
-.tippy-arrow {
-    background-color: var(--text-clr);
-    color: var(--card-background-color);
-}
 .slider-container {
     display: flex;
     flex-direction: row;
@@ -1112,14 +1122,6 @@ main a:visited {
     main {
         margin-top: 160px;
     }
-}
-@import "constants.css";
-.fa-clone {
-    cursor: pointer;
-}
-.fa-trash,
-.fa-eye {
-    cursor: pointer;
 }
 .encounters-table label {
     margin-right: 5px;
@@ -1147,9 +1149,9 @@ main a:visited {
     vertical-align: middle;
     row-gap: 10px;
 }
-/* ==================================== 
-              JS Grid 
-==================================== */
+/* ==================================== */
+/*               JS Grid                */
+/* ==================================== */
 .jsgrid-header-row .jsgrid-header-cell {
     background: var(--table-header-color) !important;
     color: var(--text-clr);
@@ -1186,9 +1188,9 @@ main a:visited {
 .jsgrid {
     margin-top: 2rem;
 }
-/* ==================================== 
-            Styled Table
-==================================== */
+/* ==================================== */
+/*            Styled Table              */
+/* ==================================== */
 .styled-table {
     border-collapse: collapse;
     margin: auto 0;
@@ -1270,23 +1272,18 @@ main a:visited {
     color: var(--light-denary) !important;
     font-style: italic;
 }
-.aspect-legend {
-    font-size: 25px;
-    text-decoration: underline;
-    text-align: center;
-    color: var(--text-clr);
-    margin-bottom: 10px;
-}
+/* ==================================== */
+/*                History               */
+/* ==================================== */
 .history-container {
     background-color: var(--card-background-color);
     padding: 20px;
     border-radius: 20px;
-    margin-bottom: 2rem;
 }
 .history {
     max-height: 300px;
     overflow-y: auto;
-    width: 100%;
+    width: auto;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -1298,6 +1295,9 @@ main a:visited {
 .history li {
     margin-left: 30px;
 }
+/* ==================================== */
+/*             Theme Switcher           */
+/* ==================================== */
 .switch {
     position: relative;
     display: inline-block;
@@ -1309,9 +1309,6 @@ main a:visited {
     width: 0;
     height: 0;
 }
-/* ==================================== 
-           Theme Switcher
-==================================== */
 .slider {
     position: absolute;
     cursor: pointer;
