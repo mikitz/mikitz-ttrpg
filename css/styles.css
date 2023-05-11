@@ -1,3 +1,6 @@
+/* ==================================== 
+                Theme
+==================================== */
 :root {
     --mobile-width: 600px;
 }
@@ -160,6 +163,9 @@
     min-width: 0;
     margin: 0;
 }
+/* ==================================== 
+                Modal
+==================================== */
 .modal {
     display: none;
     position: fixed;
@@ -196,7 +202,9 @@
     text-decoration: none;
     cursor: pointer;
 }
-@import "constants.css";
+/* ==================================== 
+              Page Nav
+==================================== */
 .site-nav {
     display: flex;
     top: 0;
@@ -248,6 +256,9 @@
     order: 3;
     margin-left: auto;
 }
+/* ==================================== 
+             Sub-page Nav
+==================================== */
 .sub-nav {
     background-color: var(--top-nav-background-color);
     overflow: hidden;
@@ -358,6 +369,7 @@
         align-items: center;
     }
 }
+
 .container {
     left: 0;
     margin-top: -45px;
@@ -660,6 +672,9 @@
 .panel-button:hover {
     background-color: var(--button-hover-clr);
 }
+/* ==================================== 
+            Custom Radio Group
+==================================== */
 .radio-group {
     display: flex;
     flex-direction: row;
@@ -712,6 +727,9 @@
     justify-content: center;
     flex-direction: column;
 }
+/* ==================================== 
+         Custom Checkbox Group
+==================================== */
 .checkbox-group-container {
     display: flex;
     flex-direction: row;
@@ -768,23 +786,9 @@
     background-color: var(--button-clr) !important;
     color: var(--button-text-clr) !important;
 }
-dialog::backdrop {
-    background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(2px);
-}
-dialog {
-    --modal-width: 40rem;
-    width: var(--modal-width);
-    color: var(--text-clr);
-    background: var(--background-color);
-    border-radius: 25px;
-    text-align: center;
-    padding: 2rem;
-    position: absolute;
-    left: calc(50% - var(--modal-width) / 2);
-    top: 25%;
-    margin-bottom: 2rem;
-}
+/* ==================================== 
+                Flex 
+==================================== */
 .flex-column {
     display: flex;
     flex-direction: column;
@@ -823,9 +827,9 @@ dialog {
     flex-direction: column;
     row-gap: 0.5rem;
 }
-.description {
-    font-weight: 100;
-}
+/* ==================================== 
+        Aspect -- To be removed
+==================================== */
 .aspect {
     min-width: 280px;
     padding: 10px;
@@ -954,7 +958,6 @@ dialog {
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
-@import "constants.css";
 * {
     font-family: "quicksand", sans-serif;
     margin: 0;
@@ -1138,6 +1141,9 @@ main a:visited {
     vertical-align: middle;
     row-gap: 10px;
 }
+/* ==================================== 
+              JS Grid 
+==================================== */
 .jsgrid-header-row .jsgrid-header-cell {
     background: var(--table-header-color) !important;
     color: var(--text-clr);
@@ -1174,6 +1180,9 @@ main a:visited {
 .jsgrid {
     margin-top: 2rem;
 }
+/* ==================================== 
+            Styled Table
+==================================== */
 .styled-table {
     border-collapse: collapse;
     margin: auto 0;
@@ -1283,7 +1292,6 @@ main a:visited {
 .history li {
     margin-left: 30px;
 }
-@import "constants.css";
 .switch {
     position: relative;
     display: inline-block;
@@ -1295,6 +1303,9 @@ main a:visited {
     width: 0;
     height: 0;
 }
+/* ==================================== 
+           Theme Switcher
+==================================== */
 .slider {
     position: absolute;
     cursor: pointer;
@@ -1344,7 +1355,7 @@ input:checked + .slider:before {
 .slider.round {
     border-radius: 34px;
 }
-z .slider.round:before {
+.slider.round:before {
     border-radius: 50%;
 }
 @media only screen and (max-width: 1250px) {
