@@ -216,7 +216,7 @@ async function generateMagicShop(){
     
     else if (population > 1000000000) population = 1000000000
     let cityName = getSelectedOptionText('city-list') 
-    // if (cityName == '') cityName = null // TODO: Why did I do this?
+    if (cityName == "Select city...") return alert("Please select a city!")
     const userWealth = getSelectedValueFromRadioGroup('wealth')
     let magicness = getSelectedValueFromRadioGroup('magicness')
     magicnessNum = parseInt(document.getElementById(`${magicness}-span`).innerText)
@@ -338,7 +338,7 @@ async function generateMagicShop(){
     let sources = await db._sources.toArray()
     sources = sources.filter(e => e.SELECTED == true)
     const sourceAbbrs = sources.map(e => e.ABBREVIATION);
-    magic_items = magic_items.filter(e => sourceAbbrs.includes(e.SOURCE));
+    magic_items = magic_items.filter(e => sourceAbbrs.includes(e.SOURCE)) // TODO: Need to convert this to JSON
     // Loop through each store
     for (let index = 0; index < quantity; index++) { 
         let stockTotal = 0

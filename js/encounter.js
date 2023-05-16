@@ -260,7 +260,9 @@ async function randomEncounter(){
         tableBody.appendChild(row)
     }
     async function copyEncounterDataFromRow(rowID, index){
-        // TODO: Update for Dexie.js
+        // TODO: Implement this
+        // Why did I want to implement this again? 
+        //  - Was it create a Battle Map from the data?
         const history = JSON.parse(localStorage.getItem('encounter-history'))
         if (!history) return
         const encounterData = history.find(i => i._ID === `${rowID}${index}`)

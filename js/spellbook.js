@@ -86,7 +86,6 @@ async function generateSpellbook(){
         if (extraSpells > target) numberOfSpells += extra
     }
 
-    const spellBook = await fetchLocalJson('/mikitz-ttrpg/data/json/spellslot-levels')
     const dbSpells = await fetchLocalJson('/mikitz-ttrpg/data/json/spells')
 
     const spellLevel = spellBook.find(e => e.LEVEL == level).SLOT_LEVEL

@@ -563,7 +563,7 @@ async function getLanguages(race, background) {
     //    Background
     // ----------------
     const backgroundData = tableBackgrounds.find((i) => i.NAME == background);
-    // const backgroundLanguages = backgroundData.LANGUAGES; // TODO: Disregard for now
+    // const backgroundLanguages = backgroundData.LANGUAGES; // TODO: Background Languages
     const backgroundLangCount = backgroundData.LANGUAGES_COUNT;
     if (backgroundLangCount) {
         for (let index = 0; index < backgroundLangCount; index++) {

@@ -1,4 +1,4 @@
-[
+const spellBook = [
     { "LEVEL": 1, "SLOT_LEVEL": 1 },
     { "LEVEL": 2, "SLOT_LEVEL": 1 },
     { "LEVEL": 3, "SLOT_LEVEL": 2 },

@@ -267,6 +267,7 @@ main {
     overflow: auto;
     background-color: #000;
     background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(3px);
 }
 .modal-content {
     background-color: var(--background-color);
