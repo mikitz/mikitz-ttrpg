@@ -44,6 +44,7 @@
         display: flex !important;
         justify-content: center;
         text-align: center;
+        width: 100%;
     }
     .flex-column .output {
         row-gap: 0px;
@@ -62,6 +63,7 @@
     }
     .flex-row {
         margin-bottom: 1rem;
+        /* width: 500px; */
     }
     #download-csv, #download-txt, #copy-output-links, #copy-output-no-links {
         font-size: xx-large;
@@ -120,16 +122,14 @@
                     <div class="flex-column-child">
                         <div class="container">
                             <div class="aspect-legend"><i class="fa-solid fa-chevron-up" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-options" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-options">Options</span></div>
-                            <div class="flex-row" id="options">
-                                <div class="flex-row">
-                                    <div class="flex-row-child">
-                                        <div><h3>Wizard Level</h3></div>
-                                        <div class="radio-group" id="wizard-level"></div>
-                                    </div>
-                                    <div class="flex-row-child">
-                                        <div><h3>Wizard Schools</h3></div>
-                                        <div class="radio-group" id="wizard-school"></div>
-                                    </div>
+                            <div class="flex-column" id="options">
+                                <div class="flex-column-child">
+                                    <div class="fieldset-label"><h3>Wizard Level</h3></div>
+                                    <div class="radio-group" id="wizard-level"></div>
+                                </div>
+                                <div class="flex-column-child">
+                                    <div class="fieldset-label"><h3>Wizard Schools</h3></div>
+                                    <div class="radio-group" id="wizard-school"></div>
                                 </div>
                             </div>
                         </div>

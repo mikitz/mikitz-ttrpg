@@ -94,6 +94,7 @@ main {
     background-color: var(--card-background-color);
     padding: 20px;
     border-radius: 20px;
+    width: fit-content;
 }
 .clickable {
     cursor: pointer;

@@ -125,10 +125,10 @@ async function setupNpcGenerator() {
         makeToast(`<b>Minor Quest 'Proompt'</b> copied to clipboard!`, 'success')
     })
 
-    const toggleHistory = document.getElementById('toggle-history')
-    toggleHistory.addEventListener('click', function(){
-        toggleNextChildDisplay(this)
-    })
+    const toggleDisplayElements = document.getElementsByName('toggle-display')
+    toggleDisplayElements.forEach(element => {
+        element.addEventListener('click', function(){ toggleNextChildDisplay(this) })
+    });
 
     const selects = document.getElementsByClassName('aspect-property-select')
     for (let index = 0; index < selects.length; index++) {

@@ -43,6 +43,12 @@
         font-size: 1rem;
         line-height: 1.125;
     }
+    .flex-column-child {
+        display: flex !important;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+    }
 </style>
 <body>
     <div class="site-nav">
@@ -80,8 +86,8 @@
                 </div>
             </div>
             <div class="flex-column-child">
-                <div class="history-container">
-                    <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-history"></i>History</div>
+                <div class="container">
+                    <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-history" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-history">History</span></div>
                     <div class="history collapsed" id="history">
                         <table class="styled-table">
                             <thead>
