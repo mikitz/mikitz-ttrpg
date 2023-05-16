@@ -778,9 +778,8 @@
     window.addEventListener("load", async function () {
         readThemeAndSetTheme()
         preventLinkFiring()
-        setupNpcGenerator()
+        await setupNpcGenerator()
         setupVersionNumber()
-        await sleep(200) // TODO: get rid of this...
         // Remove checkboxes
         // TODO: Implement this feature
         const checkboxes = document.getElementsByClassName('aspect-property-checkbox')
@@ -788,11 +787,9 @@
             const element = checkboxes[index];
             element.style.visibility = 'hidden'
         }
-        await generateOrDisplayNPC()
-        setupBlurbs()
         await populateNpcHistory()
+        await loadLastNpc()
+        setupBlurbs()
     });   
-
-    
 </script>
 </html>

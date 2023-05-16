@@ -198,7 +198,7 @@ async function setupNpcGenerator() {
 //      Adjust HTML Based on Data
 // ====================================
 // Adjustments based on Race
-async function setRaceDependentInputs(race) {
+async function setRaceDependentInputs(race, previousNpcName) {
     // Race Data
     const raceData = tableRaces.find((i) => i.RACE == race);
     const heightMod = droll.roll(raceData.HEIGHT_MOD).total || parseInt(raceData.HEIGHT_MOD);
@@ -254,6 +254,14 @@ async function setRaceDependentInputs(race) {
     const names = await generateNames(race);
     if (names) populateSelectFromArray("name-select", names);
     const name = selectRandomOptionFromSelectElement("name-select");
+    if (previousNpcName) {
+        const nameSelect = document.getElementById('name-select')
+        const option = document.createElement('option')
+        option.value = previousNpcName
+        option.innerText = previousNpcName
+        option.selected = true
+        nameSelect.appendChild(option)
+    }
 
     // Languages
     const background = document.getElementById("background-select").value;
@@ -463,7 +471,7 @@ async function generateOrDisplayNPC(npcData){
         const personalityDependents =  setPersonalityDependents(npcData.mbti_name);
         document.getElementById('personality-description-select').value = npcData.mbti_description.replaceAll(" ", "-").toLowerCase()
 
-        const raceDependents = setRaceDependentInputs(npcData.race);
+        const raceDependents = setRaceDependentInputs(npcData.race, npcData.name);
         document.getElementById('height-select').value = npcData.height_inches
         document.getElementById('weight-select').value = npcData.weight_pounds
         document.getElementById('age-select').value = npcData.age
@@ -484,13 +492,6 @@ async function generateOrDisplayNPC(npcData){
         document.getElementById('bond-select').value = npcData.bond
         document.getElementById('flaw-select').value = npcData.flaw
         document.getElementById('ideal-select').value = npcData.ideal
-
-        const nameSelect = document.getElementById('name-select')
-        const option = document.createElement('option')
-        option.value = npcData.name
-        option.innerText = npcData.name
-        option.selected = true
-        nameSelect.appendChild(option)
     }
     // ============ Blurbs =================
     // Handle options that are too long
@@ -735,3 +736,8 @@ async function populateNpcDataFromDb(npcId){
     const npc = await db.npcg_npcs.get(npcId)
     generateOrDisplayNPC(npc)
 } 
+async function loadLastNpc(){
+    let lastNPC = await db.npcg_npcs.orderBy('datetime').reverse().toArray()
+    if (lastNPC.length <= 0) return await generateOrDisplayNPC() // Generate a new NPC if user has generated none before
+    await generateOrDisplayNPC(lastNPC[0])
+}
