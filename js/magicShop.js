@@ -121,10 +121,15 @@ function setupMagicShop(){
         const val = parseInt(populationInput.value)
         populationInput.value = val + 1
     })
-    const toggleHistory = document.getElementById('toggle-history')
-    toggleHistory.addEventListener('click', function(){ toggleNextChildDisplay(this) })
-    const toggleOptions = document.getElementById('toggle-options')
-    toggleOptions.addEventListener('click', function(){ toggleNextChildDisplay(this) })
+
+    const toggleDisplayElements = document.getElementsByName('toggle-display')
+    toggleDisplayElements.forEach(element => {
+        element.addEventListener('click', function(){ toggleNextChildDisplay(this) })
+    });
+    // const toggleHistory = document.getElementById('toggle-history')
+    // toggleHistory.addEventListener('click', function(){ toggleNextChildDisplay(this) })
+    // const toggleOptions = document.getElementById('toggle-options')
+    // toggleOptions.addEventListener('click', function(){ toggleNextChildDisplay(this) })
 
     setupVersionNumber()
     setTooltips()
