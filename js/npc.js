@@ -507,10 +507,9 @@ async function generateOrDisplayNPC(npcData){
     setupBlurbs();
     // ============== Append to DB =================
     if (npcData && npcData != undefined) return // Only append if this is a new NPC
-    await sleep(1000)
     await db.npcg_npcs.put(data)
         .then(function(){
-            console.log(`✅ NPC added successfully! --`, data.id)
+            makeToast(`<b>${data.name}</b> NPC saved successfully!`, 'success')
             populateNpcHistory()
         }).catch(async function(error) {
             if ((error.name === 'QuotaExceededError') || (error.inner && error.inner.name === 'QuotaExceededError')) {
