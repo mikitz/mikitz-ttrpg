@@ -214,12 +214,8 @@ async function generateMagicShop(){
     if (population == "") return alert("Please input a population.")
     
     else if (population > 1000000000) population = 1000000000
-    // Date
-    let date = new Date(); // Instantiate a new Date object
-    const today = date.toLocaleDateString() // Today's date   
-    let cityName = document.getElementById('name').value 
-    if (cityName == '') return alert("Please select a city.")
-    if (cityName == '') cityName = null // TODO: Why did I do this?
+    let cityName = getSelectedOptionText('city-list') 
+    // if (cityName == '') cityName = null // TODO: Why did I do this?
     const userWealth = getSelectedValueFromRadioGroup('wealth')
     let magicness = getSelectedValueFromRadioGroup('magicness')
     magicnessNum = parseInt(document.getElementById(`${magicness}-span`).innerText)

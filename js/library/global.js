@@ -66,6 +66,12 @@ function convertLinkToExcelHyperlink(link, linkName) {
     if (linkName) return `=HYPERLINK(""${link}"", ""${linkName}"")`
     else return `=HYPERLINK(""${link}"")`
 }
+function getSelectedOptionText(selectId) {
+    let selectElement = document.getElementById(selectId);
+    if (!selectElement) { throw new Error(`No select element found with id "${selectId}"`) }
+    let selectedOptionElement = selectElement.options[selectElement.selectedIndex];
+    return selectedOptionElement.innerText;
+  }
 // Function to download a CSV
 function downloadAsCSV(csv, name){
     // EXPORT THE TABLE
