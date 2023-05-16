@@ -31,8 +31,8 @@ function preventLinkFiring(){
     const url = (window.location.href).split('/')
     const pageName = (url[url.length - 1]).replace(".html","")
     if (pageName != index || pageName != settings || pageName != wiki) {
-        document.getElementById('settings').href = `/mikitz-ttrpg/html/settings.html#${pageName}` 
-        document.getElementById('wiki').href = `/mikitz-ttrpg/html/wiki.html#${pageName}` 
+        document.getElementById('settings').href = `/mikitz-ttrpg/html/settings.html#${pageName}-heading` 
+        document.getElementById('wiki').href = `/mikitz-ttrpg/html/wiki.html#${pageName}-heading` 
     }
 }
 function setupGroupFromArray(radioGroupId, radioGroupName, array, random, groupType, icons){

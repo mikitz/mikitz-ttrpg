@@ -302,11 +302,9 @@
         setupSources()
         setupSettings()
         settingsListeners()
-
-
-        setTimeout(function() {
-            scrollToAnchor()
-        }, 0);
+        setTimeout(async function() {
+            await scrollToAnchor()
+        }, 200);
     });
 </script>
 </html>

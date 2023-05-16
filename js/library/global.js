@@ -770,7 +770,8 @@ function scrollTo(hash, offset) {
 }
 async function scrollToAnchor(){
     const anchor = location.hash.substring(1); // "section1"
-    if(document.getElementById(`${anchor}-heading`)) document.getElementById(`${anchor}-heading`).scrollIntoView({behavior: "smooth"});
+    console.log("🚀 ~ file: global.js:773 ~ scrollToAnchor ~ anchor:", anchor)
+    if(document.getElementById(`${anchor}`)) document.getElementById(`${anchor}`).scrollIntoView({behavior: "smooth"});
 }
 // Function to round to certain number of decimal places
 function roundToSpecifiedDecimalPlaces(number, decimalPlaces) {

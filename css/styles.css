@@ -16,6 +16,16 @@ main {
     margin-top: 100px;
     color: var(--text-clr);
 }
+.h2 {
+    scroll-margin-top: calc(80px + 2rem);
+    font-size: x-large;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+}
+.big-scroll-margin {
+    scroll-margin-top: calc(80px + 4rem);
+}
 /* ==================================== */
 /*                Theme                 */
 /* ==================================== */
@@ -1083,16 +1093,6 @@ main {
 }
 .fa-download {
     cursor: pointer;
-}
-.h2 {
-    scroll-margin-top: calc(80px+1rem);
-    font-size: x-large;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    margin-top: 1.5rem;
-}
-.big-scroll-margin {
-    scroll-margin-top: calc(80px+4rem);
 }
 .fa-hashtag {
     cursor: pointer;
