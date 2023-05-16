@@ -13,9 +13,8 @@ async function setupNpcGenerator() {
     // Height: Should this be tied to weight?
     // Background Select
     const backgroundSelect = document.getElementById("background-select");
-    const backgrounds = await fetchLocalJson('/mikitz-ttrpg/data/json/backgrounds')
-    for (let index = 0; index < backgrounds.length; index++) {
-        const element = backgrounds[index];
+    for (let index = 0; index < tableBackgrounds.length; index++) {
+        const element = tableBackgrounds[index];
         const option = document.createElement('option')
         option.id = element.NAME
         option.innerText = element.NAME
@@ -201,7 +200,6 @@ async function setupNpcGenerator() {
 // Adjustments based on Race
 async function setRaceDependentInputs(race) {
     // Race Data
-    let tableRaces = await fetchLocalJson(`/mikitz-ttrpg/data/json/races`)
     const raceData = tableRaces.find((i) => i.RACE == race);
     const heightMod = droll.roll(raceData.HEIGHT_MOD).total || parseInt(raceData.HEIGHT_MOD);
     const weightMod = droll.roll(raceData.WEIGHT_MOD).total || parseInt(raceData.WEIGHT_MOD);
@@ -266,7 +264,6 @@ async function setRaceDependentInputs(race) {
 async function setBackgroundDependentInputs(background) {
     const backgroundDependents = ["trait", "bond", "flaw", "ideal"];
     const dependents = []
-    let tableBackgrounds = await fetchLocalJson(`/mikitz-ttrpg/data/json/backgrounds`)
     for (let index = 0; index < backgroundDependents.length; index++) {
         const element = backgroundDependents[index];
         const items = tableBackgrounds.find((i) => i.NAME === background)[`${element.toUpperCase()}`];
@@ -544,7 +541,6 @@ async function getLanguages(race, background) {
     // ----------
     //    Race
     // ----------
-    let tableRaces = await fetchLocalJson(`/mikitz-ttrpg/data/json/races`)
     const raceData = tableRaces.find((i) => i.RACE == race);
     let languages = raceData.LANGUAGES;
     if (languages) languages = languages.split(", ");
@@ -567,7 +563,6 @@ async function getLanguages(race, background) {
     // ----------------
     //    Background
     // ----------------
-    let tableBackgrounds = await fetchLocalJson(`/mikitz-ttrpg/data/json/backgrounds`)
     const backgroundData = tableBackgrounds.find((i) => i.NAME == background);
     // const backgroundLanguages = backgroundData.LANGUAGES; // TODO: Disregard for now
     const backgroundLangCount = backgroundData.LANGUAGES_COUNT;
@@ -592,7 +587,6 @@ async function generateNames(race) {
     var markov = new Markov();
     let sex = document.getElementById("sex-select").value;
     sex = normalizeSex(sex);
-    let tableNamebases = await fetchLocalJson(`/mikitz-ttrpg/data/json/namebase`)
     let tableName = tableNamebases[`${race}_${sex.toUpperCase()}`]
     if (race.includes("HALF_ELF")) {
         const elfBase = tableNamebases[`ELF_(HIGH)_${sex.toUpperCase()}`]
