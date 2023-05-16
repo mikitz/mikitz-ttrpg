@@ -365,10 +365,9 @@ function settingsListeners(){
     const uploadSettingsButton = document.getElementById('upload-settings')
     uploadSettingsButton.addEventListener('click', async function() { await importData() })
 }
-function setupSources(){
+async function setupSources(){
     const sourcesContainer = document.getElementById('sources-container')
-    if (!localStorage.getItem('sources')) localStorage.setItem('sources', JSON.stringify(sources1))
-    let sources = JSON.parse(localStorage.getItem('sources'))
+    let sources = await db._sources.toArray()
     for (let index = 0; index < sources.length; index++) {
         const element = sources[index];
         const div = document.createElement('div')

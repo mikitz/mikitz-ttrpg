@@ -22,7 +22,7 @@
     --column-width: 280px;
     --panel-background-color: var(--site-nav-background-clr);
     --card-background-color: var(--site-nav-background-clr);
-    /* Navigations */
+    /* Navigation */
     --site-nav-background-clr: #222222;
     --site-nav-font-clr: #b8b8b8;
     --top-nav-background-color: #383838;
@@ -57,7 +57,7 @@
     --column-width: 280px;
     --panel-background-color: var(--site-nav-background-clr);
     --card-background-color: var(--top-nav-background-color);
-    /* Navigations */
+    /* Navigation */
     --site-nav-background-clr: #c6c6c6;
     --site-nav-font-clr: #b8b8b8;
     --top-nav-background-color: #f1f1f1;

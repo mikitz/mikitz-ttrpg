@@ -6,7 +6,7 @@
     - [ ] Magic Shop
     - [ ] NPC
     - [ ] Spellbook
-- [ ] refactor CSS because it's really bloated right now
+- [ ] refactor CSS because it's really bloated and just awful right now
 - [ ] 
 - [ ] 
 - [ ] 

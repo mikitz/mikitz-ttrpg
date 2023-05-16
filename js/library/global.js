@@ -774,7 +774,7 @@ function roundToSpecifiedDecimalPlaces(number, decimalPlaces) {
     return Math.round(number * factorOfTen) / factorOfTen;
 }
 // Functiont to toggle a modal's state
-function toggleModal(modalId, ) {
+function toggleModal(modalId) {
     const modal = document.getElementById(modalId);
     const display = modal.style.display;
     if (display == "none") {

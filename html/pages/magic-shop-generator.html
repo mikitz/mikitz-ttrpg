@@ -53,13 +53,13 @@
 <body>
     <div class="site-nav">
         <a class="site-button" id="index" href="/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
-        <a class="site-button-under-construction" id="battle-map-generator" href="/mikitz-ttrpg/html/pages/battle-map-generator.html"><i class="fa-solid fa-map"></i><span>Battle Map</span></a>
+        <a class="site-button" id="battle-map-generator" href="/mikitz-ttrpg/html/pages/battle-map-generator.html"><i class="fa-solid fa-map"></i><span>Battle Map</span></a>
         <a class="site-button-under-construction" id="calendar"><i class="fa-solid fa-calendar"></i><span>Calendar</span></a>
         <a class="site-button" id="encounter-generator" href="/mikitz-ttrpg/html/pages/encounter-generator.html"><i class="fa-solid fa-location-dot"></i><span>Encounter</span></a> 
         <a class="site-button-active" id="magic-shop-generator" href="/mikitz-ttrpg/html/pages/magic-shop-generator.html"><i class="fa-solid fa-store"></i><span>Magic Shop</span></a>
         <a class="site-button" id="npc-generator" href="/mikitz-ttrpg/html/pages/npc-generator.html"><i class="fa-solid fa-person-half-dress"></i><span>NPC</span></a>
         <a class="site-button" id="spellbook-generator" href="/mikitz-ttrpg/html/pages/spellbook-generator.html"><i class="fa-solid fa-book"></i><span>Spellbook</span></a>
-        <a class="site-button-under-construction" id="star-system-and-galaxy-generator" href="/mikitz-ttrpg/html/pages/star-system-and-galaxy-generator.html"><i class="fa-regular fa-circle-dot"></i><span>Star System & Galaxy</span></a>
+        <a class="site-button-under-construction" id="star-system-and-galaxy-generator" href="/mikitz-ttrpg/html/pages/star-system-and-galaxy-generator.html"><i class="fa-regular fa-circle-dot"></i><span>System</span></a>
         <a class="site-button-under-construction" id="world-generator" href="/mikitz-ttrpg/html/pages/world-generator.html"><i class="fa-solid fa-earth-americas"></i><span>World</span></a>
         <span class="right">
             <a class="site-button" id="settings" href="/mikitz-ttrpg/html/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
@@ -99,141 +99,302 @@
                 </div>
             </div>
             <div class="flex-column-child">
-                <div class="flex-row">
-                    <!-- Store Name -->
-                    <div class="text-input-container">
-                        <label class="text-input-label">Store Name</label>
-                        <input class="text-input" placeholder="Store name..." type="text" id="store-name">
-                    </div>
-                    <div class="text-input-container">
-                        <label class="text-input-label">City Name</label>
-                        <input class="text-input" placeholder="City name..." type="text" id="name">
-                    </div>
-                    <!-- City Dropdown -->
-                    <div class="select-container">
-                        <label class="select-label">City</label>
-                        <select class="select-dropdown" id="city-list">
-                            <option value="choose" selected>Select Saved City...</option>
-                        </select>
-                    </div>
-                    <!-- Population -->
-                    <div class="number-input-container">
-                        <label for="" class="number-input-label">Population</label>
-                        <button class="plus-minus-button" name="minus" id="population-minus">-</button>
-                        <input class="number-input" type="text" id="population" style="min-width: 100px !important;">
-                        <button class="plus-minus-button" name="plus" id="population-plus">+</button>
-                    </div>
-                    <!-- Quantity -->
-                    <div class="number-input-container">
-                        <label for="" class="number-input-label">Quantity</label>
-                        <button class="plus-minus-button" name="minus" id="quantity-minus">-</button>
-                        <input class="number-input" type="number" id="quantity" value="1">
-                        <button class="plus-minus-button" name="plus" id="quantity-plus">+</button>
-                    </div>
-                </div>
-            </div>
-            <div class="flex-column-child">
-                <label class="fieldset-label">City Wealth</label>
-                <div class="radio-group">
-                    <label name="radio-label">
-                        <input class="checkbox" type="radio" name="wealth" id="wretched-wealth-radio" value="wretched">
-                        <span>-3</span>
-                    </label>
-                    <label name="radio-label">
-                        <input class="checkbox" type="radio" name="wealth" id="squalid-wealth-radio" value="squalid">
-                        <span>-2</span>
-                    </label>
-                    <label name="radio-label">
-                        <input class="checkbox" type="radio" name="wealth" id="poor-wealth-radio" value="poor">
-                        <span>-1</span>
-                    </label>
-                    <label name="radio-label">
-                        <input class="checkbox" type="radio" name="wealth" id="modest-wealth-radio" value="modest" checked>
-                        <span>0</span>
-                    </label>
-                    <label name="radio-label">
-                        <input class="checkbox" type="radio" name="wealth" id="comfortable-wealth-radio" value="comfortable">
-                        <span>+1</span>
-                    </label>
-                    <label name="radio-label">
-                        <input class="checkbox" type="radio" name="wealth" id="wealthy-wealth-radio" value="wealthy">
-                        <span>+2</span>
-                    </label>
-                    <label name="radio-label">
-                        <input class="checkbox" type="radio" name="wealth" id="aristocratic-wealth-radio" value="aristocratic">
-                        <span>+3</span>
-                    </label>
-                </div>
-            </div>
-            <div class="flex-column-child">
-                <label class="fieldset-label">City Magicness</label>
-                <div class="radio-group">
-                    <label name="radio-label">
-                        <input class="checkbox" type="radio" name="magicness" id="very-low-magicness-radio" value="very-low">
-                        <span>-3</span>
-                    </label>
-                    <label name="radio-label">
-                        <input class="checkbox" type="radio" name="magicness" id="low-magicness-radio" value="low">
-                        <span>-2</span>
-                    </label>
-                    <label name="radio-label">
-                        <input class="checkbox" type="radio" name="magicness" id="medium-low-magicness-radio" value="medium-low">
-                        <span>-1</span>
-                    </label>
-                    <label name="radio-label">
-                        <input class="checkbox" type="radio" name="magicness" id="medium-magicness-radio" value="medium" checked>
-                        <span>0</span>
-                    </label>
-                    <label name="radio-label">
-                        <input class="checkbox" type="radio" name="magicness" id="medium-high-magicness-radio" value="medium-high">
-                        <span>+1</span>
-                    </label>
-                    <label name="radio-label">
-                        <input class="checkbox" type="radio" name="magicness" id="high-magicness-radio" value="high">
-                        <span>+2</span>
-                    </label>
-                    <label name="radio-label">
-                        <input class="checkbox" type="radio" name="magicness" id="very-high-magicness-radio" value="very-high">
-                        <span>+3</span>
-                    </label>
-                </div>
-            </div>
-            <div class="flex-column-child">
-                <label class="fieldset-label">City Shop Type(s)</label>
-                <div class="checkbox-group-container">
-                    <button class="button-checkall" id="button-all-shop-types">All</button>
-                    <div class="custom-checkbox-container checked" id="armors-checkbox" name="shop-type-checkbox">
-                        <span><i class="fa-solid fa-helmet-safety"></i></span>
-                    </div>
-                    <div class="custom-checkbox-container checked" id="items-checkbox" name="shop-type-checkbox">
-                        <span><i class="fa-solid fa-ring"></i></i></span>
-                    </div>
-                    <div class="custom-checkbox-container checked" id="poisons-checkbox" name="shop-type-checkbox">
-                        <span><i class="fa-solid fa-skull-crossbones"></i></span>
-                    </div>
-                    <div class="custom-checkbox-container checked" id="potions-checkbox" name="shop-type-checkbox">
-                        <span><i class="fa-solid fa-flask"></i></span>
-                    </div>
-                    <div class="custom-checkbox-container checked" id="spell-components-checkbox" name="shop-type-checkbox">
-                        <span><i class="fa-solid fa-hand-sparkles"></i></span>
-                    </div>
-                    <div class="custom-checkbox-container checked" id="spell-scrolls-checkbox" name="shop-type-checkbox">
-                        <span><i class="fa-solid fa-scroll"></i></span>
-                    </div>
-                    <div class="custom-checkbox-container checked" id="weapons-checkbox" name="shop-type-checkbox">
-                        <span><i class="fa-solid fa-shield"></i></span>
+                <div class="container">
+                    <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-options"></i>Options</div>
+                    <div class="flex-column" id="options">
+                        <div class="flex-column-child">
+                            <div class="flex-row">
+                                <!-- Store Name -->
+                                <div class="text-input-container">
+                                    <label class="text-input-label">Store Name</label>
+                                    <input class="text-input" placeholder="Store name..." type="text" id="store-name">
+                                </div>
+                                <!-- City Dropdown -->
+                                <div class="select-container">
+                                    <label class="select-label">City</label>
+                                    <select class="select-dropdown" id="city-list">
+                                        <option value="choose" selected>Select Saved City...</option>
+                                    </select>
+                                </div>
+                                <!-- Population -->
+                                <div class="number-input-container">
+                                    <label for="" class="number-input-label">Population</label>
+                                    <button class="plus-minus-button" name="minus" id="population-minus">-</button>
+                                    <input class="number-input" type="text" id="population" style="min-width: 100px !important;">
+                                    <button class="plus-minus-button" name="plus" id="population-plus">+</button>
+                                </div>
+                                <!-- Quantity -->
+                                <div class="number-input-container">
+                                    <label for="" class="number-input-label">Quantity</label>
+                                    <button class="plus-minus-button" name="minus" id="quantity-minus">-</button>
+                                    <input class="number-input" type="number" id="quantity" value="1">
+                                    <button class="plus-minus-button" name="plus" id="quantity-plus">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-column-child">
+                            <div class="flex-row">
+                                <div class="flex-row-child">
+                                    <label class="fieldset-label">City Wealth</label>
+                                </div>
+                                <div class="flex-row-child">
+                                    <div class="radio-group">
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="wealth" id="wretched-wealth-radio" value="wretched">
+                                            <span>-3</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="wealth" id="squalid-wealth-radio" value="squalid">
+                                            <span>-2</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="wealth" id="poor-wealth-radio" value="poor">
+                                            <span>-1</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="wealth" id="modest-wealth-radio" value="modest" checked>
+                                            <span>0</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="wealth" id="comfortable-wealth-radio" value="comfortable">
+                                            <span>+1</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="wealth" id="wealthy-wealth-radio" value="wealthy">
+                                            <span>+2</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="wealth" id="aristocratic-wealth-radio" value="aristocratic">
+                                            <span>+3</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-column-child">
+                            <div class="flex-row">
+                                <div class="flex-row-child">
+                                    <label class="fieldset-label">City Magicness</label>
+                                </div>
+                                <div class="flex-row-child">
+                                    <div class="radio-group">
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="magicness" id="very-low-magicness-radio" value="very-low">
+                                            <span>-3</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="magicness" id="low-magicness-radio" value="low">
+                                            <span>-2</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="magicness" id="medium-low-magicness-radio" value="medium-low">
+                                            <span>-1</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="magicness" id="medium-magicness-radio" value="medium" checked>
+                                            <span>0</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="magicness" id="medium-high-magicness-radio" value="medium-high">
+                                            <span>+1</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="magicness" id="high-magicness-radio" value="high">
+                                            <span>+2</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="magicness" id="very-high-magicness-radio" value="very-high">
+                                            <span>+3</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-column-child">
+                            <div class="flex-row">
+                                <div class="flex-row-child">
+                                    <label class="fieldset-label">City Shop Type(s)</label>
+                                </div>
+                                <div class="flex-row-child">
+                                    <div class="checkbox-group-container">
+                                        <button class="button-checkall" id="button-all-shop-types">All</button>
+                                        <div class="custom-checkbox-container checked" id="armors-checkbox" name="shop-type-checkbox">
+                                            <span><i class="fa-solid fa-helmet-safety"></i></span>
+                                        </div>
+                                        <div class="custom-checkbox-container checked" id="items-checkbox" name="shop-type-checkbox">
+                                            <span><i class="fa-solid fa-ring"></i></i></span>
+                                        </div>
+                                        <div class="custom-checkbox-container checked" id="poisons-checkbox" name="shop-type-checkbox">
+                                            <span><i class="fa-solid fa-skull-crossbones"></i></span>
+                                        </div>
+                                        <div class="custom-checkbox-container checked" id="potions-checkbox" name="shop-type-checkbox">
+                                            <span><i class="fa-solid fa-flask"></i></span>
+                                        </div>
+                                        <div class="custom-checkbox-container checked" id="spell-components-checkbox" name="shop-type-checkbox">
+                                            <span><i class="fa-solid fa-hand-sparkles"></i></span>
+                                        </div>
+                                        <div class="custom-checkbox-container checked" id="spell-scrolls-checkbox" name="shop-type-checkbox">
+                                            <span><i class="fa-solid fa-scroll"></i></span>
+                                        </div>
+                                        <div class="custom-checkbox-container checked" id="weapons-checkbox" name="shop-type-checkbox">
+                                            <span><i class="fa-solid fa-shield"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="flex-column-child">
                 <div class="button-container">
                     <button class="button" id="button-generate">Generate</button>
-                    <button class="button" id="button-save-city">Save City</button>
+                    <button class="button color-secondary" id="button-update-city">Update City</button>
+                    <button class="button color-secondary" id="button-create-city">Create City</button>
                 </div>
             </div>
         </div>
         <!-- OUTPUT -->
         <div id="output"></div>
+        <div id="create-city-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span id="modal-close" class="close">&times;</span>
+                </div>
+                
+                <div class="modal-content-inner">
+                    <div class="flex-column" id="options">
+                        <div class="flex-column-child">
+                            <div class="flex-row">
+                                <div class="text-input-container">
+                                    <label class="text-input-label">City Name</label>
+                                    <input class="text-input" placeholder="City name..." type="text" id="name-create">
+                                </div>
+                                <!-- Population -->
+                                <div class="number-input-container">
+                                    <label for="" class="number-input-label">Population</label>
+                                    <button class="plus-minus-button" name="minus" id="population-minus-create">-</button>
+                                    <input class="number-input" type="text" id="population-create" style="min-width: 100px !important;">
+                                    <button class="plus-minus-button" name="plus" id="population-plus-create">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-column-child">
+                            <div class="flex-row">
+                                <div class="flex-row-child">
+                                    <label class="fieldset-label">City Wealth</label>
+                                </div>
+                                <div class="flex-row-child">
+                                    <div class="radio-group">
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="wealth-create" id="wretched-wealth-radio-create" value="wretched">
+                                            <span>-3</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="wealth-create" id="squalid-wealth-radio-create" value="squalid">
+                                            <span>-2</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="wealth-create" id="poor-wealth-radio-create" value="poor">
+                                            <span>-1</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="wealth-create" id="modest-wealth-radio-create" value="modest" checked>
+                                            <span>0</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="wealth-create" id="comfortable-wealth-radio-create" value="comfortable">
+                                            <span>+1</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="wealth-create" id="wealthy-wealth-radio-create" value="wealthy">
+                                            <span>+2</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="wealth-create" id="aristocratic-wealth-radio-create" value="aristocratic">
+                                            <span>+3</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-column-child">
+                            <div class="flex-row">
+                                <div class="flex-row-child">
+                                    <label class="fieldset-label">City Magicness</label>
+                                </div>
+                                <div class="flex-row-child">
+                                    <div class="radio-group">
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="magicness-create" id="very-low-magicness-radio-create" value="very-low">
+                                            <span>-3</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="magicness-create" id="low-magicness-radio-create" value="low">
+                                            <span>-2</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="magicness-create" id="medium-low-magicness-radio-create" value="medium-low">
+                                            <span>-1</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="magicness-create" id="medium-magicness-radio-create" value="medium" checked>
+                                            <span>0</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="magicness-create" id="medium-high-magicness-radio-create" value="medium-high">
+                                            <span>+1</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="magicness-create" id="high-magicness-radio-create" value="high">
+                                            <span>+2</span>
+                                        </label>
+                                        <label name="radio-label">
+                                            <input class="checkbox" type="radio" name="magicness-create" id="very-high-magicness-radio-create" value="very-high">
+                                            <span>+3</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-column-child">
+                            <div class="flex-row">
+                                <div class="flex-row-child">
+                                    <label class="fieldset-label">City Shop Type(s)</label>
+                                </div>
+                                <div class="flex-row-child">
+                                    <div class="checkbox-group-container">
+                                        <button class="button-checkall" id="button-all-shop-types">All</button>
+                                        <div class="custom-checkbox-container checked" id="armors-checkbox-create" name="shop-type-checkbox-create">
+                                            <span><i class="fa-solid fa-helmet-safety"></i></span>
+                                        </div>
+                                        <div class="custom-checkbox-container checked" id="items-checkbox-create" name="shop-type-checkbox-create">
+                                            <span><i class="fa-solid fa-ring"></i></i></span>
+                                        </div>
+                                        <div class="custom-checkbox-container checked" id="poisons-checkbox-create" name="shop-type-checkbox-create">
+                                            <span><i class="fa-solid fa-skull-crossbones"></i></span>
+                                        </div>
+                                        <div class="custom-checkbox-container checked" id="potions-checkbox-create" name="shop-type-checkbox-create">
+                                            <span><i class="fa-solid fa-flask"></i></span>
+                                        </div>
+                                        <div class="custom-checkbox-container checked" id="spell-components-checkbox-create" name="shop-type-checkbox-create">
+                                            <span><i class="fa-solid fa-hand-sparkles"></i></span>
+                                        </div>
+                                        <div class="custom-checkbox-container checked" id="spell-scrolls-checkbox-create" name="shop-type-checkbox-create">
+                                            <span><i class="fa-solid fa-scroll"></i></span>
+                                        </div>
+                                        <div class="custom-checkbox-container checked" id="weapons-checkbox-create" name="shop-type-checkbox-create">
+                                            <span><i class="fa-solid fa-shield"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="button color-secondary" id="button-save-city">Save</button>
+            </div>
+        </div>
     </main> 
 </body>
 <script>
@@ -242,7 +403,6 @@
     window.addEventListener("load", async function () {
         readThemeAndSetTheme()
         preventLinkFiring()
-        document.getElementById('name').value = ''
         setupCitiesDropdown()
         await populateHistory()
         setupMagicShop()

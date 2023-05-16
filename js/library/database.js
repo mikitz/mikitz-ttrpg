@@ -223,6 +223,10 @@ async function setupDB(){
         const table = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-sbg-settings')
         db.sbg_settings.bulkPut(table)
     }
+    if (await db._sources.count() <= 0) {
+        const table = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-sources')
+        db._sources.bulkPut(table)
+    }
 }
 async function deleteRowByPrimaryKey(primaryKey, table){
     let con = confirm(`Are you sure you want to delete this ${table}? This is irreversible!`)

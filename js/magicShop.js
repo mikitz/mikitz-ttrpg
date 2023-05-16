@@ -1,3 +1,20 @@
+const wealthMap = [
+    {"WEALTH":"aristocratic","INDEX":0},
+    {"WEALTH":"comfortable","INDEX":1},
+    {"WEALTH":"modest","INDEX":2},
+    {"WEALTH":"poor","INDEX":3},
+    {"WEALTH":"squalid","INDEX":4},
+    {"WEALTH":"wealthy","INDEX":5},
+    {"WEALTH":"wretched","INDEX":6}
+]
+const magicnessMap = [
+    {"MAGICNESS":"high","INDEX":0},
+    {"MAGICNESS":"low","INDEX":1},
+    {"MAGICNESS":"medium","INDEX":2},
+    {"MAGICNESS":"medium-high","INDEX":3},
+    {"MAGICNESS":"very-high","INDEX":4},
+    {"MAGICNESS":"very-low","INDEX":5}
+]
 // Function to pull the population and populate it based on the selected city size
 function setPopulationBasedOnCitySize(citySize){
     const population = table_settlementData.find(i => i.TYPE == citySize).POPULATION
@@ -16,8 +33,14 @@ function setCitySizeBasedOnPopulation(population){
 }
 // Function to set up listeners
 function setupMagicShop(){
+    const createCityButton = document.getElementById('button-create-city')
+    createCityButton.addEventListener('click', function(){ toggleModal("create-city-modal") })
+
     const saveCityButton = document.getElementById('button-save-city')
     saveCityButton.addEventListener('click', function(){ saveCity() })
+
+    const updateCityButton = document.getElementById('button-update-city')
+    updateCityButton.addEventListener('click', function(){ updateCity() })
 
     const citySelect = document.getElementById('city-list')
     citySelect.addEventListener('change', function() { loadCity(citySelect.value) })
@@ -99,9 +122,9 @@ function setupMagicShop(){
         populationInput.value = val + 1
     })
     const toggleHistory = document.getElementById('toggle-history')
-    toggleHistory.addEventListener('click', function(){
-        toggleNextChildDisplay(this)
-    })
+    toggleHistory.addEventListener('click', function(){ toggleNextChildDisplay(this) })
+    const toggleOptions = document.getElementById('toggle-options')
+    toggleOptions.addEventListener('click', function(){ toggleNextChildDisplay(this) })
 
     setupVersionNumber()
     setTooltips()
@@ -315,7 +338,8 @@ async function generateMagicShop(){
     let table_wealth = await db.msg_wealth.toArray()
     let table_equipmentPrices = await db.msg_equipment_prices.toArray()
     let table_spells = await fetchLocalJson(`/mikitz-ttrpg/data/json/spells`)
-    const sources = JSON.parse(localStorage.getItem('sources')).filter(e => e.SELECTED == true)
+    let sources = await db._sources.toArray()
+    sources = sources.filter(e => e.SELECTED == true)
     const sourceAbbrs = sources.map(e => e.ABBREVIATION);
     magic_items = magic_items.filter(e => sourceAbbrs.includes(e.SOURCE));
     // Loop through each store
@@ -463,36 +487,23 @@ async function generateMagicShop(){
     populateHistory() // Update the History div
     document.getElementById('store-name').value = ''
 }
+function updateCity(){
+
+}
 // Function to save a city
 async function saveCity(){
-    const name = document.getElementById('name').value // Get the the name from the text input
+    const name = document.getElementById('name-create').value // Get the the name from the text input
     if (!name) return alert("Please input a name.") // Alert the user if they try to save a city without a name
 
-    const userWealth = getSelectedValueFromRadioGroup('userWealth') // Get the userWealth from the radio group
-    const magicness = getSelectedValueFromRadioGroup('magicness') // Get the magicness from the radio group
-    const cityId = parseInt(document.getElementById('city-list').value) // Get the selected city's id
-    const selectedCity = getSelectedOptionText('city-list') // Get the name of the selected city
+    let userWealth = getSelectedValueFromRadioGroup('wealth-create') // Get the userWealth from the radio group
+    userWealth = wealthMap.find(e => e.WEALTH == userWealth).INDEX
+    let magicness = getSelectedValueFromRadioGroup('magicness-create') // Get the magicness from the radio group
+    magicness = magicnessMap.find(e => e.MAGICNESS == magicness).INDEX
     const cityData = await db.msg_cities.toArray() // Get the cities table from the DB
-    if (name != selectedCity && stringExistsInArray(cityData, 'NAME', name)) return alert("Duplicate city names are not permitted.") // Prevent duplicate names in the DB only if the user wants to save a new city
+    if (stringExistsInArray(cityData, 'NAME', name)) return alert("Duplicate city names are not permitted.") // Prevent duplicate names in the DB only if the user wants to save a new city
 
-    let population = document.getElementById('population').value // Get the population in place text
+    let population = document.getElementById('population-create').value // Get the population in place text
     population = parseInt(population.replace(/\D/g,'')) // Parse it as an int while removing commas    
-
-    if (name == selectedCity) { // Update the selected city with the new user inputs
-        await db.msg_cities.update(cityId, { 
-            NAME: name,
-            POPULATION: parseInt(population),
-            MAGICNESS: magicness,
-            WEALTH: userWealth
-        })
-        .then(function() {
-            return makeToast(`<b>${name}</b> updated successfully!`, 'success') // Alert user to the success
-        })
-        .catch(function(error) {
-            console.error(`! ~~~~ Error ~~~~ ! \n Name: ${error.name} \n`, `Message: ${error.message}`)
-        })
-        return // Return because no other code should be run
-    }  
 
     await db.msg_cities.put({ // Add a brand new city to the DB
         NAME: name,
@@ -509,6 +520,9 @@ async function saveCity(){
     .catch(function(error){
         console.error(`! ~~~~ Error ~~~~ ! \n Name: ${error.name} \n`, `Message: ${error.message}`)
     })
+    document.getElementById('population-create').value = ''
+    document.getElementById('name-create').value = ''
+    toggleModal('create-city-modal')
 }
 // Function to set up the cities dropdown
 async function setupCitiesDropdown(){
@@ -534,11 +548,9 @@ async function setupCitiesDropdown(){
 }
 // Load city when selected in dropdown
 async function loadCity(city){
-    const divName = document.getElementById('name')
     const divPopulation = document.getElementById('population')
     const cityId = parseInt(document.getElementById('city-list').value)
 
-    let name = ''
     let citySize = 'gigalopolis'
     let population = '10000000'
     let userWealth = 'modest'
@@ -553,7 +565,6 @@ async function loadCity(city){
         magicness = cityData.MAGICNESS
     }
 
-    divName.value = name
     divPopulation.value = population
 
     const table_wealth = await db.msg_wealth.toArray()

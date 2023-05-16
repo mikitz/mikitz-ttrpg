@@ -59,7 +59,7 @@ Mikitz’ NPC Generator is your basic NPC generator, but it is special because i
 
 Mikitz’ Spellbook Generator randomly generates a spellbook for a wizard in D&D 5e based on the wizard level and subclass.
 
-### Star System & Galaxy Generator (TBA)
+### System Generator (TBA)
 [Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/star-system-and-galaxy-gen.md) | [Roadmap](https://github.com/users/mikitz/projects/12/views/1)
 
 I have big dreams, okay? I can see it now… A fully 3D galaxy map for your sci-fi or Spelljammer campaigns that is zoomable from galaxy scale all the way into a world. It’s a really far-out goal. Hah!

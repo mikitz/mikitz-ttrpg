@@ -159,7 +159,8 @@ function genWeatherEnc(rowId, index){
 // Define the function to generate a random encounter
 async function randomEncounter(){
     document.getElementById('table-encounter-output').innerHTML = ''
-    const sources = JSON.parse(localStorage.getItem('sources')).filter(e => e.SELECTED == true)
+    let sources = await db._sources.toArray()
+    sources = sources.filter(e => e.SELECTED == true)
     const sourceAbbrs = sources.map(e => e.ABBREVIATION)
     let bestiaryProcessed = await fetchLocalJson(`/mikitz-ttrpg/data/json/bestiary`)
     bestiaryProcessed = bestiaryProcessed.filter(e => sourceAbbrs.includes(e.source))
@@ -647,7 +648,7 @@ function hazard(biome, ID){
     }  catch(e){
         console.log("HAZARD ERROR:", e)
         // Send it
-        encounterFinal = `<h2>HAZARD</h2> Sorry! ${biome} Hazards are not currently implemented. Please roll again.`
+        encounterFinal = `<h2>HAZARD</h2> Sorry! ${biome} Hazards are not currently implemented.`
         return encounterFinal
     }
     if (type){

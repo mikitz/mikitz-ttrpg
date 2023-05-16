@@ -87,3 +87,73 @@ const sources1 = [
     {"ABBREVIATION":"XGE","FULL_NAME":"Xanathar's Guide to Everything","SELECTED":true},
     {"ABBREVIATION":"XMtS","FULL_NAME":"X Marks the Spot","SELECTED":true}
 ]
+const tippyData = [
+    {"PAGE": "index", "ELEMENTS": []},
+    {"PAGE": "battle-map-generator", "ELEMENTS": [
+        {"ID": "tippy-direction", "CONTENT":"Determines the direction of the road(s) and/or river(s) on the map"},
+        {"ID": "tippy-biome", "CONTENT":""},
+        {"ID": "tippy-landform", "CONTENT":""},
+        {"ID": "tippy-plane", "CONTENT":""},
+        {"ID": "tippy-normal-terrain", "CONTENT":""},
+        {"ID": "tippy-difficult-terrain", "CONTENT":""},
+        {"ID": "tippy-cover", "CONTENT":""},
+        {"ID": "tippy-cliffs", "CONTENT":""},
+        {"ID": "tippy-hills", "CONTENT":""},
+        {"ID": "tippy-lake", "CONTENT":""},
+        {"ID": "tippy-pond", "CONTENT":""},
+        {"ID": "tippy-river", "CONTENT":""},
+        {"ID": "tippy-road", "CONTENT":""},
+    ]},
+    {"PAGE": "calendar", "ELEMENTS": [
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+    ]},
+    {"PAGE": "encounter-generator", "ELEMENTS": [
+        {"ID": "tippy-name-encounter", "CONTENT":"Set a name for this group of encounters"},
+        {"ID": "tippy-name-party", "CONTENT":"Select the party used to balance encounters"},
+        {"ID": "tippy-total-probabilities", "CONTENT":"Displays the probability that at least <b>x Encs.</b> will occur"},
+        {"ID": "tippy-biome", "CONTENT":"Encounters are filtered based on the selected <b>Biome</b>"},
+        {"ID": "tippy-travel-medium", "CONTENT":"Encounters are filtered based on the selected <b>Travel Medium</b>"},
+        {"ID": "tippy-travel-pace", "CONTENT":"The below modifiers can be adjusted in the Settings. Defaults: <i>Slow</i> reduces the likelihood of all encounters. <i>Normal</i> effects no changes. <i>Fast</i> increases the likelihood of combat encounters and hazards, while decreasing the likelihood of non-combat encounters."},
+        {"ID": "tippy-road", "CONTENT":"The below modifiers can be adjusted in the Settings. Defaults: All roads decrease the likelihood of combat encounters and hazards, but increase the likelihood of non-combat encounters."},
+        {"ID": "tippy-climate", "CONTENT":"Affects the weather output"},
+        {"ID": "tippy-season", "CONTENT":"Affects the weather output"},
+        {"ID": "tippy-time-of-day", "CONTENT":"Non-combat encounters are more likely during the day and combat encounters are more likely during the night."},
+    ]},
+    {"PAGE": "magic-shop-generator", "ELEMENTS": [
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+    ]},
+    {"PAGE": "npc-generator", "ELEMENTS": [
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+    ]},
+    {"PAGE": "spellbook-generator", "ELEMENTS": [
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+    ]},
+    {"PAGE": "world-generator", "ELEMENTS": [
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+    ]},
+    {"PAGE": "star-system-and-galaxy-generator", "ELEMENTS": [
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+    ]},
+    {"PAGE": "settings", "ELEMENTS": [
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+    ]},
+    {"PAGE": "wiki", "ELEMENTS": [
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+        {"ID": "", "CONTENT":""},
+    ]},
+]
