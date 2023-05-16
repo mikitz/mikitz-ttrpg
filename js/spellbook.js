@@ -6,10 +6,10 @@ function setupSpellbook(){
     generateButton.addEventListener('click', function(){
         generateSpellbook()
     })
-    const toggleHistory = document.getElementById('toggle-history')
-    toggleHistory.addEventListener('click', function(){
-        toggleNextChildDisplay(this)
-    })
+    const toggleDisplayElements = document.getElementsByName('toggle-display')
+    toggleDisplayElements.forEach(element => {
+        element.addEventListener('click', function(){ toggleNextChildDisplay(this) })
+    });
 
     setupVersionNumber()
 
