@@ -150,7 +150,7 @@ async function setupNpcGenerator() {
             const npc = await createNpcDataFromDom()
             await db.npcg_npcs.put(npc, npcId)
                 .then(function(){
-                    console.log(`Cell updated successfully!`)
+                    makeToast(`<b>${npc.name}</b> updated successfully!`, 'success')
                 }).catch(error => {
                     console.error(`! ~~~~ Error ~~~~ ! \n Name: ${error.name} \n`, `Message: ${error.message}`)
                 }) 
@@ -688,12 +688,11 @@ async function populateNpcHistory(){
         const tdID = document.createElement('td')
         const tdView = document.createElement('td')
         const tdDelete = document.createElement('td')
+        const tdDate = document.createElement('td')
+        const tdTime = document.createElement('td')
         const tdName = document.createElement('td')
         const tdRace = document.createElement('td')
         const tdAge = document.createElement('td')
-        const tdSex = document.createElement('td')
-        const tdGender = document.createElement('td')
-        const tdPronouns = document.createElement('td')
         const tdLanguages = document.createElement('td')
         const tdAlignment = document.createElement('td')
         const tdBackground = document.createElement('td')
@@ -701,12 +700,11 @@ async function populateNpcHistory(){
         tdID.innerText = npcs.length - (index)
         tdView.innerHTML = `<i class="fa-solid fa-eye view-row" id="${element.id}-view"></i>`
         tdDelete.innerHTML = `<i class="fa-solid fa-trash delete-row" id="${element.id}-delete"></i>`
+        tdDate.innerText = element.datetime.toLocaleDateString()
+        tdTime.innerText = element.datetime.toLocaleTimeString()
         tdName.innerText = element.name
         tdRace.innerText = element.race
         tdAge.innerText = element.age
-        tdSex.innerText = element.sex
-        tdGender.innerText = element.gender
-        tdPronouns.innerText = element.pronouns
         tdLanguages.innerText = element.languages
         tdAlignment.innerText = element.alignment
         tdBackground.innerText = element.background
@@ -714,12 +712,11 @@ async function populateNpcHistory(){
         tr.appendChild(tdID)
         tr.appendChild(tdView)
         tr.appendChild(tdDelete)
+        tr.appendChild(tdDate)
+        tr.appendChild(tdTime)
         tr.appendChild(tdName)
         tr.appendChild(tdRace)
         tr.appendChild(tdAge)
-        tr.appendChild(tdSex)
-        tr.appendChild(tdGender)
-        tr.appendChild(tdPronouns)
         tr.appendChild(tdLanguages)
         tr.appendChild(tdAlignment)
         tr.appendChild(tdBackground)

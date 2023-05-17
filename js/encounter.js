@@ -1133,10 +1133,10 @@ function encounterGeneratorListeners() {
         "The probability that at least X encounters will occur."
     );
     document.getElementById("settings-save-party").addEventListener("click", function () { saveParty(); });
-    const toggleHistory = document.getElementById('toggle-history')
-    toggleHistory.addEventListener('click', function(){
-        toggleNextChildDisplay(this)
-    })
+    const toggleDisplayElements = document.getElementsByName('toggle-display')
+    toggleDisplayElements.forEach(element => {
+        element.addEventListener('click', function(){ toggleNextChildDisplay(this) })
+    });
 }
 // Function to add a row to the encounters table
 async function addEncounterRow(clickedElement) {
