@@ -1089,7 +1089,7 @@ function populateSidePanelElementsAndAttachHelpTippy(){
     addTippy('quantity-help', 'Set the number of encounters that will be generated per row.')
     addTippy('guarantee-encounter-help', 'If checked, an encounter is guaranteed to occur in every instance. Each type of encounter (combat, non-combat, and hazard) has an equal chance of occuring: 1 out of 3.')
     addTippy('party-name-help', 'Select the party you wish to use for balancing the encounters.')
-    
+    addTippy('go-to-options', 'Scroll to top')
     addTippy('probability-help', 'The probability of each encounter type occuring for just this row. Disregards quantity.')
     addTippy('total-probability-help', 'The probability of at least Encounter Number encounters occuring. E.G. if there are 3 encounters in the table, then the 1st row displays the probability of at least 1 encounter occuring, the 2nd row displays the probabilty of at least 2 encounters occuring, etc.')
 }
