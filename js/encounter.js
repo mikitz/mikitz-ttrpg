@@ -1130,7 +1130,7 @@ function encounterGeneratorListeners() {
     });
     addTippy(
         "total-probs-help",
-        "The probability that at least X encounters will occur."
+        "The probability that at least <b>#</b> encounters will occur."
     );
     document.getElementById("settings-save-party").addEventListener("click", function () { saveParty(); });
     const toggleDisplayElements = document.getElementsByName('toggle-display')
@@ -1344,8 +1344,8 @@ async function addEncounterRow(clickedElement) {
 async function calculateProababiltyColumn() {
     await sleep(100)
     const tableBodyChildren = document.getElementById("encounters-table-body").childNodes;
-    const totalProbsDiv = document.getElementById("total-probs-div");
-    totalProbsDiv.innerHTML = "";
+    const probsTable = document.getElementById('probs-body')
+    probsTable.innerHTML = "";
     let probsArray = [];
     let totalQuantity;
     for (let index = 0; index < tableBodyChildren.length; index++) {
@@ -1368,6 +1368,7 @@ async function calculateProababiltyColumn() {
         }
     }
     // Loop through the quantity to compute probabilites
+    
     for (let index = 0; index < probsArray.length; index++) {
         const element = probsArray[index];
         const dieNumber = element["totalProb"] * 100;
@@ -1379,9 +1380,26 @@ async function calculateProababiltyColumn() {
         const div = document.createElement("div");
         const span = document.createElement("span");
         span.innerHTML = `<b>${index + 1} Encs.:</b> ${prob}% (${frac})`;
+
+        const tr = document.createElement('tr')
+
+        const tdQuantity = document.createElement('td')
+        const tdPercent = document.createElement('td')
+        const tdFraction = document.createElement('td')
+
+        tdQuantity.innerText = index + 1
+        tdPercent.innerText = `${prob}%`
+        tdFraction.innerText = frac
+
+        tr.appendChild(tdQuantity)
+        tr.appendChild(tdPercent)
+        tr.appendChild(tdFraction)
+
+        probsTable.appendChild(tr)
+
         // Fraction
-        div.appendChild(span);
-        totalProbsDiv.appendChild(div);
+        // div.appendChild(span);
+        // totalProbsDiv.appendChild(div);
     }
 }
 async function populateSelectPartyDropdown() {

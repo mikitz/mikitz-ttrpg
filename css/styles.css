@@ -54,7 +54,7 @@ main {
     --nav-hover-color: #b8b8b8;
     --nav-inactive-text-color: var(--text-clr);
     --table-odd-row-color: #434343;
-    --table-even-row-color: #383838;
+    --table-even-row-color: #3d3d3d;
     --table-header-color: #2d2d2d;
     --href-not-visited: #0080ff;
     --href-visited: #7c29c9;
@@ -176,6 +176,20 @@ main {
 .color-secondary {
     background-color: var(--button-secondary-color);
 }
+.fieldset-button {
+    padding: 5px 15px;
+    margin: 10px;
+    font-size: large;
+    font-weight: bold;
+    border: 0;
+    border-radius: 10px;
+    min-width: 150px;
+    cursor: pointer;
+    color: var(--button-text-clr);
+}
+.fieldset-button:hover {
+    background-color: var(--button-hover-clr);
+}
 /* ==================================== */
 /*            Brand Buttons             */
 /* ==================================== */
@@ -207,22 +221,7 @@ main {
 /* ==================================== */
 /*               Fieldset               */
 /* ==================================== */
-.fieldset-button {
-    padding: 5px 15px;
-    margin: 10px;
-    font-size: larger;
-    font-weight: bold;
-    border: 0;
-    background-color: var(--button-primary-color);
-    color: #fff;
-    border-radius: 10px;
-    min-width: 150px;
-    cursor: pointer;
-    color: var(--button-text-clr);
-}
-.fieldset-button:hover {
-    background-color: var(--button-hover-clr);
-}
+
 
 .button-flex {
     display: flex;
