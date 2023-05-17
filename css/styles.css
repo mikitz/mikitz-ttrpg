@@ -308,6 +308,7 @@ main {
 /*               Page Nav               */
 /* ==================================== */
 .site-nav {
+    font-size: 1.0625rem;
     display: flex;
     top: 0;
     height: 40px;
@@ -362,6 +363,7 @@ main {
 /*             Sub-page Nav             */
 /* ==================================== */
 .sub-nav {
+    font-size: 1.0625rem;
     background-color: var(--top-nav-background-color);
     overflow: hidden;
     z-index: 1;
