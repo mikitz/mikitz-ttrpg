@@ -1,3 +1,16 @@
+function setupEncounterGeneratorPage(){
+    const myElement = document.getElementById("probs");
+    const rect = myElement.getBoundingClientRect();
+    const distanceFromTop = rect.top + 10
+    myElement.style.height = `calc(100vh - ${distanceFromTop}px)`;
+    document.getElementById('go-to-options').addEventListener('click', function(){
+        document.getElementById(`toggle-history`).scrollIntoView({behavior: "smooth"});
+    })
+    document.getElementById('reset-enc-inputs').addEventListener('click', async function(){
+        document.getElementById('encounters-table-body').innerHTML = ''
+        await addEncounterRow()
+    })
+}
 async function populateEncounterHistory(partyId){
     if (!partyId) partyId = parseInt(document.getElementById('select-party-input').value)
     const listDiv = document.getElementById('history-table-body')
@@ -270,6 +283,12 @@ async function randomEncounter(){
         await copyToClipboard(JSON.stringify(encounterData))
     }
     const encName = document.getElementById('name').value
+    const encountersData = await db.eg_encounters.toArray()
+    const duplicateName = encountersData.find(obj => obj.NAME == encName)
+    if (duplicateName && encName.length != 0) {
+        const conf = confirm("This encounter name already exists. Proceed?")
+        if (!conf) return
+    }
     const today = new Date(); // Instantiate a new Date object
     const alwaysEncounter = document.getElementById('100-percent')
     const partyInfo = await getPartyInfo() // Get selected party info
@@ -429,6 +448,7 @@ async function randomEncounter(){
         }
         encountersForDB.push(encounterData)
     }
+
     await db.eg_encounters.put({
         DATETIME: today,
         NAME: encName,

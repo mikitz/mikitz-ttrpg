@@ -69,6 +69,9 @@
     .styled-table tr {
         height: 40px !important;
     }
+    #toggle-history {
+        scroll-margin-top: calc(80px + 2rem);
+    }
 </style>
 <body>
     <div class="site-nav">
@@ -81,10 +84,8 @@
         <a class="site-button" id="spellbook-generator" href="/mikitz-ttrpg/html/pages/spellbook-generator.html"><i class="fa-solid fa-book"></i><span>Spellbook</span></a>
         <a class="site-button-under-construction" id="star-system-and-galaxy-generator" href="/mikitz-ttrpg/html/pages/star-system-and-galaxy-generator.html"><i class="fa-regular fa-circle-dot"></i><span>System</span></a>
         <a class="site-button-under-construction" id="world-generator" href="/mikitz-ttrpg/html/pages/world-generator.html"><i class="fa-solid fa-earth-americas"></i><span>World</span></a>
-        <span class="right">
-            <a class="site-button" id="settings" href="/mikitz-ttrpg/html/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
-            <a class="site-button" id="wiki" href="/mikitz-ttrpg/html/wiki.html"><i class="fa-solid fa-book-open"></i><span>Wiki</span></a>
-        </span>
+        <a class="site-button" id="settings" href="/mikitz-ttrpg/html/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+        <a class="site-button" id="wiki" href="/mikitz-ttrpg/html/wiki.html"><i class="fa-solid fa-book-open"></i><span>Wiki</span></a>
     </div>
     <div class="sub-nav" id="sub-nav">
         <a class="sub-nav-version-number nav-a" style="text-decoration: underline;" id="version-link" href="" target="_blank" rel="noopener noreferrer">
@@ -92,9 +93,34 @@
             <span id="version-number"></span>
         </a>
         <a href="#" class="nav-a active"><i class="fa-solid fa-dice-d20"></i> <span>Generator</span></a>
-    </div>v>
+    </div>
+    <div class="lower-left-fixed" id="go-to-options">
+        <i class="fa-solid fa-arrows-up-to-line"></i>
+    </div>
     </div>
     <main>
+        <div class="flex-column">
+            <!-- History -->
+            <div class="flex-column-child">
+                <div class="container visible">
+                    <div class="aspect-legend"><i class="fa-solid fa-chevron-up" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-history" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-history">History</span></div>
+                    <div class="history collapsed" id="history">
+                        <table class="styled-table">
+                            <thead>
+                                <th>Index</th>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>View</th>
+                                <th>Delete</th>
+                            </thead>
+                            <tbody id="history-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="side-panel-options" class="hidden">
             <!-- <div class="side-panel">
                 <fieldset class="user-options-container">
@@ -201,9 +227,7 @@
                         <div class="container">
                             <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-options" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-options">Options</span></div>
                             <div id="options">
-                                <!-- Options -->
                                 <div class="flex-row">
-                                    <!-- Encounter Options -->
                                     <div class="flex-row-child">
                                         <div class="container" id="attributes-container">
                                             <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-enc-options" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-enc-options">Encounter Options</span></div>
@@ -221,7 +245,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Party Options -->
                                     <div class="flex-row-child">
                                         <div class="container" id="party-container">
                                             <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-party" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-party">Party Options</span></div>
@@ -291,7 +314,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Probabilities -->
                                     <div class="flex-row-child" id="probs-row">
                                         <div class="container" id="probs-container">
                                             <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-probs" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-probs"><i id="total-probs-help" class="bi bi-question-square"></i> Probabilities</span></div>
@@ -314,25 +336,9 @@
                     </div>
                 </div>
                 <div class="flex-column-child">
-                    <button id="generate-encounter" class="button">Generate</button>
-                </div>
-                <div class="flex-column-child">
-                    <div class="container visible">
-                        <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-history" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-history">History</span></div>
-                        <div class="history collapsed" id="history">
-                            <table class="styled-table">
-                                <thead>
-                                    <th>Index</th>
-                                    <th>Name</th>
-                                    <th>Quantity</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>View</th>
-                                    <th>Delete</th>
-                                </thead>
-                                <tbody id="history-table-body"></tbody>
-                            </table>
-                        </div>
+                    <div class="flex-row">
+                        <button id="generate-encounter" class="button">Generate</button>
+                        <button class="button color-secondary" id="reset-enc-inputs">Reset</button>
                     </div>
                 </div>
                 <div class="flex-column-child">
@@ -394,10 +400,7 @@
         await addEncounterRow()
         encounterGeneratorListeners()
         await calculateProababiltyColumn()
-        const myElement = document.getElementById("probs");
-        const rect = myElement.getBoundingClientRect();
-        const distanceFromTop = rect.top + 10
-        myElement.style.height = `calc(100vh - ${distanceFromTop}px)`;
+        setupEncounterGeneratorPage()
     });
 </script>
 
