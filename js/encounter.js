@@ -285,8 +285,12 @@ async function randomEncounter(){
     const encName = document.getElementById('name').value
     const encountersData = await db.eg_encounters.toArray()
     const duplicateName = encountersData.find(obj => obj.NAME == encName)
+    if (encName.length == 0) {
+        const conf = confirm("The Encounter Group has no name. Proceed?")
+        if (!conf) return
+    }
     if (duplicateName && encName.length != 0) {
-        const conf = confirm("This encounter name already exists. Proceed?")
+        const conf = confirm("This Encounter Group name already exists. Proceed?")
         if (!conf) return
     }
     const today = new Date(); // Instantiate a new Date object
