@@ -203,9 +203,7 @@ function setupButtonListeners(){
     document.getElementById('export-uvtt').addEventListener('click', function() { exportToUvtt(JSON.parse(localStorage.getItem('currently-viewing-map-json'))) })
     document.getElementById('export-fvtt').addEventListener('click', function() { exportJsonToFvtt(JSON.parse(localStorage.getItem('currently-viewing-map-json'))) })
     document.getElementById('toggle-visibility').addEventListener('click', function() { toggleCollapsables(this) })
-    document.getElementById('generate').addEventListener('click', function() {
-        clickedHard(this)
-    })
+    document.getElementById('generate').addEventListener('click', function() { clickedHard(this) })
     // Function for the generate button's onclick
     async function clickedHard(buttonElement){
         buttonElement.classList.add('button-loading')

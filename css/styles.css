@@ -200,6 +200,17 @@ main {
 .fieldset-button:hover {
     background-color: var(--button-hover-clr);
 }
+.small-button {
+    min-width: 0;
+    width: 7rem;
+    height: 3rem;
+    font-size: xx-large;
+    padding: 0;
+    margin: 0;
+}
+.small-button .button-text {
+    font-size: small;
+}
 /* ==================================== */
 /*            Brand Buttons             */
 /* ==================================== */
@@ -515,7 +526,7 @@ main {
     flex-direction: row;
     gap: 20px;
     justify-content: center;
-    margin-top: 120px;
+    /* margin-top: 120px; */
     margin-bottom: 20px;
     z-index: 1;
 }
@@ -1167,7 +1178,7 @@ main a:visited {
 .slider-container .slider-number {
     width: 40px;
 }
-.slider-container .slider {
+.slider-container .slider-custom {
     width: 100px;
 }
 @media only screen and (max-width: 1250px) {
