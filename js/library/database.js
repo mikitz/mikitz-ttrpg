@@ -155,17 +155,15 @@ async function setupDB(){
             value`,
     // ---- Battle Map Generator ----
         bmg_maps: `
-            id,
+            ++id,
             DATETIME,
             BIOME,
-            CLIMATE,
             GRID,
             HEIGHT,
             HEX_ORIENTATION,
             NAME,
             PLANE,
             PPI,
-            SEASON,
             TILE_DATA,
             WALLS_FVTT,
             WALLS_UVTT,

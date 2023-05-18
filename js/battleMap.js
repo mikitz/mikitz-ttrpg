@@ -237,6 +237,25 @@ function setupAllListeners(){
     async function generateBattleMapOnClick(){
         const battleMapJSON = await generateBattleMapJson()
         await drawJsonOnCanvas(battleMapJSON, 'battle-map')
+        await db.bmg_maps.put(battleMapJSON)
+            .then(function(){
+                makeToast(`<b>${battleMapJSON.NAME}</b> map saved successfully!`, 'success')
+                populateBattleMapHistory()
+            }).catch(async function(error) {
+                if ((error.name === 'QuotaExceededError') || (error.inner && error.inner.name === 'QuotaExceededError')) {
+                    const con = confirm("In order to save the battle map that was just generated, three (3) old battle maps must be deleted. This is irreversible.")
+                    if (con) {
+                        let data = await db.bmg_maps.orderBy('datetime').reverse().toArray()
+                        data = data.slice(-3)
+                        for (let index = 0; index < data.length; index++) {
+                            const element = data[index];    
+                            await db.bmg_maps.delete(element.id)
+                        }
+                    }
+                } else {
+                    console.error(`! ~~~~ Error ~~~~ ! \n Name: ${error.name} \n`, `Message: ${error.message}`)
+                }
+            })
     }
     // Function to toggle collapsable state of fieldset-content
     function toggleCollapsables(buttonElement){
@@ -377,9 +396,9 @@ function setupAllDElements(){
     addTippy('toggle-visibility', 'Toggle collasped state')
     // Helps
     addTippy('direction-help', 'Determines the direction of the road(s) and/or river(s)')
-    addTippy('biome-help', '') // TODO
-    addTippy('form-help', 'Coming soon!')
-    addTippy('plane-help', 'Coming soon!')
+    addTippy('biome-help', 'Determines the types of tiles that can be rolled when generating the map.')
+    addTippy('form-help', 'Coming Soon! Determines the shape of the output map.')
+    addTippy('plane-help', 'Coming Soon! Determines the types of tiles as well as other aspects.')
     addTippy('terrain-help', 'The probability that non-difficult terrain tiles will appear.')
     addTippy('difficult-terrain-help', 'The probability that difficult terrain tiles will appear.')
     addTippy('cover-help', 'The probability that cover tiles will appear.')
@@ -471,7 +490,7 @@ function convertJsonToFoundryVTT(JSON){ // Function to build a FoundryVTT Scene 
         "sounds": [],
         "templates": [],
         "tiles": [],
-        "walls": JSON.WALLS_FOUNDRYVTT,
+        "walls": JSON.WALLS_FVTT,
         "playlist": null,
         "playlistSound": null,
         "journal": null,
@@ -604,6 +623,62 @@ function getRandomSeed(){ // Function to get the number from the seed
     // Print it to the page
     document.getElementById('output').innerHTML = seed()
 }
+async function populateBattleMapHistory(){
+    const listDiv = document.getElementById('history-table-body')
+    listDiv.innerHTML = ``
+    let data = await db.bmg_maps.orderBy('DATETIME').reverse().toArray()
+    for (let index = 0; index < data.length; index++) {
+        const element = data[index];
+        
+        const tr = document.createElement('tr')
+        tr.id = element.id
+
+        const tdID = document.createElement('td')
+        const tdView = document.createElement('td')
+        const tdDelete = document.createElement('td')
+        const tdDate = document.createElement('td')
+        const tdTime = document.createElement('td')
+        const tdName = document.createElement('td')
+        const tdBiome = document.createElement('td')
+        const tdDimensions = document.createElement('td')
+
+        let dt = (typeof element.DATETIME == 'string')? new Date(element.DATETIME) : element.DATETIME
+
+        tdID.innerText = data.length - (index)
+        tdView.innerHTML = `<i class="fa-solid fa-eye view-row" id="${element.id}-view"></i>`
+        tdDelete.innerHTML = `<i class="fa-solid fa-trash delete-row" id="${element.id}-delete"></i>`
+        tdDate.innerText = dt.toLocaleDateString()
+        tdTime.innerText = dt.toLocaleTimeString()
+        tdName.innerText = element.NAME
+        tdBiome.innerText = element.BIOME
+        tdDimensions.innerText = `${element.HEIGHT}x${element.WIDTH} @ ${element.PPI}ppi`
+
+        tr.appendChild(tdID)
+        tr.appendChild(tdView)
+        tr.appendChild(tdDelete)
+        tr.appendChild(tdDate)
+        tr.appendChild(tdTime)
+        tr.appendChild(tdName)
+        tr.appendChild(tdBiome)
+        tr.appendChild(tdDimensions)
+        
+        listDiv.appendChild(tr)
+
+        const viewIcon = document.getElementById(`${element.id}-view`)
+        viewIcon.addEventListener('click', async function(){ 
+            const primaryKey = parseInt(this.id.replace('-view',''))
+            const mapData = await db.bmg_maps.get(primaryKey)
+            drawJsonOnCanvas(mapData, 'battle-map')
+
+        })
+        const deleteIcon = document.getElementById(`${element.id}-delete`)
+        deleteIcon.addEventListener('click', function(){ 
+            const primaryKey = parseInt(this.id.replaceAll('-delete',''))
+            deleteRowByPrimaryKey(primaryKey, 'bmg_maps')
+            populateBattleMapHistory()
+        })
+    }
+}
 // ========= Battle_Maps ==========
 async function generateBattleMapJson(){ // Function to generate a battle map JSON
     // =================
@@ -641,7 +716,6 @@ async function generateBattleMapJson(){ // Function to generate a battle map JSO
     const diffTerrainProb = document.getElementById('difficult-terrain-input').value
     const coverProb = document.getElementById('cover-input').value
     const terrainSum = parseInt(terrainProb) + parseInt(diffTerrainProb) + parseInt(coverProb)
-    console.log("🚀 ~ file: Battle_Maps.js ~ line 44 ~ generateBattleMapJson ~ terrainSum", terrainSum)
     if (terrainSum > 100 || terrainSum < 100) {
         document.getElementById('generate').classList.remove('button-loading')
         return alert("Terrain probabilities does not equal 100! Ensure that Terrain, Diff. Terrain, and Cover probabilities add up to 100.")
@@ -692,8 +766,6 @@ async function generateBattleMapJson(){ // Function to generate a battle map JSO
     //       BUILD TABLE
     // ========================
     const rollTableBiomeTerrainTypes = convertJsonToRollTable(tableBiomeTerrainTypes)
-    console.log("🚀 ~ file: Battle_Maps.js ~ line 94 ~ generateBattleMapJson ~ tableBiomeTerrainTypes", tableBiomeTerrainTypes)
-    console.log("🚀 ~ file: Battle_Maps.js ~ line 94 ~ generateBattleMapJson ~ rollTableBiomeTerrainTypes", rollTableBiomeTerrainTypes)
     // ========================
     //   CALCULATE DIMENSIONS
     // ========================
@@ -740,16 +812,16 @@ async function generateBattleMapJson(){ // Function to generate a battle map JSO
     // Set up JSON Object
     const JSONobj = { 
         "NAME": name,
+        "DATETIME": date,
         "PPI": gridSize,
         "WIDTH": width,
         "HEIGHT": height,
         "TILE_DATA": terrainTypes,
         "BIOME": biome,
         "PLANE": plane,
-        "DATE": today,
         "GRID": grid,
         "HEX_ORIENTATION": hexOrientation,
-        "WALLS_FOUNDRYVTT": wallDataFVTT,
+        "WALLS_FVTT": wallDataFVTT,
         "WALLS_UVTT": wallData
     }
     // Set Local Storage items
@@ -761,9 +833,6 @@ async function generateBattleMapJson(){ // Function to generate a battle map JSO
         console.error("MAP TOO BIG --", error)
         alert("Map too big to save! Please export it before leaving the webpage.")
     }
-    
-    // TODO: Add map to DB
-
     return JSONobj
 }
 function getFeatureBool(featureProb){ // Function to return a Feature boolean based on the probabilty of occuring
