@@ -1,114 +1,147 @@
+// ========= Listeners ==========
 function setupAllListeners(){
-    setupAttributesListeners()
-    setupDimensionsListeners()
-    setupEnvironmentListeners()
-    setupGridListeners()
-    setupTerrainListeners()
-    setupTileLabelsListeners()
-    setupButtonListeners()
-    setBattleMapCanvasListeners()
-}
-// =================
-//    Attributes
-// =================
-function setupAttributesListeners(){
-    // Load dropdown
+    async function setupTerrain(){ // Function to set up Terrain based on Biome and Climate inputs
+        const biome = document.getElementById('biome').value
+        const BIOME = biome.toUpperCase()
+        // Data
+        const tableBiomeTerrainTypes = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/BIOME_TERRAIN_TYPES')
+        // Filter Data
+        const difficultTerrain = Math.round(tableBiomeTerrainTypes.find(i => i.BIOME === BIOME)["DIFF. TERRAIN"] * 100)
+        const regularTerrain = Math.round(tableBiomeTerrainTypes.find(i => i.BIOME === BIOME)["TERRAIN"] * 100)
+        const coverTerrain = Math.round(tableBiomeTerrainTypes.find(i => i.BIOME === BIOME)["COVER"] * 100)
+        // Input Elements
+        const inputRegularTerrain = document.getElementById('regular-terrain-input')
+        const inputDifficultTerrain = document.getElementById('difficult-terrain-input')
+        const inputCover = document.getElementById('cover-input')
+        const sliderRegularTerrain = document.getElementById('regular-terrain-slider')
+        const sliderDifficultTerrain = document.getElementById('difficult-terrain-slider')
+        const sliderCover = document.getElementById('cover-slider')
+        // Update DOM
+        inputRegularTerrain.value = regularTerrain
+        inputDifficultTerrain.value = difficultTerrain
+        inputCover.value = coverTerrain
+        sliderRegularTerrain.value = regularTerrain
+        sliderDifficultTerrain.value = difficultTerrain
+        sliderCover.value = coverTerrain
+    }
+    async function setupFeatures(){ // Function to setup Features
+        const biome = document.getElementById('biome').value
+        const BIOME = biome.toUpperCase()
+        const form = document.getElementById('form').value
+        const FORM = biome.toUpperCase()
+        // Data
+        const tableBiomeFeatures = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/BIOME_FEATURES')
+        const tableFormFeatures = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/FORM_FEATURES')
+        // Filter Data
+        const cliffsProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["CLIFFS"] * 100)
+        const hillsProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["HILLS"] * 100)
+        const lakeProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["LAKE"] * 100)
+        const pondProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["POND"] * 100)
+        const riverProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["RIVER"] * 100)
+        const roadProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["ROAD"] * 100)
+        // Input Elements
+        const inputCliffs = document.getElementById('cliffs-input')
+        const inputHills = document.getElementById('hills-input')
+        const inputLake = document.getElementById('lake-input')
+        const inputPond = document.getElementById('pond-input')
+        const inputRiver = document.getElementById('river-input')
+        const inputRoad = document.getElementById('road-input')
+        const sliderCliffs = document.getElementById('cliffs-slider')
+        const sliderHills = document.getElementById('hills-slider')
+        const sliderLake = document.getElementById('lake-slider')
+        const sliderPond = document.getElementById('pond-slider')
+        const sliderRiver = document.getElementById('river-slider')
+        const sliderRoad = document.getElementById('road-slider')
+        // Update DOM
+        inputCliffs.value = cliffsProb
+        inputHills.value = hillsProb
+        inputLake.value = lakeProb
+        inputPond.value = pondProb
+        inputRiver.value = riverProb
+        inputRoad.value = roadProb
+        sliderCliffs.value = cliffsProb
+        sliderHills.value = hillsProb
+        sliderLake.value = lakeProb
+        sliderPond.value = pondProb
+        sliderRiver.value = riverProb
+        sliderRoad.value = roadProb
+    }
+    function calculateResolution(){
+        let width = parseInt(document.getElementById("width-input").value) // Get the width
+        let height = parseInt(document.getElementById("height-input").value) // Get the height
+        let PPI = parseInt(document.getElementById("grid-size").value) // Get the PPI
+        const grid = getSelectedValueFromRadioGroup('grid-type')
+        // CALCULATIONS
+        const widthDividedPPI = ( width * PPI ) / PPI // Calculate width / PPI
+        const heightDividedPPI = ( height * PPI ) / PPI // Calcuate height / PPI
+        if (heightDividedPPI % 1 != 0 || widthDividedPPI % 1 != 0){ // Alert user to modulus
+            document.getElementById('image_size').innerHTML = '' // Empty the element's HTML
+            document.getElementById("image_size").innerHTML = `<b>Output Resolution:</b> <i>Invalid Dimensions: <br> Width / PPT = ${widthDividedPPI} <br> Height / PPT = ${heightDividedPPI} <br> At least one of these quotients is not a whole number. Please ensure that each of these quotients is a whole number, I.E. no decimal places.</i>`
+            return
+        }
+        if (grid === 'square'){
+            var w = (width * PPI)
+            var h = (height * PPI)
+        } else {
+            const angle = 2 * Math.PI / 2 // Angle of each edge from center
+            const a = PPI / 2 // Edge Length (a)
+            const d = PPI // Long Diagonal (d)
+            const s = Math.sqrt(3) * a // Short Diagonal (s)
+            const p = 6 * a // Perimeter (p)
+            const A = 3/2 * Math.sqrt(3) * a**2 // Area (A)
+            const r = Math.sqrt(3) / 2 * a // Apothem (r)
+            const R = a // Circumcircle Radius (R)
+            const b = Math.sqrt(a**2 - r**2) // b side of the triangle
+            // CANVAS
+            const hexOrientation = document.getElementById('hex-type').value // Get Hex Orientation
+            if (hexOrientation.includes('column')){
+                var h = parseInt((height * (r * 2)) + r + 2) // Set canvas height
+                var w = parseInt((width * (a + b)) + b + 2) // Set canvas width
+            } else {
+                var w = parseInt((height * (r * 2)) + r + 2) // Set canvas height
+                var h = parseInt((width * (a + b)) + b + 2) // Set canvas width
+            }
+        }
+        const totalPixels = (h * w).toLocaleString()
+        const tiles = (height * width).toLocaleString()
+        // OUTPUT
+        // Get Elements
+        const heightInPixelsSpan = document.getElementById('height-pixels')
+        const widthInPixelsSpan = document.getElementById('width-pixels')
+        const totalTilesSpan = document.getElementById('total-tiles')
+        const totalPixelsSpan = document.getElementById('total-pixels')
+        // Update Elements
+        heightInPixelsSpan.innerHTML = `${h} <span style="font-size: smaller;">pixels</span>`
+        widthInPixelsSpan.innerHTML = `${w} <span style="font-size: smaller;">pixels</span>`
+        totalTilesSpan.innerText = tiles
+        totalPixelsSpan.innerText = totalPixels
+    }
+    calculateResolution()
+    setupTerrain()
+    setupFeatures()
+    const toggleDisplayElements = document.getElementsByName('toggle-display')
+    toggleDisplayElements.forEach(element => {
+        element.addEventListener('click', function(){ toggleNextChildDisplay(this) })
+    });
+    // Attributes Listeners
     const historyDrop = document.getElementById('map-history-dropdown')
     historyDrop.addEventListener('change', function() { 
         const mapName = document.getElementById('map-history-dropdown').value
         redrawCanvasLabels(mapName) 
     })
-    // JSON upload
     document.getElementById('json-input').addEventListener('change', function() { loadJsonToCanvas() })
-}
-// =================
-//    Dimensions
-// =================
-function setupDimensionsListeners(){
-    // Get all elements necessary to calculate the resolution
+    // Dimensions Listeners
     const elements = document.getElementsByName('resolution')
     elements.forEach(element => {
         element.addEventListener('input', function() { calculateResolution() })
     })
-}
-// Function to calculate the output resolution
-function calculateResolution(){
-    let width = parseInt(document.getElementById("width-input").value) // Get the width
-    let height = parseInt(document.getElementById("height-input").value) // Get the height
-    let PPI = parseInt(document.getElementById("grid-size").value) // Get the PPI
-    const grid = getSelectedValueFromRadioGroup('grid-type')
-    // CALCULATIONS
-    const widthDividedPPI = ( width * PPI ) / PPI // Calculate width / PPI
-    const heightDividedPPI = ( height * PPI ) / PPI // Calcuate height / PPI
-    if (heightDividedPPI % 1 != 0 || widthDividedPPI % 1 != 0){ // Alert user to modulus
-        document.getElementById('image_size').innerHTML = '' // Empty the element's HTML
-        document.getElementById("image_size").innerHTML = `<b>Output Resolution:</b> <i>Invalid Dimensions: <br> Width / PPT = ${widthDividedPPI} <br> Height / PPT = ${heightDividedPPI} <br> At least one of these quotients is not a whole number. Please ensure that each of these quotients is a whole number, I.E. no decimal places.</i>`
-        return
-    }
-    if (grid === 'square'){
-        var w = (width * PPI)
-        var h = (height * PPI)
-    } else {
-        const angle = 2 * Math.PI / 2 // Angle of each edge from center
-        const a = PPI / 2 // Edge Length (a)
-        const d = PPI // Long Diagonal (d)
-        const s = Math.sqrt(3) * a // Short Diagonal (s)
-        const p = 6 * a // Perimeter (p)
-        const A = 3/2 * Math.sqrt(3) * a**2 // Area (A)
-        const r = Math.sqrt(3) / 2 * a // Apothem (r)
-        const R = a // Circumcircle Radius (R)
-        const b = Math.sqrt(a**2 - r**2) // b side of the triangle
-        // CANVAS
-        const hexOrientation = document.getElementById('hex-type').value // Get Hex Orientation
-        if (hexOrientation.includes('column')){
-            var h = parseInt((height * (r * 2)) + r + 2) // Set canvas height
-            var w = parseInt((width * (a + b)) + b + 2) // Set canvas width
-        } else {
-            var w = parseInt((height * (r * 2)) + r + 2) // Set canvas height
-            var h = parseInt((width * (a + b)) + b + 2) // Set canvas width
-        }
-    }
-    const totalPixels = (h * w).toLocaleString()
-    const tiles = (height * width).toLocaleString()
-    // OUTPUT
-    // Get Elements
-    const heightInPixelsSpan = document.getElementById('height-pixels')
-    const widthInPixelsSpan = document.getElementById('width-pixels')
-    const totalTilesSpan = document.getElementById('total-tiles')
-    const totalPixelsSpan = document.getElementById('total-pixels')
-    // Update Elements
-    heightInPixelsSpan.innerHTML = `${h} <span style="font-size: smaller;">pixels</span>`
-    widthInPixelsSpan.innerHTML = `${w} <span style="font-size: smaller;">pixels</span>`
-    totalTilesSpan.innerText = tiles
-    totalPixelsSpan.innerText = totalPixels
-}
-// =================
-//    Environment
-// =================
-function setupEnvironmentListeners(){
+    // Environment Listeners
     const biomeSelect = document.getElementById('biome')
     biomeSelect.addEventListener('change', function() { 
         setupTerrain() 
-        // setupWeather()
         setupFeatures()
     })
-    const climateSelect = document.getElementById('climate')
-    climateSelect.addEventListener('change', function() { 
-        setupTerrain() 
-        // setupWeather()
-        setupFeatures()
-    })
-    const seasonSelect = document.getElementById('season')
-    seasonSelect.addEventListener('change', function() { 
-        setupTerrain() 
-        // setupWeather()
-        setupFeatures()
-    })
-}
-// =================
-//        Grid
-// =================
-function setupGridListeners(){
+    // Grid Listeners
     // Grid Type listener
     const gridTypeRadio = document.getElementsByName('grid-type')
     const select = document.getElementById('hex-type')
@@ -153,17 +186,9 @@ function setupGridListeners(){
         const mapName = document.getElementById('map-history-dropdown').value
         redrawCanvasLabels(mapName) 
     })
-}
-// =================
-//    Terrain
-// =================
-function setupTerrainListeners(){
-    
-}
-// =================
-//    Tile Labels
-// =================
-function setupTileLabelsListeners(){
+    // Terrain Listeners
+
+    // Tile Labels Listeners
     // Tile Checkboxes
     const tileLabelCheckboxes = document.getElementsByName('label-checkbox')
     tileLabelCheckboxes.forEach(element => {
@@ -191,11 +216,7 @@ function setupTileLabelsListeners(){
             redrawCanvasLabels(mapName) 
         })
     });
-}
-// ======================
-//    Button Listeners
-// ======================
-function setupButtonListeners(){
+    // Button Listeners
     document.getElementById('clear-canvas').addEventListener('click', function() { clearCanvas('battle-map') })
     document.getElementById('export-webp').addEventListener('click', function() { exportCanvas('battle-map', 'webp') })
     document.getElementById('export-png').addEventListener('click', function() { exportCanvas('battle-map', 'png') })
@@ -211,7 +232,6 @@ function setupButtonListeners(){
         await generateBattleMapOnClick()
         await sleep(1000)
         buttonElement.classList.remove('button-loading')
-        populateHistoryDropdown()
     }
     // Function that is called when the Generate Battle Map button is clicked
     async function generateBattleMapOnClick(){
@@ -237,11 +257,7 @@ function setupButtonListeners(){
         });
         buttonElement.classList.toggle('closed')
     }
-}
-// =======================
-//    Battle Map Canvas
-// =======================
-function setBattleMapCanvasListeners(){
+    // Canvas Listeners
     const battleMapCanvas = document.getElementById('battle-map-canvas-container')
     const zoomElement = document.getElementById('battle-map')
     let zoom = 1
@@ -254,63 +270,23 @@ function setBattleMapCanvasListeners(){
           }
     })
 }
+// ========= Set up Dom ===========
 function setupAllDElements(){
-    setupSliders()
-    setupSelects()
-    setupFieldSets()
-    setupCheckboxes()
-    setupTopNav()
-    setupTooltips()
-}
-// =================
-//      Tippy
-// =================
-// Function to set up the tooltips
-function setupTooltips(){
-    addTippy('width', "The number of tiles wide the battle map will be.")
-    addTippy('height', "The number of tiles tall the battle map will be.")
-    addTippy('res', "The number of pixels long one side of each tile will be.")
-    addTippy('vertical', 'Rivers and roads will primarly be vertical.')
-    addTippy('horizontal', 'Rivers and roads will primarly be horizontal.')
-    addTippy('export-webp', 'Export as WEBP')
-    addTippy('export-png', 'Export as PNG')
-    addTippy('generate', 'Generate battle map')
-    addTippy('clear-canvas', 'Clear the battle map')
-    addTippy('export-json', 'Export as JSON')
-    addTippy('export-uvtt', 'Export as UVTT')
-    addTippy('export-fvtt', 'Export as FVTT')
-    addTippy('toggle-visibility', 'Toggle collasped state')
-    // Helps
-    addTippy('direction-help', 'Determines the direction of the road(s) and/or river(s)')
-    addTippy('biome-help', '') // TODO
-    addTippy('climate-help', '') // TODO
-    addTippy('form-help', 'Coming soon!')
-    addTippy('plane-help', 'Coming soon!')
-    addTippy('season-help', '') // TODO
-    addTippy('terrain-help', 'The probability that non-difficult terrain tiles will appear.')
-    addTippy('difficult-terrain-help', 'The probability that difficult terrain tiles will appear.')
-    addTippy('cover-help', 'The probability that cover tiles will appear.')
-    addTippy('cliffs-help', 'The probability that cliffs will appear on the battle map.')
-    addTippy('hills-help', 'The probability that hills will appear on the battle map.')
-    addTippy('lake-help', 'The probability that a lake will appear on the battle map.')
-    addTippy('pond-help', 'The probability that a pond will appear on the battle map.')
-    addTippy('river-help', 'The probability that a river will appear on the battle map.')
-    addTippy('road-help', 'The probability that a road will appear on the battle map.')
-    tippy('#average-temperature-help', {
-        content: `The starting temperature in fahrenheit which is dependent on the Biome, Climate, and Season. Additionally, <a href="https://github.com/mikitz/battle-map-generator/blob/main/data/JSONs/WEATHER_TEMPERATURE_ADJUSTMENT.json">two dice</a> are rolled for added randomness.`,
-        allowHTML: true,
-        delay: [0, 100],
-        interactive: true,
-    })
-    addTippy('precipitation-probability-help', 'The probability that light precipitation will fall.')
-    addTippy('heavy-precipitation-probability-help', 'The probability that heavy precipitation will fall.')
-    addTippy('-help', '')
-}
-// =================
-//      Sliders
-// =================
-// Function to set up each slider
-function setupSliders(){
+    // OnInput function for slider nubmer input
+    function sliderNumberOnInput(children){
+        const numberInput = children[1]
+        const slider = children[2]
+        const numberValue = numberInput.value
+        slider.value = numberValue
+    }
+    // OnInput function for slider
+    function sliderOnInput(children){
+        const numberInput = children[1]
+        const slider = children[2]
+        const sliderValue = slider.value
+        numberInput.value = sliderValue
+    }
+    // Sliders
     const sliders = document.querySelectorAll('.slider-container')
     sliders.forEach(element => {
         const children = element.children // Get the elements children
@@ -323,26 +299,7 @@ function setupSliders(){
             else if (childClass == 'slider') child.addEventListener('input', function() { sliderOnInput(children) } )
         }
     });
-}
-// OnInput function for slider nubmer input
-function sliderNumberOnInput(children){
-    const numberInput = children[1]
-    const slider = children[2]
-    const numberValue = numberInput.value
-    slider.value = numberValue
-}
-// OnInput function for slider
-function sliderOnInput(children){
-    const numberInput = children[1]
-    const slider = children[2]
-    const sliderValue = slider.value
-    numberInput.value = sliderValue
-}
-// =================
-//      Selects
-// =================
-// Function to setup the dropdowns
-function setupSelects(){
+    // Selects
     const selects = document.querySelectorAll('.select-container')
     for (let index = 0; index < selects.length; index++) {
         const element = selects[index];
@@ -385,63 +342,9 @@ function setupSelects(){
             select.appendChild(option)
         }
     }
-}
-// Function to populate the dropdown of map history
-function populateHistoryDropdown(){
-    const dropdown = document.getElementById('map-history-dropdown')
-    dropdown.innerHTML = ''
-    const option1 = document.createElement('option')
-    option1.innerHTML = 'Select Map...'
-    option1.value = 'choose'
-    dropdown.appendChild(option1)
-    let battleMapHistory
-    if (localStorage.getItem("battle-map-history")) battleMapHistory = JSON.parse(localStorage.getItem("battle-map-history"))
-    else battleMapHistory = []
-    // UPDATE DOM
-    battleMapHistory.forEach(element => {
-        const name = element.NAME
-        const option = document.createElement('option')
-        option.innerHTML = name
-        option.value = name
-        dropdown.appendChild(option)
-    })
-}
-// ==================
-//      Fieldsets
-// ==================
-// Function to set up each fieldset
-function setupFieldSets(){
-    const fieldsets = document.querySelectorAll('.user-options-container')
-    fieldsets.forEach(element => {
-        const children = element.children
-        for (let index = 0; index < children.length; index++) {
-            const child = children[index]
-            const childClass = child.className
-            if (childClass == 'fieldset-legend') child.addEventListener('click', function() { legendOnClick(children, this) })
-        }
-    });
-}
-function legendOnClick(children, legend) {
-    const content = children[1]
-    const display = content.style.display
-    const contentClassList = Array.from(content.classList)
-    if (contentClassList.includes('visible')) { 
-        content.classList.remove('visible')
-        content.classList.add('hidden')
-        content.style.height = '20px'
-    } else if (contentClassList.includes('hidden')) {
-        content.classList.remove('hidden')
-        content.classList.add('visible')
-        content.style.height = 'fit-content'
-    }
-    const legendChildren = legend.children
-    legendChildren[0].classList.toggle('closed')    
-}
-// ====================
-//      Checkboxes
-// ====================
-// Function to set up the checkboxes
-function setupCheckboxes(){
+    // Fieldsets
+
+    // Checkboxes
     const checkboxes = document.querySelectorAll('.checkbox-container')
     checkboxes.forEach(element => {
         const children = element.children
@@ -458,151 +361,40 @@ function setupCheckboxes(){
         lineWidthLabel.style.display = 'none'
         lineWidthSelect.style.display = 'none'
     }
+    // Tooltips
+    addTippy('width', "The number of tiles wide the battle map will be.")
+    addTippy('height', "The number of tiles tall the battle map will be.")
+    addTippy('res', "The number of pixels long one side of each tile will be.")
+    addTippy('vertical', 'Rivers and roads will primarly be vertical.')
+    addTippy('horizontal', 'Rivers and roads will primarly be horizontal.')
+    addTippy('export-webp', 'Export as WEBP')
+    addTippy('export-png', 'Export as PNG')
+    addTippy('generate', 'Generate battle map')
+    addTippy('clear-canvas', 'Clear the battle map')
+    addTippy('export-json', 'Export as JSON')
+    addTippy('export-uvtt', 'Export as UVTT')
+    addTippy('export-fvtt', 'Export as FVTT')
+    addTippy('toggle-visibility', 'Toggle collasped state')
+    // Helps
+    addTippy('direction-help', 'Determines the direction of the road(s) and/or river(s)')
+    addTippy('biome-help', '') // TODO
+    addTippy('form-help', 'Coming soon!')
+    addTippy('plane-help', 'Coming soon!')
+    addTippy('terrain-help', 'The probability that non-difficult terrain tiles will appear.')
+    addTippy('difficult-terrain-help', 'The probability that difficult terrain tiles will appear.')
+    addTippy('cover-help', 'The probability that cover tiles will appear.')
+    addTippy('cliffs-help', 'The probability that cliffs will appear on the battle map.')
+    addTippy('hills-help', 'The probability that hills will appear on the battle map.')
+    addTippy('lake-help', 'The probability that a lake will appear on the battle map.')
+    addTippy('pond-help', 'The probability that a pond will appear on the battle map.')
+    addTippy('river-help', 'The probability that a river will appear on the battle map.')
+    addTippy('road-help', 'The probability that a road will appear on the battle map.')
+    addTippy('precipitation-probability-help', 'The probability that light precipitation will fall.')
+    addTippy('heavy-precipitation-probability-help', 'The probability that heavy precipitation will fall.')
+    addTippy('-help', '')
 }
-// ====================
-//      Checkboxes
-// ====================
-async function setupTopNav(){
-    await sleep(120)
-    const list = document.querySelectorAll('.nav-a');
-    const url = window.location.href
-    list.forEach(element => {
-        if (url.includes('index') && element.id.includes('generator')) element.classList.add('active')
-        else if (url.includes('wiki') && element.id.includes('wiki')) element.classList.add('active')
-        else if (url.includes('about') && element.id.includes('about')) element.classList.add('active')
-        else if (url.includes('settings') && element.id.includes('settings')) element.classList.add('active')
-    });
-}
-// =======================
-//    Terrain & Weather
-// =======================
-// Function to set up Terrain based on Biome and Climate inputs
-async function setupTerrain(){
-    const biome = document.getElementById('biome').value
-    const BIOME = biome.toUpperCase()
-    const climate = document.getElementById('climate').value
-    const season = document.getElementById('season').value
-    const SEASON = season.toUpperCase()
-    // Data
-    const tableBiomeTerrainTypes = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/BIOME_TERRAIN_TYPES')
-    // Filter Data
-    const difficultTerrain = Math.round(tableBiomeTerrainTypes.find(i => i.BIOME === BIOME)["DIFF. TERRAIN"] * 100)
-    const regularTerrain = Math.round(tableBiomeTerrainTypes.find(i => i.BIOME === BIOME)["TERRAIN"] * 100)
-    const coverTerrain = Math.round(tableBiomeTerrainTypes.find(i => i.BIOME === BIOME)["COVER"] * 100)
-    // Input Elements
-    const inputRegularTerrain = document.getElementById('regular-terrain-input')
-    const inputDifficultTerrain = document.getElementById('difficult-terrain-input')
-    const inputCover = document.getElementById('cover-input')
-    const sliderRegularTerrain = document.getElementById('regular-terrain-slider')
-    const sliderDifficultTerrain = document.getElementById('difficult-terrain-slider')
-    const sliderCover = document.getElementById('cover-slider')
-    // Update DOM
-    inputRegularTerrain.value = regularTerrain
-    inputDifficultTerrain.value = difficultTerrain
-    inputCover.value = coverTerrain
-    sliderRegularTerrain.value = regularTerrain
-    sliderDifficultTerrain.value = difficultTerrain
-    sliderCover.value = coverTerrain
-}
-// Function to setup Weather based on Biome and Climate inputs
-async function setupWeather(){
-    const biome = document.getElementById('biome').value
-    const BIOME = biome.toUpperCase()
-    const climate = document.getElementById('climate').value
-    const season = document.getElementById('season').value
-    const SEASON = season.toUpperCase()
-    // Data
-    const tableBiomeTemps = await fetchLocalJson('BIOME_TEMPERATURES')
-    const tableClimateTempMods = await fetchLocalJson('CLIMATE_TEMPERATURE_MODIFIERS')
-    const tableSeasonTempMods = await fetchLocalJson('SEASON_TEMPERATURE_MODIFIERS')
-    const tableWeatherTempAdjustments = await fetchLocalJson('WEATHER_TEMPERATURE_ADJUSTMENT')
-    const tableWeatherTempAndPrecipitation = await fetchLocalJson('WEATHER_TEMPERATURE_AND_PRECIPITATION')
-    const tableWeatherWindDirection = await fetchLocalJson('WEATHER_WIND_DIRECTION')
-    const tableWeatherWind = await fetchLocalJson('WEATHER_WIND')
-    // Filter Data
-    const averageTemperature = Math.round(tableWeatherTempAndPrecipitation.find(i => i.TYPE === climate)[`${SEASON}_AVERAGE_TEMP_F`])
-    const lightPrecipitationProbability = Math.round(tableWeatherTempAndPrecipitation.find(i => i.TYPE === climate)[`${SEASON}_PRECIPITATION_PROB`])
-    const heavyPrecipitationProbability = Math.round(tableWeatherTempAndPrecipitation.find(i => i.TYPE === climate)[`${SEASON}_HEAVY_PRECIPITATION_PROB`])
-    const biomeTemp = tableBiomeTemps.find(i => i.BIOME === biome)['TEMP_F']
-    const climateTempMod = tableClimateTempMods.find(i => i.CLIMATE === climate)['TEMP_F_CHANGE']
-    const seasonTempMod = tableSeasonTempMods.find(i => i.SEASON === season.toLowerCase())['TEMP_F_CHANGE']
-    let randomTempMod = rollTable(tableWeatherTempAdjustments)
-    let roll
-    if (randomTempMod.includes("+")) {
-        if (randomTempMod.includes("8")) {
-            roll = getRndInteger(1, 8)
-        } else if (randomTempMod.includes("4")) {
-            roll = getRndInteger(1, 4) * 10
-        }
-        randomTempMod = roll
-    } else if (randomTempMod.includes("-")) {
-        if (randomTempMod.includes("8")) {
-            roll = getRndInteger(1, 8)
-        } else if (randomTempMod.includes("4")) {
-            roll = getRndInteger(1, 4) * 10
-        }
-        randomTempMod = -roll
-    }
-    // Input Elements
-    const inputAvgTemp = document.getElementById('average-temperature-input')
-    const inputPrecipitationProbability = document.getElementById('precipitation-probability-input')
-    const inputHeavyPrecipitationProbability = document.getElementById('heavy-precipitation-probability-input')
-    const sliderAvgTemp = document.getElementById('average-temperature-slider')
-    const sliderPrecipitationProbability = document.getElementById('precipitation-probability-slider')
-    const sliderHeavyPrecipitationProbability = document.getElementById('heavy-precipitation-probability-slider')
-    // Update DOM
-    inputAvgTemp.value = biomeTemp + climateTempMod + seasonTempMod + randomTempMod
-    inputPrecipitationProbability.value = lightPrecipitationProbability
-    inputHeavyPrecipitationProbability.value = heavyPrecipitationProbability
-    sliderAvgTemp.value = biomeTemp + climateTempMod + seasonTempMod + randomTempMod
-    sliderPrecipitationProbability.value = lightPrecipitationProbability
-    sliderHeavyPrecipitationProbability.value = heavyPrecipitationProbability
-}
-// Function to setup Features
-async function setupFeatures(){
-    const biome = document.getElementById('biome').value
-    const BIOME = biome.toUpperCase()
-    const form = document.getElementById('form').value
-    const FORM = biome.toUpperCase()
-    // Data
-    const tableBiomeFeatures = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/BIOME_FEATURES')
-    const tableFormFeatures = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/FORM_FEATURES')
-    // Filter Data
-    const cliffsProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["CLIFFS"] * 100)
-    const hillsProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["HILLS"] * 100)
-    const lakeProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["LAKE"] * 100)
-    const pondProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["POND"] * 100)
-    const riverProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["RIVER"] * 100)
-    const roadProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["ROAD"] * 100)
-    // Input Elements
-    const inputCliffs = document.getElementById('cliffs-input')
-    const inputHills = document.getElementById('hills-input')
-    const inputLake = document.getElementById('lake-input')
-    const inputPond = document.getElementById('pond-input')
-    const inputRiver = document.getElementById('river-input')
-    const inputRoad = document.getElementById('road-input')
-    const sliderCliffs = document.getElementById('cliffs-slider')
-    const sliderHills = document.getElementById('hills-slider')
-    const sliderLake = document.getElementById('lake-slider')
-    const sliderPond = document.getElementById('pond-slider')
-    const sliderRiver = document.getElementById('river-slider')
-    const sliderRoad = document.getElementById('road-slider')
-    // Update DOM
-    inputCliffs.value = cliffsProb
-    inputHills.value = hillsProb
-    inputLake.value = lakeProb
-    inputPond.value = pondProb
-    inputRiver.value = riverProb
-    inputRoad.value = roadProb
-    sliderCliffs.value = cliffsProb
-    sliderHills.value = hillsProb
-    sliderLake.value = lakeProb
-    sliderPond.value = pondProb
-    sliderRiver.value = riverProb
-    sliderRoad.value = roadProb
-}
-// Function that loads the uploaded JSOn to the map
-async function loadJsonToCanvas(){
+// ========= Data Manipulation ===========
+async function loadJsonToCanvas(){ // Function that loads the uploaded JSOn to the map
     async function fileToJSON(file) {
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader()
@@ -614,8 +406,7 @@ async function loadJsonToCanvas(){
     const jsonFile = await fileToJSON(document.getElementById('json-input').files[0])
     drawJsonOnCanvas(jsonFile, 'battle-map')
 }
-// Function to export canvas by canvas ID
-function exportCanvas(ID, filetype){
+function exportCanvas(ID, filetype){ // Function to export canvas by canvas ID
     const canvas = document.getElementById(ID)
     if (isCanvasBlank(canvas)) return alert("Please generate a map first.")
     const name = JSON.parse(localStorage.getItem('currently-viewing-map-json')).NAME
@@ -625,8 +416,7 @@ function exportCanvas(ID, filetype){
     link.href = canvas.toDataURL(`image/${filetype}`) // Grab the canvas image data
     link.click() // Click the link to export
 }
-// Function to build a FoundryVTT Scene JSON from JSON
-function convertJsonToFoundryVTT(JSON){
+function convertJsonToFoundryVTT(JSON){ // Function to build a FoundryVTT Scene JSON from JSON
     function getFoundryVttGridType(data){
         const gridType = data.GRID
         const hexOrientation = data.HEX_ORIENTATION
@@ -690,8 +480,7 @@ function convertJsonToFoundryVTT(JSON){
     }
     return FVTT
 }
-// Function to export as FVTT
-function exportJsonToFvtt(JSONobj){
+function exportJsonToFvtt(JSONobj){ // Function to export as FVTT
     if (!JSONobj) return alert("Please generate a map first.")
     const canvas = document.getElementById('battle-map')
     if (isCanvasBlank(canvas)) return alert("Please generate a map first.")
@@ -707,8 +496,7 @@ function exportJsonToFvtt(JSONobj){
 
     exportCanvas('battle-map', 'webp')
 }
-// Function to build UVTT from JSON
-function convertJsonToUvtt(JSON) {
+function convertJsonToUvtt(JSON) { // Function to build UVTT from JSON
     if (!JSON) return alert("Please generate a map first.")
     const canvas = document.getElementById('battle-map')
     if (isCanvasBlank(canvas)) return alert("Please generate a map first.")
@@ -783,8 +571,7 @@ function convertJsonToUvtt(JSON) {
 
     return UVTT
 }
-// Function to export the currently viewed map as a JSON
-function exportToJson(JSONobj){
+function exportToJson(JSONobj){ // Function to export the currently viewed map as a JSON
     if (!JSONobj) return alert("Please generate a map first.")
     const canvas = document.getElementById('battle-map')
     if (isCanvasBlank(canvas)) return alert("Please generate a map first.")
@@ -795,8 +582,7 @@ function exportToJson(JSONobj){
     dlAnchorElem.setAttribute("download", `${name}.json`);
     dlAnchorElem.click();
 }
-// Function to export the currently viewed map as a UVTT file
-function exportToUvtt(JSONobj){
+function exportToUvtt(JSONobj){ // Function to export the currently viewed map as a UVTT file
     if (!JSONobj) return alert("Please generate a map first.")
     const canvas = document.getElementById('battle-map')
     if (isCanvasBlank(canvas)) return alert("Please generate a map first.")
@@ -810,8 +596,7 @@ function exportToUvtt(JSONobj){
     dlAnchorElem.setAttribute("download", `${name}.uvtt`);
     dlAnchorElem.click();
 }
-// Function to get the number from the seed
-function getRandomSeed(){
+function getRandomSeed(){ // Function to get the number from the seed
     // Get the user's seed input
     var seedUser = document.getElementById("seed").value
     // Get a random seed
@@ -819,56 +604,8 @@ function getRandomSeed(){
     // Print it to the page
     document.getElementById('output').innerHTML = seed()
 }
-// Function to convert a JSON table of probabilities into a rollable table
-function convertJsonToRollTable(json){
-    let rollTable = []
-    let decimalPlaces = 0
-    // Compute the die size and return the die
-    for (let index = 0; index < json.length; index++) {
-        const element = json[index]
-        for (let [key, value] of Object.entries(element)) {
-            const item = {
-            	key: key,
-              value: value
-            }
-            if (!isNaN(value)) {
-                const decimalPlacesInternal = value.countDecimals()
-                if (decimalPlacesInternal > decimalPlaces) decimalPlaces = decimalPlacesInternal
-            }
-        }
-    }
-    const dieSize = `1${"0".repeat(decimalPlaces)}`
-    const die = `d${dieSize}`
-    // Convert the probabilities into die numbers and assemble the rollTable
-    for (let index = 0; index < json.length; index++) {
-        const element = json[index]
-        for (let [key, value] of Object.entries(element)) {
-            if (!isNaN(value)) { // If it's a number
-                // Set up the value
-                value = value * parseInt(dieSize)
-                // Append it to rollTable
-                let obj = `[{"${die}": ${value},"TYPE": "${key}"}]`
-                obj = JSON.parse(obj)[0]
-                rollTable.push(obj)
-            }
-        }
-    }
-    // Sort rollTable by key from smallest to largest
-    rollTable = rollTable.sort(function (a, b) {
-        return a[`${die}`] - b[`${die}`]
-    })
-    // Convert the rollTables numbers into proper rollTable numbers
-    for (let index = 0; index < rollTable.length; index++) {
-        const element = rollTable[index]
-        if (index > 0) {
-            // element[`${die}`] = element[`${die}`] - 1
-            element[`${die}`] = element[`${die}`] + rollTable[index - 1][`${die}`]
-        }
-    }
-    return rollTable
-}
-// Function to generate a battle map JSON
-async function generateBattleMapJson(){
+// ========= Battle_Maps ==========
+async function generateBattleMapJson(){ // Function to generate a battle map JSON
     // =================
     //    USER INPUTS
     // =================
@@ -894,15 +631,9 @@ async function generateBattleMapJson(){
     if (!width || !height || !gridSize) return alert("Width, Height, and Grid Size are required.")
     // Environment
     const biome = document.getElementById('biome').value // Biome
-    const season = document.getElementById('season').value // Season
-    const climate = document.getElementById('climate').value // Climate
     const plane = document.getElementById('plane').value // Plane
-    const form = document.getElementById('form').value
-    const SEASON = season.toUpperCase()
-    const seasonProper = season.toTitleCase() // Convert season to propercase
     const BIOME = biome.toUpperCase() // Convert biome to uppercase
     const biomeLower = BIOME.toLowerCase() // Convert biome to lowercase
-    const CLIMATE = climate.toUpperCase().replace("/", "_") // Convert climate to uppercase
     // Grid
     const grid = getSelectedValueFromRadioGroup('grid-type')
     // Terrain
@@ -943,15 +674,16 @@ async function generateBattleMapJson(){
     const river = getFeatureBool(riverProb)
     const road = getFeatureBool(roadProb)
     // Colors
-    let colorData = await fetchLocalJson(`COLORS_${SEASON}`) // Get the colors JSON for the specific season
+    // let colorData = await fetchLocalJson(`mikitz-ttrpg\data\json\battle-map-generator\COLORS_${SEASON}`) // Get the colors JSON for the specific season
+    let colorData = await fetchLocalJson(`/mikitz-ttrpg/data/json/battle-map-generator/COLORS_SUMMER`) // Get the colors JSON for the specific season
     colorData = colorData.find(i => i.TYPE === BIOME)
     // Table Data
-    let tableCover = await fetchLocalJson('COVER')
-    let tableDiffTerrain = await fetchLocalJson('DIFF._TERRAIN')
-    let tableTerrain = await fetchLocalJson('TERRAIN')
-    const tableCoverType = await fetchLocalJson('COVER_TYPE')
-    const tableHill = await fetchLocalJson('DIE_SIZE_HILL')
-    const tableCliff = await fetchLocalJson('DIE_SIZE_CLIFF')
+    let tableCover = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/COVER')
+    let tableDiffTerrain = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/DIFF._TERRAIN')
+    let tableTerrain = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/TERRAIN')
+    const tableCoverType = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/COVER_TYPE')
+    const tableHill = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/DIE_SIZE_HILL')
+    const tableCliff = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/DIE_SIZE_CLIFF')
     // Filter Tables
     tableCover = tableCover.filter(i => i.TYPE === BIOME)
     tableDiffTerrain = tableDiffTerrain.filter(i => i.TYPE === BIOME)
@@ -990,7 +722,9 @@ async function generateBattleMapJson(){
     const rDirection = determineDirection(orient) // Determine the direction
     const beginRiver = determineRiverBeginningCoordinates(rDirection, height, width) // Determine the coordinates where the river will start
     const beginRoad = determineRoadBeginningCoordinates(rDirection, height, width) // Determine the coordinates where the river will start
-    let terrainTypes = await generateAllTiles(rDirection, height, width, rollTableBiomeTerrainTypes, BIOME, SEASON, CLIMATE, cliff, hill, lake, pond, river, road, cliffDieSize, hillDieSize, height, rDirection, grid, beginRoad, beginRiver, riverWidth, roadWidth, seasonProper, gridSize, colorData, tableCoverType, tableCover, tableDiffTerrain, tableTerrain)
+    let terrainTypes = await generateAllTiles(rDirection, height, width, rollTableBiomeTerrainTypes, BIOME, 
+        cliff, hill, lake, pond, river, road, cliffDieSize, hillDieSize, height, rDirection, grid, beginRoad, beginRiver, riverWidth, roadWidth, 
+        gridSize, colorData, tableCoverType, tableCover, tableDiffTerrain, tableTerrain)
     let wallData = terrainTypes[1]
     let wallDataFVTT = terrainTypes[2]
     terrainTypes = terrainTypes[0]
@@ -1011,8 +745,6 @@ async function generateBattleMapJson(){
         "HEIGHT": height,
         "TILE_DATA": terrainTypes,
         "BIOME": biome,
-        "CLIMATE": climate,
-        "SEASON": season,
         "PLANE": plane,
         "DATE": today,
         "GRID": grid,
@@ -1030,40 +762,18 @@ async function generateBattleMapJson(){
         alert("Map too big to save! Please export it before leaving the webpage.")
     }
     
-    // Get the Battle Map History from Local Storage
-    let battleMapHistory
-    if (JSON.parse(localStorage.getItem('battle-map-history'))) battleMapHistory = JSON.parse(localStorage.getItem('battle-map-history'))
-    else battleMapHistory = []
-    battleMapHistory.push(JSONobj)
-    // Delete any old maps if this map will not fit in Local Storage
-    let localStorageFull = true
-    let deletedName
-    while (localStorageFull == true) {
-        try { 
-            localStorage.setItem('battle-map-history', JSON.stringify(battleMapHistory)) 
-            localStorageFull = false
-        } 
-        catch (error) {
-            localStorageFull = true
-            // alert(`Failed to save to Local Storage because ${error}`)
-            deletedName = battleMapHistory[0].NAME
-            battleMapHistory.splice(0, 1) // Delete the oldest map the user saved
-            console.log(`Battle_Map.js | Just deleted ${deletedName} from Battle Map History.`)
-            console.error(`Failed to save to Local Storage:`, error)
-        }
-    }
+    // TODO: Add map to DB
+
     return JSONobj
 }
-// Function to return a Feature boolean based on the probabilty of occuring
-function getFeatureBool(featureProb){
+function getFeatureBool(featureProb){ // Function to return a Feature boolean based on the probabilty of occuring
     featureProb = parseInt(featureProb)
     let boolean = false
     const roll = getRndInteger(1, 100)
     if (roll <= featureProb) boolean = true
     return boolean
 }
-// Function to determine the direction by which to draw the canvas
-function determineDirection(orientation){
+function determineDirection(orientation){ // Function to determine the direction by which to draw the canvas
     if (!orientation) var rDirection = getRndInteger(1, 4) // Random roll
     if (orientation === 'vertical'){
         var rDirection = getRndInteger(1, 2) // Roll to determine if up or down
@@ -1076,8 +786,7 @@ function determineDirection(orientation){
     }
     return rDirection
 }
-// Function to determine the river's width
-function getRiverWidth(height){
+function getRiverWidth(height){ // Function to determine the river's width
     let riverWidth
     try {
         riverWidth = document.getElementById('river-width-width').value
@@ -1085,26 +794,22 @@ function getRiverWidth(height){
     } catch (e){ riverWidth = getRndInteger(1, Math.floor(height / 3)) }   
     return riverWidth
 }
-// Function to determine the road's width
-function getRoadWidth(){
+function getRoadWidth(){ // Function to determine the road's width
     let roadWidth
     try {
         roadWidth = document.getElementById('road-width-width').value
         if (roadWidth === ""){ roadWidth = getRndInteger(1, 3) }
     } catch (e){ roadWidth = getRndInteger(1, 3) }
 }
-// Functiong to determine where the River should start
-function determineRiverBeginningCoordinates(direction, height, width){
+function determineRiverBeginningCoordinates(direction, height, width){ // Function to determine where the River should start
     if (direction === 1 || direction === 3) return beginRiver = getRndInteger(0, height - 1)
     else if (direction === 2 || direction === 4) return beginRiver = getRndInteger(0, width - 1)
 }
-// Function to determine where the road should start
-function determineRoadBeginningCoordinates(direction, height, width){
+function determineRoadBeginningCoordinates(direction, height, width){ // Function to determine where the road should start
     if (direction === 1 || direction === 3) return beginRiver = getRndInteger(0, height - 1)
     else if (direction === 2 || direction === 4) return beginRiver = getRndInteger(0, width - 1)
 }
-// Function to deterimine the X and Y coordinates on the canvas to draw a hexagon tile
-function determineHexXandY(i, j, xOff, yOff, hexOrientation, R, b, r) {
+function determineHexXandY(i, j, xOff, yOff, hexOrientation, R, b, r) { // Function to deterimine the X and Y coordinates on the canvas to draw a hexagon tile
     let x = xOff
     let y = yOff
     if (hexOrientation === 'row-even') {
@@ -1214,8 +919,9 @@ function determineHexXandY(i, j, xOff, yOff, hexOrientation, R, b, r) {
     }
     return {'x': x, 'y': y}
 }
-// Function to generate all tiles
-async function generateAllTiles(rDirection, height, width, rollTableBiomeTerrainTypes, BIOME, SEASON, CLIMATE, cliff, hill, lake, pond, river, road, cliffDieSize, hillDieSize, height, rDirection, gridType, beginRoad, beginRiver, riverWidth, roadWidth, seasonProper, PPI, colorData, tableCoverType, tableCover, tableDiffTerrain, tableTerrain){
+// ========= Battle_Maps_Tiles ==========
+async function generateAllTiles(rDirection, height, width, rollTableBiomeTerrainTypes, BIOME, cliff, hill, lake, pond, river, road, cliffDieSize, hillDieSize, height, rDirection, gridType, 
+    beginRoad, beginRiver, riverWidth, roadWidth, PPI, colorData, tableCoverType, tableCover, tableDiffTerrain, tableTerrain){ // Function to generate all tiles
     // ==================
     //    Data Classes
     // ==================
@@ -1508,7 +1214,7 @@ async function generateAllTiles(rDirection, height, width, rollTableBiomeTerrain
                 }
             } else color = eval(`difficult_terrainColor`) // Set the color to the difficult terrain color  
             var DC = 'N/A' // Set the DC to N/A
-            image = `/battle-map-generator/img/battleMapGenerator/${type.toLowerCase()}-${imgNum}-${coverImge}.svg` // Set the image
+            image = `/mikitz-ttrpg/img/battle-map-generator/${type.toLowerCase()}-${imgNum}-${coverImge}.svg` // Set the image
         }  
         // DIFFICULT TERRAIN
         else if (typeUnchanged.includes('difficult_terrain') && !type.includes('river') && !type.includes('road')){
@@ -1533,7 +1239,7 @@ async function generateAllTiles(rDirection, height, width, rollTableBiomeTerrain
         // console.log("BEGIN RIVER (INTERNAL)", beginRiver)
         // console.log("GRID (INTERANL)", grid)
         // console.log("RIVER (INTERNAL)", river)
-        const tableWaterType = await fetchLocalJson("WATER_TYPE")
+        const tableWaterType = await fetchLocalJson("/mikitz-ttrpg/data/json/battle-map-generator/WATER_TYPE")
         elevation = 0
         // FUNCTIONS
             // Cliff
@@ -2173,8 +1879,8 @@ async function generateAllTiles(rDirection, height, width, rollTableBiomeTerrain
     }
     return [terrainTypes, wallDataUVTT, wallDataFVTT]
 }
-// Function to add an image to canvas
-function addImage(canvasID, imageSRC, x, y, size, randRotation){
+// ========= Battle_Maps_Drawing ==========
+function addImage(canvasID, imageSRC, x, y, size, randRotation){ // Function to add an image to canvas
     // Pull the canvas
     var canvas = document.getElementById(canvasID)
     // Get context
@@ -2188,25 +1894,15 @@ function addImage(canvasID, imageSRC, x, y, size, randRotation){
     // Img Source
     imageObj.src = imageSRC
 }
-// Function to clear the Canvas
-function clearCanvas(id){
-    // CLEAR CANVAS
-        // Canvas
+function clearCanvas(id){ // Function to clear the Canvas
         const canvas = document.getElementById(id)
-        // Context
         const ctx = canvas.getContext('2d')
-        // Clear it
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        // Set width
         canvas.width = 0
-        // Set height
         canvas.height = 0
-    // CLEAR LEGEND
-        // Key
         document.getElementById('legend').innerHTML = ''
 }
-// Function to add labels
-function addLabels(ctx, label, x, y, text, distance, size, hexOptions){
+function addLabels(ctx, label, x, y, text, distance, size, hexOptions){ // Function to add labels
     // LOCAL STORAGE PULL
         // Get the data from localStorage
         const campaignName = localStorage.getItem('selectedCampaign')
@@ -2261,8 +1957,7 @@ function addLabels(ctx, label, x, y, text, distance, size, hexOptions){
         ctx.fillText(`${text}`, x, y)
     }
 }
-// Function for visible grid
-function addGrid(type, ctx, RGB, distance, x, y, width, height){
+function addGrid(type, ctx, RGB, distance, x, y, width, height){ // Function for visible grid
     // Square Grid
     if (type === 'square'){
         // Grid Visible
@@ -2337,8 +2032,7 @@ function addGrid(type, ctx, RGB, distance, x, y, width, height){
         }
     }
 }
-// Function to fill a rectangle
-function fillRectangle(element, x, y, width, height, RGB, coordinates, type, DC, cover, distance, elevation){
+function fillRectangle(element, x, y, width, height, RGB, coordinates, type, DC, cover, distance, elevation){ // Function to fill a rectangle
     if (!cover){ cover = 'N/A' } else { cover = cover } // Cover
     if (!DC){ DC = 'N/A' } else { DC = DC } // DC
     var terrain = type.split("_") // Split terrain by "_"
@@ -2351,8 +2045,7 @@ function fillRectangle(element, x, y, width, height, RGB, coordinates, type, DC,
     addLabels(ctx, 'terrain', x + (width * 0.50), y + (width * 0.95), terrain, distance, width * 0.12) // Terrain Label
     addLabels(ctx, 'elevation', x + (width * 0.15), y + (height * 0.15), elevation, distance, width * 0.12) // Elevation Label
 }
-// Function to draw a polygon
-function fillPolygon(element, numSides, xCenter, yCenter, size, RGB, coordinates, type, DC, cover, distance, elevation, width){
+function fillPolygon(element, numSides, xCenter, yCenter, size, RGB, coordinates, type, DC, cover, distance, elevation, width){ // Function to draw a polygon
     if (!cover){ cover = 'N/A' } else { cover = cover } // Cover
     if (!DC){ DC = 'N/A' } else { DC = DC } // DC
     const terrain = type.split("_") // Split terrain by "_"
@@ -2398,8 +2091,7 @@ function fillPolygon(element, numSides, xCenter, yCenter, size, RGB, coordinates
         addLabels(ctx, 'elevation', yCenter - (size * 0.4), xCenter - (size * 0.5), elevation, distance, size * 0.20) // Elevation Label
     }
 }
-// Function to redraw canvas with specified label visible
-function redrawCanvasLabels(mapName){
+function redrawCanvasLabels(mapName){ // Function to redraw canvas with specified label visible
     const gridType = getSelectedValueFromRadioGroup('grid-type')
     let hexOrientation = null
     if (gridType == 'hex') hexOrientation = document.getElementById('hex-type').value
@@ -2429,9 +2121,7 @@ function redrawCanvasLabels(mapName){
     }
     localStorage.setItem('currently-viewing-map-json', JSON.stringify(data))               
 }  
-// Function to redraw from JSON data
-// TODO: drawJsonOnCavas(data) | See about reducing the number of lines this uses
-async function drawJsonOnCanvas(data, canvas){
+async function drawJsonOnCanvas(data, canvas){ // Function to redraw from JSON data
     const canvasElement = document.getElementById(canvas)
     // USER INPUTS
     const grid = data.GRID
@@ -2439,17 +2129,14 @@ async function drawJsonOnCanvas(data, canvas){
     const height = data.HEIGHT
     const PPI = data.PPI
     const biome = data.BIOME
-    const season = data.SEASON
-    const climate = data.CLIMATE
     const hexOrientation = data.HEX_ORIENTATION
     data = data.TILE_DATA
     // CONVERT USER INPUTS
     const BIOME = biome.toUpperCase() // Convert biome to uppercase
     const biomeLower = BIOME.toLowerCase() // Convert biome to lowercase
-    const seasonProper = season.toTitleCase() // Convert season to propercase
-    const SEASON = season.toUpperCase() // Convert season to uppercase
     // PULL COLORS
-    let colorData = await fetchLocalJson(`COLORS_${SEASON}`) // Get the colors JSON for the specific season
+    // let colorData = await fetchLocalJson(`/mikitz-ttrpg/data/json/battle-map-generator/COLORS_${SEASON}`) // Get the colors JSON for the specific season
+    let colorData = await fetchLocalJson(`/mikitz-ttrpg/data/json/battle-map-generator/COLORS_SUMMER`) // Get the colors JSON for the specific season
     colorData = colorData.find(i => i.TYPE === BIOME)
     const groundColor = colorData.GROUND.replaceAll("-", ",") // Get the Ground tile color
     const difficult_terrainColor = colorData.DIFFICULT_TERRAIN.replaceAll("-", ",") // Get the Difficult Terrain tile color
@@ -2596,8 +2283,7 @@ async function drawJsonOnCanvas(data, canvas){
     // DRAW THE KEY
     drawKey('legend', groundColor, difficult_terrainColor, impasseColor, boulderColor, treeColor, waterColor, roughWaterColor, roadColor)
 }
-// Function to build the key
-function drawKey(elementID, groundColor, difficult_terrainColor, impasseColor, boulderColor, treeColor, waterColor, roughWaterColor, roadColor){
+function drawKey(elementID, groundColor, difficult_terrainColor, impasseColor, boulderColor, treeColor, waterColor, roughWaterColor, roadColor){ // Function to build the key
     // Get the element
     var key = document.getElementById(elementID)
     // Empty it
@@ -2654,8 +2340,8 @@ function drawKey(elementID, groundColor, difficult_terrainColor, impasseColor, b
         });
     }
 }
-// Function to save settings
-function saveSettings(elementID) {
+// ========= Settings ==========
+function saveSettings(elementID) { // Function to save settings
     const value = document.getElementById(elementID).value.toLowerCase()
     localStorage.setItem(elementID, value)
 }

@@ -547,15 +547,13 @@ Number.prototype.countDecimals = function () {
     if (Math.floor(this.valueOf()) === this.valueOf()) return 0;
     return this.toString().split(".")[1].length || 0;
 };
-// Function to generate a random ID
-// Source: https://stackoverflow.com/a/44622300
-function genId() {
+function genId() { // Function to generate a random ID
+    // Source: https://stackoverflow.com/a/44622300
     return Array.from(Array(16), () =>
         Math.floor(Math.random() * 36).toString(36)
     ).join("");
 }
-// Function to convert a JSON table of probabilities into a rollable table
-function convertJsonToRollTable(json) {
+function convertJsonToRollTable(json) { // Function to convert a JSON table of probabilities into a rollable table
     let rollTable = [];
     let decimalPlaces = 0;
     // Compute the die size and return the die
