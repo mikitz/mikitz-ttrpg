@@ -1105,6 +1105,7 @@ main {
 }
 .coming-soon {
     cursor: not-allowed;
+    opacity: 50%;
 }
 .restore-defaults {
     margin-left: 2px;

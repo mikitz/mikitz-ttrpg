@@ -119,6 +119,7 @@ function setupAllListeners(){
     calculateResolution()
     setupTerrain()
     setupFeatures()
+    document.getElementById('seed').value = randomSlug()
     const toggleDisplayElements = document.getElementsByName('toggle-display')
     toggleDisplayElements.forEach(element => {
         element.addEventListener('click', function(){ toggleNextChildDisplay(this) })
@@ -722,6 +723,13 @@ async function generateBattleMapJson(){ // Function to generate a battle map JSO
     const pondProb = document.getElementById('pond-input').value
     const riverProb = document.getElementById('river-input').value
     const roadProb = document.getElementById('road-input').value
+    // Seed
+    let seed = document.getElementById('seed').value
+    console.log("🚀 ~ file: battleMap.js:703 ~ generateBattleMapJson ~ seed:", seed)
+    seed = new Math.seedrandom(`${seed}.${height}.${width}.${gridSize}.${biome}`)
+    for (let index = 0; index < 10; index++) {
+        console.log(seed())
+    }
     // ========================
     //       GET DATA
     // ========================

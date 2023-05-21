@@ -897,3 +897,12 @@ async function readThemeAndSetTheme(){
     if (!theme) theme = 'theme-light'
     setTheme(theme)
 }
+function setupComingSoon(){
+    const elements = document.querySelectorAll('.coming-soon')
+    console.log("🚀 ~ file: global.js:902 ~ setupComingSoon ~ elements:", elements)
+    for (let index = 0; index < elements.length; index++) {
+        const element = elements[index];
+        addTippy(`${element.id}`, 'Coming soon!')
+        console.log("🚀 ~ file: global.js:907 ~ setupComingSoon ~ element.id:", element.id)
+    }
+}

@@ -16,6 +16,7 @@
     <!-- LOCAL LIBRARIES -->
     <script src="/mikitz-ttrpg/js/library/global.js"></script>
     <script src="/mikitz-ttrpg/js/library/database.js"></script>
+    <script src="/mikitz-ttrpg/js/library/randomSlug.js"></script>
     <!-- MAIN -->
     <script src="/mikitz-ttrpg/js/library/weather.js"></script>
     <script src="/mikitz-ttrpg/js/battleMap.js"></script>
@@ -26,6 +27,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
     <!-- TABLES -->
     <script src="/mikitz-ttrpg/data/js-data/battle-map-generator/selectsData.js"></script>
     <script src="/mikitz-ttrpg/data/version_numbers.js"></script>
@@ -107,8 +109,12 @@
                             <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-attributes" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-attributes">Attributes</span></div>
                             <div class="fieldset-content visible" id="attributes">
                                 <div class="text-input-container">
-                                    <label class="text-input-label">Name</label>
+                                    <label class="text-input-label">Map Name</label>
                                     <input class="text-input" placeholder="Auto-named Map ###" type="text" id="name">
+                                </div>
+                                <div class="text-input-container">
+                                    <label class="text-input-label">Seed</label>
+                                    <input class="text-input coming-soon" type="text" id="seed" disabled>
                                 </div>
                                 <div class="upload-file-container">
                                     <label class="upload-file-label">JSON</label>
@@ -425,6 +431,7 @@
         setupAllListeners()
         await populateBattleMapHistory()
         setupLayout()
+        setupComingSoon()
         document.getElementById(`cover-opacity-label`).style.display = 'block'
         document.getElementById(`cover-opacity-input`).style.display = 'block'
         document.getElementById(`elevation-opacity-label`).style.display = 'block'
