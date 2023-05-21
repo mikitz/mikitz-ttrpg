@@ -72,6 +72,10 @@
     #toggle-history {
         scroll-margin-top: calc(80px + 2rem);
     }
+    #create-description-text {
+        font-size: small;
+        max-width: 300px;
+    }
 </style>
 <body>
     <div class="site-nav">
@@ -96,7 +100,6 @@
     </div>
     <div class="lower-left-fixed" id="go-to-options">
         <i class="fa-solid fa-arrows-up-to-line"></i>
-    </div>
     </div>
     <main>
         <div class="flex-column">
@@ -141,118 +144,119 @@
             <div class="flex-column">
                 <div class="flex-column-child">
                     <div class="flex-row">
-                            <div id="options">
-                                <div class="flex-row">
-                                    <div class="flex-row-child">
-                                        <div class="container" id="attributes-container">
-                                            <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-enc-options" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-enc-options">Encounter Options</span></div>
-                                            <div id="enc-options">
-                                                <div class="text-input-container">
-                                                    <label class="text-input-label"><i id="encounter-name-help"
-                                                            class="bi bi-question-square"></i>Name</label>
-                                                    <input class="text-input" placeholder="Encounter ####" type="text" id="name">
-                                                </div>
-                                                <div class="text-input-container">
-                                                    <label class="text-input-label"><i id="guarantee-encounter-help"
-                                                            class="bi bi-question-square"></i>100%</label>
-                                                    <input class="text-input" type="checkbox" id="100-percent">
-                                                </div>
+                        <div id="options">
+                            <div class="flex-row">
+                                <div class="flex-row-child">
+                                    <div class="container" id="attributes-container">
+                                        <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-enc-options" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-enc-options">Encounter Options</span></div>
+                                        <div id="enc-options">
+                                            <div class="text-input-container">
+                                                <label class="text-input-label"><i id="encounter-name-help"
+                                                        class="bi bi-question-square"></i>Name</label>
+                                                <input class="text-input" placeholder="Encounter ####" type="text" id="name">
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-row-child">
-                                        <div class="container" id="party-container">
-                                            <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-party" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-party">Party Options</span></div>
-                                            <div id="party">
-                                                <div class="select-container">
-                                                    <label class="select-label"><i id="party-name-help"
-                                                            class="bi bi-question-square"></i>Name</label>
-                                                    <select class="select-dropdown" id="select-party-input"></select>
-                                                </div>
-                                                <div class="text-input-container">
-                                                    <label for="party-name" class="text-input-label">Party Name</label>
-                                                    <input id="party-name-input" class="text-input" type="text">
-                                                </div>
-                                                <div class="select-container">
-                                                    <label for="party-level" class="select-label">Party Level</label>
-                                                    <select id="party-level-input" class="select-dropdown">
-                                                        <option id="1">1</option>
-                                                        <option id="2">2</option>
-                                                        <option id="3">3</option>
-                                                        <option id="4">4</option>
-                                                        <option id="5">5</option>
-                                                        <option id="6">6</option>
-                                                        <option id="7">7</option>
-                                                        <option id="8">8</option>
-                                                        <option id="9">9</option>
-                                                        <option id="10">10</option>
-                                                        <option id="11">11</option>
-                                                        <option id="12">12</option>
-                                                        <option id="13">13</option>
-                                                        <option id="14">14</option>
-                                                        <option id="15">15</option>
-                                                        <option id="16">16</option>
-                                                        <option id="17">17</option>
-                                                        <option id="18">18</option>
-                                                        <option id="19">19</option>
-                                                        <option id="20">20</option>
-                                                        <option id="21">21</option>
-                                                        <option id="22">22</option>
-                                                        <option id="23">23</option>
-                                                        <option id="24">24</option>
-                                                        <option id="25">25</option>
-                                                        <option id="26">26</option>
-                                                        <option id="27">27</option>
-                                                        <option id="28">28</option>
-                                                        <option id="29">29</option>
-                                                        <option id="30">30</option>
-                                                    </select>
-                                                </div>
-                                                <div class="select-container">
-                                                    <label for="party-size" class="select-label">Party Size</label>
-                                                    <select id="party-size-input" class="select-dropdown">
-                                                        <option id="1">1</option>
-                                                        <option id="2">2</option>
-                                                        <option id="3">3</option>
-                                                        <option id="4">4</option>
-                                                        <option id="5">5</option>
-                                                        <option id="6">6</option>
-                                                        <option id="7">7</option>
-                                                        <option id="8">8</option>
-                                                        <option id="9">9</option>
-                                                        <option id="10">10</option>
-                                                    </select>
-                                                </div>
-                                                <div class="button-container">
-                                                    <button id="settings-save-party" class="button fieldset-button color-secondary">Save Party</button>
-                                                </div>
+                                            <div class="text-input-container">
+                                                <label class="text-input-label"><i id="guarantee-encounter-help"
+                                                        class="bi bi-question-square"></i>100%</label>
+                                                <input class="text-input" type="checkbox" id="100-percent">
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-row-child" id="probs-row">
-                                        <div class="container" id="probs-container">
-                                            <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-probs" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-probs"><i id="total-probs-help" class="bi bi-question-square"></i> Probabilities</span></div>
-                                            <div class="history" id="probs">
-                                                <table class="styled-table" id="probs-table">
-                                                    <thead>
-                                                        <th>#</th>
-                                                        <th>Percent</th>
-                                                        <th>Fraction</th>
-                                                    </thead>
-                                                    <tbody id="probs-body"></tbody>
-                                                </table>
-                                            </div>
-                                            
                                         </div>
                                     </div>
                                 </div>
+                                <div class="flex-row-child">
+                                    <div class="container" id="party-container">
+                                        <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-party" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-party">Party Options</span></div>
+                                        <div id="party">
+                                            <div class="select-container">
+                                                <label class="select-label"><i id="party-name-help"
+                                                        class="bi bi-question-square"></i>Name</label>
+                                                <select class="select-dropdown" id="select-party-input"></select>
+                                            </div>
+                                            <div class="text-input-container">
+                                                <label for="party-name" class="text-input-label">Party Name</label>
+                                                <input id="party-name-input" class="text-input" type="text">
+                                            </div>
+                                            <div class="select-container">
+                                                <label for="party-level" class="select-label">Party Level</label>
+                                                <select id="party-level-input" class="select-dropdown">
+                                                    <option id="1">1</option>
+                                                    <option id="2">2</option>
+                                                    <option id="3">3</option>
+                                                    <option id="4">4</option>
+                                                    <option id="5">5</option>
+                                                    <option id="6">6</option>
+                                                    <option id="7">7</option>
+                                                    <option id="8">8</option>
+                                                    <option id="9">9</option>
+                                                    <option id="10">10</option>
+                                                    <option id="11">11</option>
+                                                    <option id="12">12</option>
+                                                    <option id="13">13</option>
+                                                    <option id="14">14</option>
+                                                    <option id="15">15</option>
+                                                    <option id="16">16</option>
+                                                    <option id="17">17</option>
+                                                    <option id="18">18</option>
+                                                    <option id="19">19</option>
+                                                    <option id="20">20</option>
+                                                    <option id="21">21</option>
+                                                    <option id="22">22</option>
+                                                    <option id="23">23</option>
+                                                    <option id="24">24</option>
+                                                    <option id="25">25</option>
+                                                    <option id="26">26</option>
+                                                    <option id="27">27</option>
+                                                    <option id="28">28</option>
+                                                    <option id="29">29</option>
+                                                    <option id="30">30</option>
+                                                </select>
+                                            </div>
+                                            <div class="select-container">
+                                                <label for="party-size" class="select-label">Party Size</label>
+                                                <select id="party-size-input" class="select-dropdown">
+                                                    <option id="1">1</option>
+                                                    <option id="2">2</option>
+                                                    <option id="3">3</option>
+                                                    <option id="4">4</option>
+                                                    <option id="5">5</option>
+                                                    <option id="6">6</option>
+                                                    <option id="7">7</option>
+                                                    <option id="8">8</option>
+                                                    <option id="9">9</option>
+                                                    <option id="10">10</option>
+                                                </select>
+                                            </div>
+                                            <div class="button-container">
+                                                <button id="settings-save-party" class="button fieldset-button color-secondary">Save Party</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-row-child" id="probs-row">
+                                    <div class="container" id="probs-container">
+                                        <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-probs" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-probs"><i id="total-probs-help" class="bi bi-question-square"></i> Probabilities</span></div>
+                                        <div class="history" id="probs">
+                                            <table class="styled-table" id="probs-table">
+                                                <thead>
+                                                    <th>#</th>
+                                                    <th>Percent</th>
+                                                    <th>Fraction</th>
+                                                </thead>
+                                                <tbody id="probs-body"></tbody>
+                                            </table>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
                             </div>
+                        </div>
                     </div>
                 </div>
                 <div class="flex-column-child">
                     <div class="flex-row">
                         <button id="generate-encounter" class="button">Generate</button>
                         <button class="button color-secondary" id="reset-enc-inputs">Reset</button>
+                        <button class="button color-secondary" id="create-content">Manage</button>
                     </div>
                 </div>
                 <div class="flex-column-child">
@@ -288,13 +292,67 @@
                 </div>
             </div>
         </div>
-        <div id="create-party-modal" class="modal" style="display: none;">
+        <div id="create-content-modal" class="modal" style="display: none;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <span id="modal-close" class="close">&times;</span>
+                    <h2>Manage Custom Content</h2>
                 </div>
                 <div class="modal-content-inner">
-
+                    <div class="flex-column">
+                        <div class="flex-column-child">
+                            <select id="create-type" disabled>
+                                <option value="Non-combat Encounter">Non-combat Encounter</option>
+                                <option value="Hazard">Hazard</option>
+                            </select>
+                        </div>
+                        <div class="flex-column-child">
+                            <select id="create-biome">
+                                <option value="All Biomes">All Biomes</option>
+                            </select>
+                            <select id="create-road" disabled>
+                                <option value="Road Independent">Road Independent</option>
+                                <option value="All Roads">All Roads</option>
+                                <option value="Highway">Highway</option>
+                                <option value="Byway">Byway</option>
+                                <option value="Royalway">Royalway</option>
+                                <option value="Bridleway">Bridleway</option>
+                                <option value="No Roads">No Roads</option>
+                            </select>
+                        </div>
+                        <div class="flex-column-child">
+                            <select id="create-plane" disabled>
+                                <option value="All Planes">All Planes</option>
+                                <option value="Inner Planes">Inner Planes</option>
+                                <option value="Outer Planes">Outer Planes</option>
+                                <option value="Elemental Planes">Elemental Planes</option>
+                            </select>
+                            <select id="create-time-of-day" disabled>
+                                <option value="All Times">All Times</option>
+                                <option value="Night">Night</option>
+                                <option value="Day">Day</option>
+                            </select>
+                            <select id="create-travel-medium" disabled>
+                                <option value="All Travel Mediums">All Travel Mediums</option>
+                                <option value="Ground">Ground</option>
+                                <option value="Water">Water</option>
+                                <option value="Air">Air</option>
+                            </select>
+                        </div>
+                        <div class="flex-column-child">
+                            <div id="create-description-text">
+                                <p>Monsters in the description will automatically be transformed into a link as long as they are spelled correctly.</p>
+                                <p>E.G. the party runs into a commoner fending off a cave bear from their injured younger sibling.</p>
+                                <p>In this example, both <i>commoner</i> and <i>cave bear</i> will be turned into links.</p>
+                            </div>
+                        </div>
+                        <div class="flex-column-child">
+                            <textarea name="" id="create-description" cols="30" rows="10" placeholder="Enter description of your non-combat encounter..."></textarea>
+                        </div>
+                        <div class="flex-column-child">
+                            <button class="button fieldset-button" id="save-new-content">Save</button>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>

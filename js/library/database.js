@@ -1,4 +1,4 @@
-const dbVersion = 10 // TODO: dbVersion - change this every time you commit.
+const dbVersion = 11 // TODO: dbVersion - change this every time you commit.
 async function setupDB(){
     await db.version(dbVersion).stores({ // Set up the NPCs table
     // ---- Global ----
@@ -52,6 +52,19 @@ async function setupDB(){
             ADJUSTMENT,
             TIME_OF_DAY,
             PROBABILITY`,
+        eg_custom_non_combat_encounters: `
+            ++id,
+            biome,
+            road,
+            time_of_day,
+            travel_medium,
+            description`,
+        // TODO: Add custom hazards
+        eg_custom_hazards: `
+            ++id,
+            biome,
+            name,
+            outcomes`,
     // ---- Magic Shop Generator ----
         msg_magic_shops: `
             ++id,

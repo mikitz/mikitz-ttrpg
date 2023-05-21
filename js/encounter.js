@@ -10,6 +10,28 @@ function setupEncounterGeneratorPage(){
         document.getElementById('encounters-table-body').innerHTML = ''
         await addEncounterRow()
     })
+    // Manage Content
+    const manageBiomeSelect = document.getElementById('create-biome')
+    biome.forEach(element => {
+        const option = document.createElement('option')
+        option.value = element
+        option.innerText = element
+        manageBiomeSelect.appendChild(option)
+    });
+    const managePlaneSelect = document.getElementById('create-plane')
+    plane.forEach(element => {
+        const option = document.createElement('option')
+        option.value = element
+        option.innerText = element
+        managePlaneSelect.appendChild(option)
+    });
+    document.getElementById('create-content').addEventListener('click', function(){ toggleModal('create-content-modal') })
+
+    document.getElementById('save-new-content').addEventListener('click', function(){
+        const type = document.getElementById('create-type').value
+        if (type == 'Non-combat Encounter') saveCreatedNonCombatEncounter()
+        else if (type == 'Hazard') saveCreatedHazard()
+    })
 }
 async function populateEncounterHistory(partyId){
     if (!partyId) partyId = parseInt(document.getElementById('select-party-input').value)
@@ -371,7 +393,7 @@ async function randomEncounter(){
         else if (encounterResult == 'nonCombatProb') {
             isEncounter = true
             isNonCombatEncounter = true
-            encounter = handleRoad(road, biome)
+            encounter = await handleRoad(road, biome)
             if (encounter == "Random Ship") encounter = randomShip()
             else if (encounter == "Mysterious Island") encounter = mysteriousIsland()
             else if (encounter == "Blue Hole") encounter = blueHole()
@@ -782,7 +804,7 @@ function randomShip(){
     var qCrew = getRndInteger(1, cCrew)
     var qPassengers = getRndInteger(1, cPassengers)
     // BUILD THE MESSAGE
-    return vMessage = `The party comes accross a <b>${attitude} ${purpose} ${type}</b> crewed by ${qCrew} (max. ${cCrew}) ${races} with ${qPassengers} (max. ${cPassengers}) ${races} passengers on board. This <b>${races}</b> ship is called the <b>${adj} ${noun}</b> with a disposition of <b>${disposition}</b>: ${emergency}.`
+    return vMessage = `The party comes across a <b>${attitude} ${purpose} ${type}</b> crewed by ${qCrew} (max. ${cCrew}) ${races} with ${qPassengers} (max. ${cPassengers}) ${races} passengers on board. This <b>${races}</b> ship is called the <b>${adj} ${noun}</b> with a disposition of <b>${disposition}</b>: ${emergency}.`
 }
 // Function to generate a shipwreck
 async function randomShipwreck() {      
@@ -948,15 +970,22 @@ async function blueHole(){
     // Set the final encounter message
     return `The party comes across a Blue Hole that is ${diameter}ft in diameter and ${depth}ft deep. It contains ${result}.`
 }
-function handleRoad(road, biome){
+async function handleRoad(road, biome){
     if (road == 'On a Road' || road == 'HIGHWAY' || road == 'BYWAY' || road == 'ROYALWAY' || road == 'BRIDLEWAY') {
         let len = road_nc.length // Get length for the d100
         let ad100 = getRndInteger(1, len) // Roll 1dx
         return road_nc[ad100] // Get the rolled encounter
     } else {
-        var len = eval(`${(biome.replaceAll(" ", "_")).toLowerCase()}_nc`).length // Get length for the d100
-        var ad100 = getRndInteger(1, len) // Roll 1dx
-        return eval(`${(biome.replaceAll(" ", "_")).toLowerCase()}_nc`)[ad100] // Get the rolled encounter
+        let userNonCombatEncounters = await db.eg_custom_non_combat_encounters.toArray()
+        console.log("🚀 ~ file: encounter.js:980 ~ handleRoad ~ userNonCombatEncounters:", userNonCombatEncounters)
+        userNonCombatEncounters = userNonCombatEncounters.filter(e => e.biome == biome || e.biome == 'All Biomes')
+        console.log("🚀 ~ file: encounter.js:982 ~ handleRoad ~ userNonCombatEncounters:", userNonCombatEncounters)
+        let len = eval(`${(biome.replaceAll(" ", "_")).toLowerCase()}_nc`).length + userNonCombatEncounters.length // Get length for the d100
+        let ad100 = getRndInteger(1, len) // Roll 1dx
+        userNonCombatEncounters = userNonCombatEncounters.map(e => e.description)
+        let defaultNonCombatEncounters = eval(`${(biome.replaceAll(" ", "_")).toLowerCase()}_nc`)
+        let combinedTable = [...userNonCombatEncounters, ...defaultNonCombatEncounters];
+        return combinedTable[ad100] // Get the rolled encounter
     }
 }
 async function setupTopNav(){
@@ -1600,4 +1629,33 @@ async function calculateEncounterProbabilities(biome, timeOfDay, road, travelPac
 async function getPartyId(partyName){
     let ID = await db._parties.where({NAME: partyName}).toArray() 
     return ID[0].id 
+}
+async function saveCreatedNonCombatEncounter(){
+    const description = document.getElementById('create-description').value
+    console.log("🚀 ~ file: encounter.js:1629 ~ saveCreatedNonCombatEncounter ~ description:", description)
+    if (description == '' || !description) return alert("Please enter a description.")
+    const biome = document.getElementById('create-biome').value
+    // const road = document.getElementById('create-road').value
+    // const plane = document.getElementById('create-plane').value
+    // const timeOfDay = document.getElementById('create-time-of-day').value
+    // const travelMedium = document.getElementById('create-travel-medium').value
+
+    await db.eg_custom_non_combat_encounters.put({
+        biome: biome,
+        // road: road,
+        // plane: plane,
+        // time_of_day: timeOfDay,
+        // travel_medium: travelMedium,
+        description: description
+    })
+    .then(async function(){
+        makeToast(`<b>Non-combat Encounter</b> added successfully!`, 'success')
+        toggleModal('create-content-modal')
+        document.getElementById('create-description').value = ''
+    })
+    .catch(function(error){
+        console.error(`! ~~~~ Error ~~~~ ! \n Name: ${error.name} \n`, `Message: ${error.message}`)
+        toggleModal('create-content-modal')
+        document.getElementById('create-description').value = ''
+    })
 }
