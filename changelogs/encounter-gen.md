@@ -1,7 +1,7 @@
 # Change Log
 
-### Alpha 2 -- WIP
--   [ ] 
+### Alpha 2 -- 5/22/2023
+-   [x] Feature -- Users can now create Non-combat Encounters by biome
 
 ### Alpha 1 -- 5/21/2023
 -   [x] Added history table
