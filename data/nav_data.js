@@ -22,7 +22,7 @@ const subNavIcons = [
 const pages = ['index','battle-map-generator','calendar','encounter-generator','magic-shop-generator','npc-generator','spellbook-generator','world-generator','star-system-and-galaxy-generator','settings']
 const table_settingsTables = [
     '_parties', // General
-    'eg_encounter_probabilities','eg_road_modifiers','eg_pace_modifiers','eg_difficulty_probabilities', // Encounter Gen.
+    'eg_encounter_probabilities','eg_road_modifiers','eg_pace_modifiers','eg_difficulty_probabilities', 'eg_custom_non_combat_encounters', // Encounter Gen.
     'msg_cities','msg_equipment_prices','msg_magicness','msg_number_of_dice_variables','msg_price_modifier_variables','msg_spell_scroll_prices','msg_wealth', // Magic Shop Generator
     'sbg_settings' // Spellbook Generator
 ]

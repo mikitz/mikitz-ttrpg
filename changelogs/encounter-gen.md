@@ -1,7 +1,11 @@
 # Change Log
 
+### Alpha 2.1 -- 5/22/2023
+-   [x] Feature -- Added the user created Non-combat Encounters to settings which makes them deletable and editable.
+
 ### Alpha 2 -- 5/22/2023
 -   [x] Feature -- Users can now create Non-combat Encounters by biome
+    -   [x] Settings to edit them. 
 
 ### Alpha 1 -- 5/21/2023
 -   [x] Added history table

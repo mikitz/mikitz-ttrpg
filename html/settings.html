@@ -33,6 +33,7 @@
     <!-- DATA -->
     <script src="/mikitz-ttrpg/data/version_numbers.js"></script>
     <script src="/mikitz-ttrpg/data/nav_data.js"></script>
+    <script src="/mikitz-ttrpg/data/js-data/encounter-generator/selectsData.js"></script>
 </head>
 <style>
     .with-background {
@@ -174,6 +175,12 @@
                             <p>Every time an encounter occurs, a die is rolled using the below table to determine the difficulty of the encounter.</p>
                             <div id="eg_difficulty_probabilities-div"></div>
                             <div id="eg_difficulty_probabilities-description"></div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="eg_custom_non_combat_encounters">User Non-combat Encounters <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p>The table of all user created Non-combat Encounters.</p>
+                            <div id="eg_custom_non_combat_encounters-div"></div>
+                            <div id="eg_custom_non_combat_encounters-description"></div>
                     </div>
                     <!-- <div class="flex-column-child with-background">
                         <h3 id="eg_cr_adjustment_probabilities">CR Adjustment Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>

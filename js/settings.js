@@ -170,21 +170,29 @@ async function eg_displayJsGrid(elementId, objectArray, tableName){
         document.getElementById(elementId).innerHTML = `<span><br><br><h3>The void is deafening...😞</h3></span>`
         return console.error("🚀 ~ file: settings.js:169 ~ eg_displayJsGrid ~ tableName:", tableName) 
     }
-
     let fields = []
     let insert = (elementId.includes('parties'))? true : false
     let filter = (elementId.includes('parties'))? true : false
-    let deleteBool = (elementId.includes('parties'))? true : false
+    let deleteBool = (elementId.includes('parties')) || (tableName == 'eg_custom_non_combat_encounters')? true : false
     let controlWidth = (elementId.includes('parties'))? '60px' : '35px'
     let pagination = (elementId.includes('encounter_probabilities'))? true : false
     let pageSize = (pagination == true)? 30 : null
 
     for (let index = 0; index < keys.length; index++) {
         const element = keys[index];
-        let type = (element == 'PERCENT_TYPE')? "select" : "text"
-        let items = (element == 'PERCENT_TYPE')? ['RELATIVE','ABSOLUTE'] : null
+        let type = "text"
+        if (element == 'PERCENT_TYPE') type = 'select'
+        else if (element == 'BIOME' && tableName == 'eg_custom_non_combat_encounters') type = "select"
+        let items = null
+        if (element == 'PERCENT_TYPE') items = ['RELATIVE','ABSOLUTE'] 
+        // else if (element == 'ROAD' && tableName == 'eg_custom_non_combat_encounters') items = ['Road Independent','All Roads','Highway','Byway','Royalway','Bridleway','No Roads'] 
+        else if (element == 'BIOME' && tableName == 'eg_custom_non_combat_encounters') items = ['All Biomes', ...biome] 
+        // else if (element == 'PLANE' && tableName == 'eg_custom_non_combat_encounters') items = ['All Planes','Inner Planes','Outer Planes','Elemental Planes', ...plane] 
+        // else if (element == 'TIME_OF_DAY' && tableName == 'eg_custom_non_combat_encounters') items = ['All Times','Night','Day'] 
+        // else if (element == 'TRAVEL_MEDIUM' && tableName == 'eg_custom_non_combat_encounters') items = ['All Travel Mediums','Ground','Water','Air'] 
+        
         let edit = (element == 'id' 
-            || element == 'BIOME' 
+            || element == 'BIOME' && tableName != 'eg_custom_non_combat_encounters'
             || element == 'TIME_OF_DAY' 
             || element == 'ROAD_TYPE'
             || element == 'PACE' 
@@ -245,9 +253,7 @@ async function eg_displayJsGrid(elementId, objectArray, tableName){
                 args.grid.refresh()
             }
             const primaryKey = rowData['id']
-            
             const changedColumns = getChangedColumns(args.item, args.previousItem);
-            
             if (changedColumns.length > 0) {
                 for (let index = 0; index < changedColumns.length; index++) {
                     const element = changedColumns[index];
@@ -286,7 +292,6 @@ async function eg_displayJsGrid(elementId, objectArray, tableName){
                     }
                 }
             }
-
             if (tableName == 'eg_difficulty_probabilities') {
                 const timeOfDay = rowData.TIME_OF_DAY
                 const data = tableData.filter(e => e.TIME_OF_DAY == timeOfDay)
@@ -298,7 +303,6 @@ async function eg_displayJsGrid(elementId, objectArray, tableName){
                     return
                 }
             }
-
             let result = db[tableName].update(primaryKey, rowData)   
             result
                 .then(function(){         
@@ -312,12 +316,16 @@ async function eg_displayJsGrid(elementId, objectArray, tableName){
         onItemDeleted: async function(args){
             const tableData = args.grid.data
             const tableName = (args.grid._container[0].id).replace("-div","")
+            console.log("🚀 ~ file: settings.js:326 ~ onItemDeleted:function ~ tableName:", tableName)
             const tableLabel = document.getElementById(tableName).innerText
-            const primaryKey = args.item.id
-            const cityName = args.item.NAME
-            db._parties.delete(primaryKey)
-                .then(function(){
-                    makeToast(`<b>${cityName}</b> deleted successfully from the <b>${tableLabel}</b> table!`, 'success')
+            const primaryKey = parseInt(args.item.id)
+            console.log("🚀 ~ file: settings.js:332 ~ onItemDeleted:function ~ primaryKey:", primaryKey)
+            db[tableName].delete(primaryKey)
+                .then(async function(){
+                    makeToast(`Non-combat Encounter <b>${primaryKey}</b> deleted successfully from the <b>${tableLabel}</b> table!`, 'success')
+                    let len = await db[tableName].toArray()
+                    len = len.length
+                    if (length <= 0) eg_displayJsGrid(`${tableName}-div`, eval(`${tableName}`), `${tableName}`)
                 })
                 .catch(function(error){
                     console.error(`! ~~~~ Error ~~~~ ! \n Name: ${error.name} \n`, `Message: ${error.message}`)
@@ -340,11 +348,8 @@ function settingsListeners(){
             await db[tableName].clear()
             let JSONname = tableName.replaceAll("_", "-").replaceAll('table', 'defaults')
             JSONname = JSONname.split('-')
-            console.log("🚀 ~ file: settings.js:325 ~ element.addEventListener ~ JSONname:", JSONname)
             const page = JSONname.shift()
-            console.log("🚀 ~ file: settings.js:328 ~ element.addEventListener ~ JSONname:", JSONname)
             JSONname = `defaults-${JSONname.join("-")}`
-            console.log("🚀 ~ file: settings.js:330 ~ element.addEventListener ~ JSONname:", JSONname)
             const defaultTable = await fetchLocalJson(`/mikitz-ttrpg/data/defaults/${JSONname}`)
             let result = db[tableName].bulkPut(defaultTable)
             result

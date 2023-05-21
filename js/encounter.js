@@ -12,19 +12,21 @@ function setupEncounterGeneratorPage(){
     })
     // Manage Content
     const manageBiomeSelect = document.getElementById('create-biome')
-    biome.forEach(element => {
+    for (let index = 0; index < biome.length; index++) {
+        const element = biome[index];
         const option = document.createElement('option')
-        option.value = element
+        option.value = index + 1
         option.innerText = element
         manageBiomeSelect.appendChild(option)
-    });
+    }
     const managePlaneSelect = document.getElementById('create-plane')
-    plane.forEach(element => {
+    for (let index = 0; index < plane.length; index++) {
+        const element = plane[index];
         const option = document.createElement('option')
-        option.value = element
+        option.value = index + 4
         option.innerText = element
         managePlaneSelect.appendChild(option)
-    });
+    }
     document.getElementById('create-content').addEventListener('click', function(){ toggleModal('create-content-modal') })
 
     document.getElementById('save-new-content').addEventListener('click', function(){
@@ -1634,19 +1636,19 @@ async function saveCreatedNonCombatEncounter(){
     const description = document.getElementById('create-description').value
     console.log("🚀 ~ file: encounter.js:1629 ~ saveCreatedNonCombatEncounter ~ description:", description)
     if (description == '' || !description) return alert("Please enter a description.")
-    const biome = document.getElementById('create-biome').value
+    const biome = parseInt(document.getElementById('create-biome').value)
     // const road = document.getElementById('create-road').value
     // const plane = document.getElementById('create-plane').value
     // const timeOfDay = document.getElementById('create-time-of-day').value
     // const travelMedium = document.getElementById('create-travel-medium').value
 
     await db.eg_custom_non_combat_encounters.put({
-        biome: biome,
-        // road: road,
-        // plane: plane,
-        // time_of_day: timeOfDay,
-        // travel_medium: travelMedium,
-        description: description
+        BIOME: biome,
+        // ROAD: road,
+        // PLANE: plane,
+        // TIME_OF_DAY: timeOfDay,
+        // TRAVEL_MEDIUM: travelMedium,
+        DESCRIPTION: description
     })
     .then(async function(){
         makeToast(`<b>Non-combat Encounter</b> added successfully!`, 'success')
