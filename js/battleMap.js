@@ -119,7 +119,7 @@ function setupAllListeners(){
     calculateResolution()
     setupTerrain()
     setupFeatures()
-    document.getElementById('seed').value = randomSlug()
+    document.getElementById('seed').value = randomEgregiousSlug()
     const toggleDisplayElements = document.getElementsByName('toggle-display')
     toggleDisplayElements.forEach(element => {
         element.addEventListener('click', function(){ toggleNextChildDisplay(this) })
