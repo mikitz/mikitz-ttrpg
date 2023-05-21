@@ -136,3 +136,34 @@ function setupVersionNumber(){
     const versionLink = document.getElementById('version-link')
     versionLink.href = `https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/${changeLogName}-${suffix.toLowerCase()}.md`
 }
+function toggleLayout(){
+    const layoutBool = document.getElementById('slider-layout').checked // True = panel layout, False = flex layout
+    let layout
+    if (layoutBool) layout = 'panel'
+    else layout = 'flex'
+    
+    const url = window.location.href
+    if (url.includes('encounter')) localStorage.setItem('eg-layout', layoutBool)
+    if (url.includes('battle-map')) localStorage.setItem('bmg-layout', layoutBool)
+
+    if (layout == 'flex') {
+        document.getElementById(`flex-layout`).classList.remove('hidden')
+        document.getElementById(`flex-layout`).classList.add('visible')
+        document.getElementById(`panel-layout`).classList.add('hidden')
+        document.getElementById(`panel-layout`).classList.remove('visible')
+    }
+    else if (layout == 'panel') {
+        document.getElementById(`panel-layout`).classList.remove('hidden')
+        document.getElementById(`panel-layout`).classList.add('visible')
+        document.getElementById(`flex-layout`).classList.add('hidden')
+        document.getElementById(`flex-layout`).classList.remove('visible')
+    }
+}
+function setupLayout(){
+    const url = window.location.href
+    let layoutBool
+    if (url.includes('encounter')) layoutBool = localStorage.getItem('eg-layout')
+    if (url.includes('battle-map')) layoutBool = localStorage.getItem('bmg-layout')
+
+    document.getElementById('slider-layout').checked = layoutBool
+}

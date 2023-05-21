@@ -31,6 +31,7 @@ main {
 /* ==================================== */
 :root {
     --mobile-width: 600px;
+    
 }
 .theme-dark {
     --background-color: #161616;
@@ -47,12 +48,14 @@ main {
     --checkbox-checked-background-color: #656565;
     --column-width: 280px;
     --panel-background-color: var(--site-nav-background-clr);
+    --panel-width: 400px;
     --card-background-color: var(--site-nav-background-clr);
     --site-nav-background-clr: #222;
     --site-nav-font-clr: #b8b8b8;
     --top-nav-background-color: #383838;
     --nav-hover-color: #b8b8b8;
     --nav-inactive-text-color: var(--text-clr);
+    --nav-height: 40px;
     --table-odd-row-color: #434343;
     --table-even-row-color: #3d3d3d;
     --table-header-color: #2d2d2d;
@@ -75,12 +78,14 @@ main {
     --checkbox-checked-background-color: #656565;
     --column-width: 280px;
     --panel-background-color: var(--site-nav-background-clr);
+    --panel-width: 400px;
     --card-background-color: var(--site-nav-background-clr);
     --site-nav-background-clr: #c6c6c6;
     --site-nav-font-clr: #b8b8b8;
     --top-nav-background-color: #f1f1f1;
     --nav-hover-color: #b8b8b8;
     --nav-inactive-text-color: var(--text-clr);
+    --nav-height: 40px;
     --table-odd-row-color: #e2e2e2;
     --table-even-row-color: #f1f1f1;
     --table-header-color: #a9a9a9;
@@ -108,6 +113,27 @@ main {
     z-index: 1;
     padding: 1rem;
     border-radius: 1rem;
+}
+/* ==================================== */
+/*                Panels                */
+/* ==================================== */
+.panel {
+    position: fixed;
+    width: var(--panel-width);
+    background-color: var(--panel-background-color);
+    z-index: 1;
+    overflow-y: auto;
+    top: calc(var(--nav-height) * 2);
+    height: calc(100vh - var(--nav-height) * 2);
+}
+.panel .left {
+    left: 0;
+}
+.panel .right {
+    right: 0;
+}
+#panel-content {
+    margin-left: var(--panel-width);
 }
 /* ==================================== */
 /*                History               */
@@ -1407,6 +1433,57 @@ input:checked + .slider:before {
     }
 }
 /* ==================================== */
+/*             Layout Switcher           */
+/* ==================================== */
+.slider-layout {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+.slider-layout:before {
+    position: absolute;
+    content: "";
+    height: 30px;
+    width: 30px;
+    left: 0;
+    bottom: 4px;
+    border-radius: 20px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    box-shadow: 0 0 15px #2020203d;
+    font-size: smaller;
+    background: #ccc url("/mikitz-ttrpg/img/icons/layout-flex.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+input:focus + .slider-layout {
+    box-shadow: 0 0 1px var(--button-text-clr);
+}
+input:checked + .slider-layout:before {
+    -webkit-transform: translateX(24px);
+    -ms-transform: translateX(24px);
+    transform: translateX(24px);
+    background: #ccc url("/mikitz-ttrpg/img/icons/layout-panel.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    font-size: smaller !important;
+}
+.slider-layout.round {
+    border-radius: 34px;
+}
+.slider-layout.round:before {
+    border-radius: 50%;
+}
+/* ==================================== */
 /*           Battle Map Panels          */
 /* ==================================== */
 .battle-map-output {
@@ -1430,7 +1507,7 @@ input:checked + .slider:before {
     background-size: 20px 20px;
     background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
     margin-bottom: 25px;
-    width: 80%;
+    width: 90%;
     padding: 3rem;
     margin: 0 5rem; /* top right bottom left */
 }

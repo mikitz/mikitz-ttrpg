@@ -42,6 +42,19 @@
         cursor: not-allowed;
         opacity: 50%;
     }
+    main {
+        margin-left: 0;
+    }
+    .panel .container {
+        background-color: #292929;
+        /* border: solid white 1px; */
+        width: calc(var(--panel-width) - 40px - 20px - 1rem);
+        margin: 0.5rem;
+    }
+    #panel-flex {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
 </style>
 <body>
     <div class="site-nav">
@@ -65,46 +78,37 @@
         <a href="#" class="nav-a active"><i class="fa-solid fa-dice-d20"></i> <span>Generator</span></a>
     </div>
     <main>
-        <div class="flex-column">
-            <div class="flex-column-child">
-                <div class="flex-row">
-                    <div class="flex-row-child">
-                        <div class="container">
-                            <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-history" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-history">History</span></div>
-                            <div class="history collapsed" id="history">
-                                <table class="styled-table">
-                                    <thead>
-                                        <th>Index</th>
-                                        <th>View</th>
-                                        <th>Delete</th>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        <th>Name</th>
-                                        <th>Biome</th>
-                                        <th>Dimensions</th>
-                                    </thead>
-                                    <tbody id="history-table-body"></tbody>
-                                </table>
+        <div id="panel-layout" class="visible">
+            <div class="panel left">
+                <div class="flex-column" id="panel-flex">
+                    <div class="flex-column-child">
+                        <button id="toggle-visibility" class="button small-button"><span class="button-text"><i class="fa-solid fa-angles-down"></i></span></button>
+                    </div>
+                    <!-- TODO: Layout switcher is hidden -->
+                    <div class="flex-column-child hidden">
+                        <div class="flex-row">
+                            <div class="flex-row-child">
+                                <div class="container">
+                                    <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-layout" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-layout">Layout</span></div>
+                                    <div class="fieldset-content visible" id="layout">
+                                        <div class="container-switch">
+                                            <label id="switch" class="switch">
+                                                <input type="checkbox" class="checkbox" onchange="toggleLayout()" id="slider-layout">
+                                                <span class="slider-layout round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="flex-column-child">
-                <div class="flex-row">
-                    <div class="flex-row-child">
+                    <div class="flex-column-child">
                         <div class="container">
                             <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-attributes" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-attributes">Attributes</span></div>
                             <div class="fieldset-content visible" id="attributes">
                                 <div class="text-input-container">
                                     <label class="text-input-label">Name</label>
                                     <input class="text-input" placeholder="Auto-named Map ###" type="text" id="name">
-                                </div>
-                                <div class="select-container">
-                                    <label class="select-label">Load</label>
-                                    <select class="select-dropdown" id="map-history-dropdown">
-                                        <option value="choose">Select Map...</option>
-                                    </select>
                                 </div>
                                 <div class="upload-file-container">
                                     <label class="upload-file-label">JSON</label>
@@ -113,7 +117,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex-row-child">
+                    <div class="flex-column-child">
                         <div class="container">
                             <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-dimensions" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-dimensions">Dimensions</span></div>
                             <div class="fieldset-content visible" id="dimensions">
@@ -152,7 +156,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex-row-child">
+                    <div class="flex-column-child">
                         <div class="container">
                             <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-environment" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-environment">Environment</span></div>
                             <div class="fieldset-content visible" id="environment">
@@ -171,7 +175,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex-row-child">
+                    <div class="flex-column-child">
                         <div class="container">
                             <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-grid" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-grid">Grid</span></div>
                             <div class="fieldset-content visible" id="grid">
@@ -206,7 +210,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex-row-child">
+                    <div class="flex-column-child">
                         <div class="container">
                             <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-tile-labels" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-tile-labels">Tile Labels</span></div>
                             <div class="fieldset-content visible" id="tile-labels">
@@ -237,7 +241,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex-row-child">
+                    <div class="flex-column-child">
                         <div class="container">
                             <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-terrain" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-terrain">Terrain</span></div>
                             <div class="fieldset-content visible" id="terrain">
@@ -259,7 +263,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex-row-child">
+                    <div class="flex-column-child">
                         <div class="container">
                             <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-features" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-features">Features</span></div>
                             <div class="fieldset-content visible" id="features">
@@ -298,24 +302,112 @@
                     </div>
                 </div>
             </div>
-            <div class="flex-column-child">
-                <div class="flex-row" id="buttons-group">
-                    <button id="generate" class="button small-button"><i class="fa-solid fa-dice"></i></button>
-                    <button id="clear-canvas" class="button small-button"><i class="fa-solid fa-x"></i></button>
-                    <button id="export-webp" class="button small-button"><i class="bi bi-file-earmark-image"></i><span class="button-text real-text">WEBP</span></button>
-                    <button id="export-png" class="button small-button"><i class="bi bi-file-earmark-image"></i><span class="button-text real-text">PNG</span></button>
-                    <button id="export-json" class="button small-button"><i class="bi bi-file-code"></i><span class="button-text real-text"></i>JSON</span></button>
-                    <button id="export-uvtt" class="button small-button"><i class="bi bi-file-code"></i><span class="button-text real-text"></i>UVTT</span></button>
-                    <button id="export-fvtt" class="button small-button"><i class="bi bi-file-code"></i><span class="button-text real-text"></i>FVTT</span></button>
-                    <button id="toggle-visibility" class="button small-button"><span class="button-text"><i class="fa-solid fa-angles-down"></i></span></button>
-                </div>
-                <div class="battle-map-output">
-                    <div id="legend" class="legend"></div>
-                    <div class="battle-map-canvas-container" id="battle-map-canvas-container">
-                        <canvas id="battle-map"></canvas>
+            <div class="flex-column" id="panel-content">
+                <div class="flex-column-child">
+                    <div class="flex-row">
+                        <div class="flex-row-child">
+                            <div class="container">
+                                <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-history" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-history">History</span></div>
+                                <div class="history collapsed" id="history">
+                                    <table class="styled-table">
+                                        <thead>
+                                            <th>Index</th>
+                                            <th>View</th>
+                                            <th>Delete</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Name</th>
+                                            <th>Biome</th>
+                                            <th>Dimensions</th>
+                                        </thead>
+                                        <tbody id="history-table-body"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
+                <div class="flex-column-child">
+                    <div class="flex-row" id="buttons-group">
+                        <button id="generate" class="button small-button"><i class="fa-solid fa-dice"></i></button>
+                        <button id="clear-canvas" class="button small-button"><i class="fa-solid fa-x"></i></button>
+                        <button id="export-webp" class="button small-button"><i class="bi bi-file-earmark-image"></i><span class="button-text real-text">WEBP</span></button>
+                        <button id="export-png" class="button small-button"><i class="bi bi-file-earmark-image"></i><span class="button-text real-text">PNG</span></button>
+                        <button id="export-json" class="button small-button"><i class="bi bi-file-code"></i><span class="button-text real-text"></i>JSON</span></button>
+                        <button id="export-uvtt" class="button small-button"><i class="bi bi-file-code"></i><span class="button-text real-text"></i>UVTT</span></button>
+                        <button id="export-fvtt" class="button small-button"><i class="bi bi-file-code"></i><span class="button-text real-text"></i>FVTT</span></button>
+                        
+                    </div>
+                    <div class="battle-map-output">
+                        <div id="legend" class="legend"></div>
+                        <div class="battle-map-canvas-container" id="battle-map-canvas-container">
+                            <canvas id="battle-map"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="flex-layout" class="hidden">
+            <div class="flex-column">
+                <div class="flex-column-child">
+                    <div class="flex-row">
+                        <div class="flex-row-child">
+                            <div class="container">
+                                <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-layout" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-layout">Layout</span></div>
+                                <div id="layout">
+                                    <div class="container-switch">
+                                        <label id="switch" class="switch">
+                                            <input type="checkbox" class="checkbox" onchange="toggleLayout()" id="slider-layout">
+                                            <span class="slider-layout round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-column-child">
+                    <div class="flex-row">
+                        <div class="flex-row-child">
+                            <div class="container">
+                                <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-history" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-history">History</span></div>
+                                <div class="history collapsed" id="history">
+                                    <table class="styled-table">
+                                        <thead>
+                                            <th>Index</th>
+                                            <th>View</th>
+                                            <th>Delete</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Name</th>
+                                            <th>Biome</th>
+                                            <th>Dimensions</th>
+                                        </thead>
+                                        <tbody id="history-table-body"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-column-child">
+                    <div class="flex-row" id="buttons-group">
+                        <button id="generate" class="button small-button"><i class="fa-solid fa-dice"></i></button>
+                        <button id="clear-canvas" class="button small-button"><i class="fa-solid fa-x"></i></button>
+                        <button id="export-webp" class="button small-button"><i class="bi bi-file-earmark-image"></i><span class="button-text real-text">WEBP</span></button>
+                        <button id="export-png" class="button small-button"><i class="bi bi-file-earmark-image"></i><span class="button-text real-text">PNG</span></button>
+                        <button id="export-json" class="button small-button"><i class="bi bi-file-code"></i><span class="button-text real-text"></i>JSON</span></button>
+                        <button id="export-uvtt" class="button small-button"><i class="bi bi-file-code"></i><span class="button-text real-text"></i>UVTT</span></button>
+                        <button id="export-fvtt" class="button small-button"><i class="bi bi-file-code"></i><span class="button-text real-text"></i>FVTT</span></button>
+                        <button id="toggle-visibility" class="button small-button"><span class="button-text"><i class="fa-solid fa-angles-down"></i></span></button>
+                    </div>
+                    <div class="battle-map-output">
+                        <div id="legend" class="legend"></div>
+                        <div class="battle-map-canvas-container" id="battle-map-canvas-container">
+                            <canvas id="battle-map"></canvas>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <a id="downloadAnchorElem" style="display: none; visibility: hidden;"></a>
@@ -332,6 +424,7 @@
         localStorage.setItem('collapsed', false)
         setupAllListeners()
         await populateBattleMapHistory()
+        setupLayout()
         document.getElementById(`cover-opacity-label`).style.display = 'block'
         document.getElementById(`cover-opacity-input`).style.display = 'block'
         document.getElementById(`elevation-opacity-label`).style.display = 'block'

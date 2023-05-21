@@ -100,7 +100,20 @@
     </div>
     <main>
         <div class="flex-column">
-            <!-- History -->
+            <!-- TODO: Layout switcher is hidden -->
+            <div class="flex-column-child hidden">
+                <div class="container">
+                    <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-layout" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-layout">Layout</span></div>
+                    <div id="layout">
+                        <div class="container-switch">
+                            <label id="switch" class="switch">
+                                <input type="checkbox" class="checkbox" onchange="toggleLayout()" id="slider-layout">
+                                <span class="slider-layout round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="flex-column-child">
                 <div class="container visible">
                     <div class="aspect-legend"><i class="fa-solid fa-chevron-up" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-history" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-history">History</span></div>
@@ -121,111 +134,13 @@
                 </div>
             </div>
         </div>
-        <div id="side-panel-options" class="hidden">
-            <!-- <div class="side-panel">
-                <fieldset class="user-options-container">
-                    <legend style="display: none;" class="fieldset-legend">Append <i class="fa-solid fa-caret-down"></i>
-                    </legend>
-                    <div class="fieldset-content visible">
-                        <div class="button-container">
-                            <button id="generate-encounter" class="button">Generate</button>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset class="user-options-container">
-                    <legend class="fieldset-legend">Attributes <i class="fa-solid fa-caret-down"></i></legend>
-                    <div class="fieldset-content visible">
-                        <div class="text-input-container">
-                            <label class="text-input-label"><i id="encounter-name-help"
-                                    class="bi bi-question-square"></i>Name</label>
-                            <input class="text-input" placeholder="Encounter ####" type="text" id="name">
-                        </div>
-                        <div class="text-input-container">
-                            <label class="text-input-label"><i id="guarantee-encounter-help"
-                                    class="bi bi-question-square"></i>100%</label>
-                            <input class="text-input" type="checkbox" id="100-percent">
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset class="user-options-container">
-                    <legend class="fieldset-legend">Party <i class="fa-solid fa-caret-down"></i></legend>
-                    <div class="fieldset-content visible">
-                        <div class="select-container">
-                            <label class="select-label"><i id="party-name-help"
-                                    class="bi bi-question-square"></i>Name</label>
-                            <select class="select-dropdown" id="select-party-input"></select>
-                        </div>
-                        <div class="text-input-container">
-                            <label for="party-name" class="text-input-label">Party Name</label>
-                            <input id="party-name-input" class="text-input" type="text">
-                        </div>
-                        <div class="select-container">
-                            <label for="party-level" class="select-label">Party Level</label>
-                            <select id="party-level-input" class="select-dropdown">
-                                <option id="1">1</option>
-                                <option id="2">2</option>
-                                <option id="3">3</option>
-                                <option id="4">4</option>
-                                <option id="5">5</option>
-                                <option id="6">6</option>
-                                <option id="7">7</option>
-                                <option id="8">8</option>
-                                <option id="9">9</option>
-                                <option id="10">10</option>
-                                <option id="11">11</option>
-                                <option id="12">12</option>
-                                <option id="13">13</option>
-                                <option id="14">14</option>
-                                <option id="15">15</option>
-                                <option id="16">16</option>
-                                <option id="17">17</option>
-                                <option id="18">18</option>
-                                <option id="19">19</option>
-                                <option id="20">20</option>
-                                <option id="21">21</option>
-                                <option id="22">22</option>
-                                <option id="23">23</option>
-                                <option id="24">24</option>
-                                <option id="25">25</option>
-                                <option id="26">26</option>
-                                <option id="27">27</option>
-                                <option id="28">28</option>
-                                <option id="29">29</option>
-                                <option id="30">30</option>
-                            </select>
-                        </div>
-                        <div class="select-container">
-                            <label for="party-size" class="select-label">Pary Size</label>
-                            <select id="party-size-input" class="select-dropdown">
-                                <option id="1">1</option>
-                                <option id="2">2</option>
-                                <option id="3">3</option>
-                                <option id="4">4</option>
-                                <option id="5">5</option>
-                                <option id="6">6</option>
-                                <option id="7">7</option>
-                                <option id="8">8</option>
-                                <option id="9">9</option>
-                                <option id="10">10</option>
-                            </select>
-                        </div>
-                        <div class="button-container">
-                            <button id="settings-save-party" class="fieldset-button">Save Party</button>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset class="user-options-container">
-                    <legend class="fieldset-legend"><i id="total-probs-help" class="bi bi-question-square"></i>Total Probs. <i class="fa-solid fa-caret-down"></i></legend>
-                    <div class="fieldset-content visible flexbox-inner" id="total-probs-div"></div>
-                </fieldset>
-            </div> -->
+        <div id="panel-layout" class="hidden">
+            
         </div>
-        <div id="flex-options" class="visible">
+        <div id="flex-layout" class="visible">
             <div class="flex-column">
                 <div class="flex-column-child">
                     <div class="flex-row">
-                        <div class="container">
-                            <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-options" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-options">Options</span></div>
                             <div id="options">
                                 <div class="flex-row">
                                     <div class="flex-row-child">
@@ -332,7 +247,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
                 <div class="flex-column-child">

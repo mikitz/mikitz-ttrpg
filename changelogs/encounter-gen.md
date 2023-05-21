@@ -1,8 +1,13 @@
 # Change Log
 
-### Pre-alpha 1.3 (WIP)
--   [ ] Add graphs to the encounter probabilities table
--   [ ] Add a 'Probability of At Least (n hrs)' table 
+### Alpha 2 -- WIP
+-   [ ] 
+
+### Alpha 1 -- 5/21/2023
+-   [x] Added history table
+-   [x] New UI 
+    - Used flex instead of panels, gives more room for encounter group table rows
+-   [x] Add a 'Probability of At Least (n hrs)' table 
 
 ### Pre-alpha 1.2 (4/28/2023)
 -   [x] Backend -- Implemented [Dexie.js](https://dexie.org/)

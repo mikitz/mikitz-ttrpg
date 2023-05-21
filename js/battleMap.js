@@ -124,11 +124,6 @@ function setupAllListeners(){
         element.addEventListener('click', function(){ toggleNextChildDisplay(this) })
     });
     // Attributes Listeners
-    const historyDrop = document.getElementById('map-history-dropdown')
-    historyDrop.addEventListener('change', function() { 
-        const mapName = document.getElementById('map-history-dropdown').value
-        redrawCanvasLabels(mapName) 
-    })
     document.getElementById('json-input').addEventListener('change', function() { loadJsonToCanvas() })
     // Dimensions Listeners
     const elements = document.getElementsByName('resolution')
