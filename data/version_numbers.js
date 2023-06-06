@@ -1,4 +1,4 @@
-const versionNumberBattleMapGen = 'Alpha 1 -- 5/21/2023'
+const versionNumberBattleMapGen = 'Alpha 2 -- 6/6/2023'
 const versionNumberCalendar = 'TBA'
 const versionNumberEncounterGen = 'Alpha 2.1 -- 5/21/2023'
 const versionNumberMagicShopGen = 'Pre-alpha 1.3 -- 4/29/2023'
