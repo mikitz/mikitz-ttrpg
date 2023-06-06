@@ -1,0 +1,16 @@
+{
+  "ARCTIC": { "ice":0.20, "lava":0.00, "mud":0.20, "quicksand":0.10, "rocks":0.20, "sand":0.00, "slush":0.00, "snow":0.00, "water":0.10, "rough_water":0.00, "scree":0.20, "long_grass":0.00, "plants":0.00},
+  "DESERT": { "ice":0.00, "lava":0.00, "mud":0.10, "quicksand":0.15, "rocks":0.10, "sand":0.65, "slush":0.00, "snow":0.00, "water":0.00, "rough_water":0.00, "scree":0.00, "long_grass":0.00, "plants":0.00},
+  "FOREST": { "ice":0.00, "lava":0.00, "mud":0.40, "quicksand":0.05, "rocks":0.05, "sand":0.00, "slush":0.00, "snow":0.00, "water":0.15, "rough_water":0.10, "scree":0.00, "long_grass":0.00, "plants":0.25},
+  "GRASSLAND": { "ice":0.00, "lava":0.00, "mud":0.15, "quicksand":0.05, "rocks":0.05, "sand":0.00, "slush":0.00, "snow":0.00, "water":0.05, "rough_water":0.00, "scree":0.00, "long_grass":0.70, "plants":0.00},
+  "HILL": { "ice":0.00, "lava":0.00, "mud":0.15, "quicksand":0.05, "rocks":0.05, "sand":0.00, "slush":0.00, "snow":0.00, "water":0.05, "rough_water":0.00, "scree":0.00, "long_grass":0.70, "plants":0.00},
+  "JUNGLE": { "ice":0.00, "lava":0.00, "mud":0.50, "quicksand":0.10, "rocks":0.05, "sand":0.00, "slush":0.00, "snow":0.00, "water":0.20, "rough_water":0.15, "scree":0.00, "long_grass":0.00, "plants":0.00},
+  "MOUNTAIN": { "ice":0.00, "lava":0.00, "mud":0.20, "quicksand":0.00, "rocks":0.00, "sand":0.00, "slush":0.00, "snow":0.00, "water":0.50, "rough_water":0.20, "scree":0.10, "long_grass":0.00, "plants":0.00},
+  "OPENWATER": { "ice":0.00, "lava":0.00, "mud":0.00, "quicksand":0.05, "rocks":0.20, "sand":0.10, "slush":0.00, "snow":0.00, "water":0.40, "rough_water":0.10, "scree":0.00, "long_grass":0.00, "plants":0.15},
+  "SEABED": { "ice":0.00, "lava":0.00, "mud":0.20, "quicksand":0.00, "rocks":0.00, "sand":0.15, "slush":0.00, "snow":0.00, "water":0.30, "rough_water":0.10, "scree":0.00, "long_grass":0.00, "plants":0.25},
+  "SWAMP": { "ice":0.00, "lava":0.00, "mud":0.40, "quicksand":0.30, "rocks":0.00, "sand":0.05, "slush":0.00, "snow":0.00, "water":0.15, "rough_water":0.00, "scree":0.00, "long_grass":0.00, "plants":0.10},
+  "UNDERDARK": { "ice":0.00, "lava":0.00, "mud":0.20, "quicksand":0.10, "rocks":0.00, "sand":0.00, "slush":0.00, "snow":0.00, "water":0.45, "rough_water":0.15, "scree":0.10, "long_grass":0.00, "plants":0.00},
+  "UNDERWATER": { "ice":0.00, "lava":0.00, "mud":0.00, "quicksand":0.00, "rocks":0.00, "sand":0.00, "slush":0.00, "snow":0.00, "water":0.70, "rough_water":0.30, "scree":0.00, "long_grass":0.00, "plants":0.00},
+  "WASTELAND": { "ice":0.00, "lava":0.30, "mud":0.00, "quicksand":0.00, "rocks":0.30, "sand":0.20, "slush":0.00, "snow":0.00, "water":0.00, "rough_water":0.00, "scree":0.20, "long_grass":0.00, "plants":0.00},
+  "WOODLAND": { "ice":0.00, "lava":0.00, "mud":0.10, "quicksand":0.00, "rocks":0.80, "sand":0.00, "slush":0.00, "snow":0.00, "water":0.10, "rough_water":0.00, "scree":0.00, "long_grass":0.00, "plants":0.00}
+}

@@ -1,1 +1,34 @@
-[{"TYPE":"DEFAULT","TERRAIN":null,"DIFF. TERRAIN":null,"COVER":null},{"TYPE":"COAST","TERRAIN":null,"DIFF. TERRAIN":null,"COVER":null},{"TYPE":"FARM","TERRAIN":null,"DIFF. TERRAIN":null,"COVER":null},{"TYPE":"HAMLET","TERRAIN":null,"DIFF. TERRAIN":null,"COVER":null},{"TYPE":"VILLAGE","TERRAIN":null,"DIFF. TERRAIN":null,"COVER":null},{"TYPE":"TOWN","TERRAIN":null,"DIFF. TERRAIN":null,"COVER":null},{"TYPE":"CITY","TERRAIN":null,"DIFF. TERRAIN":null,"COVER":null},{"TYPE":"DUNGEON","TERRAIN":null,"DIFF. TERRAIN":null,"COVER":null},{"TYPE":"CAVE","TERRAIN":null,"DIFF. TERRAIN":null,"COVER":null},{"TYPE":"ISLAND","TERRAIN":null,"DIFF. TERRAIN":null,"COVER":null},{"TYPE":"PENNINUSLA","TERRAIN":null,"DIFF. TERRAIN":null,"COVER":null},{"TYPE":null,"TERRAIN":null,"DIFF. TERRAIN":null,"COVER":null}]
+[
+    {
+        "TYPE": "DEFAULT",
+        "NORMAL": null,
+        "DIFFICULT": null,
+        "COVER": null
+    },
+    { "TYPE": "COAST", "NORMAL": null, "DIFFICULT": null, "COVER": null },
+    { "TYPE": "FARM", "NORMAL": null, "DIFFICULT": null, "COVER": null },
+    { "TYPE": "HAMLET", "NORMAL": null, "DIFFICULT": null, "COVER": null },
+    {
+        "TYPE": "VILLAGE",
+        "NORMAL": null,
+        "DIFFICULT": null,
+        "COVER": null
+    },
+    { "TYPE": "TOWN", "NORMAL": null, "DIFFICULT": null, "COVER": null },
+    { "TYPE": "CITY", "NORMAL": null, "DIFFICULT": null, "COVER": null },
+    {
+        "TYPE": "DUNGEON",
+        "NORMAL": null,
+        "DIFFICULT": null,
+        "COVER": null
+    },
+    { "TYPE": "CAVE", "NORMAL": null, "DIFFICULT": null, "COVER": null },
+    { "TYPE": "ISLAND", "NORMAL": null, "DIFFICULT": null, "COVER": null },
+    {
+        "TYPE": "PENINSULA",
+        "NORMAL": null,
+        "DIFFICULT": null,
+        "COVER": null
+    },
+    { "TYPE": null, "NORMAL": null, "DIFFICULT": null, "COVER": null }
+]

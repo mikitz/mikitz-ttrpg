@@ -127,17 +127,77 @@
             <!-- Battle Map Generator -->
             <div class="flex-column-child">
                 <div id="battle-map-generator-heading" class="h2"><span class="anchor-link"><i class="fa-solid fa-hashtag" name="anchor-icon"></i></span><span>Battle Map Generator</span></div> 
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet gravida tellus. Phasellus maximus urna sit amet placerat elementum. Praesent tincidunt velit dolor, a aliquet urna viverra sed. Proin posuere ultrices malesuada. Mauris sem nisi, tristique in sollicitudin nec, mattis non nulla. Vivamus ut eleifend neque. Phasellus ultricies orci et tellus cursus aliquam. Donec semper, orci in volutpat mattis, augue sem blandit nibh, condimentum varius tellus sapien non mi. Pellentesque at nulla non metus porta feugiat. Proin nibh neque, eleifend quis diam ut, sagittis ullamcorper metus. Curabitur justo erat, tempor sit amet scelerisque vel, consectetur vitae magna. In ultricies sollicitudin odio, quis mattis enim semper ut. Vestibulum aliquet justo nec mi ullamcorper, vel tincidunt metus posuere. Fusce ac semper felis, non sodales odio.
-
-                    Etiam eget cursus tellus. Donec neque lectus, gravida id risus ac, imperdiet molestie massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec luctus enim ut lacus elementum, eu tincidunt lacus rutrum. Proin et egestas tellus. Nunc sed velit id metus pulvinar tempus vitae malesuada neque. Fusce pulvinar fermentum mattis.
-
-                    Nam ultricies augue a semper ultrices. Nam purus erat, egestas sit amet arcu nec, ultrices pharetra ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius bibendum accumsan. Pellentesque in metus eu urna dapibus facilisis. Praesent cursus enim in urna sollicitudin, sed faucibus est malesuada. Aliquam non enim vitae ligula viverra rutrum id ac est. Maecenas rhoncus commodo lectus. Phasellus rhoncus neque dolor, ac commodo odio fringilla a. Etiam eros lacus, dignissim ac nunc eget, vulputate mollis urna. Proin id libero orci. Nunc facilisis massa lobortis magna varius rhoncus ac id lorem. Aliquam dignissim ullamcorper urna eget mollis. Maecenas a commodo neque. Suspendisse tristique orci nec congue dapibus.
-
-                    Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc et rhoncus purus. Proin rutrum, mi ac hendrerit interdum, sapien magna blandit magna, quis consectetur ante nisi quis libero. Phasellus id erat at risus egestas consequat nec vitae quam. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer id vulputate lorem, nec luctus est. Mauris metus libero, facilisis sed vehicula vitae, dapibus sit amet sapien. Duis auctor, sapien non tempus pretium, velit orci viverra magna, in accumsan dolor tortor in tortor. Nulla suscipit cursus sapien quis sagittis. Duis fringilla odio at faucibus posuere. Praesent tempus ullamcorper eros, eget blandit odio fermentum a. Nullam viverra elit ut nunc aliquam, at auctor odio blandit. Maecenas tincidunt mauris at nunc malesuada eleifend. Sed interdum volutpat lectus, eu pretium massa tristique at.
-
-                    Sed hendrerit nulla nec eleifend posuere. Fusce molestie efficitur dictum. Nullam lobortis mollis libero sit amet luctus. Cras ullamcorper elit vel accumsan pretium. Etiam eu ex tincidunt, tincidunt metus non, luctus elit. Duis euismod mi eget ex pharetra dapibus. Ut faucibus eros et lacus hendrerit, consequat porttitor nisi fermentum. Aenean tempus eleifend tellus vel dapibus. Ut nec odio tellus. 
-                </p>
+                <div class="flex-column">
+                    <div class="flex-column-child with-background">
+                        <h3 id="bmg_general_settings">General <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <div id="bmg_general_settings-div"></div>
+                            <div id="bmg_general_settings-description"></div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="bmg_biome_features">Biome Feature Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p>The table of the probabilities of the features by <b>BIOME</b>.</p>
+                            <div id="bmg_biome_features-div"></div>
+                            <div id="bmg_biome_features-description"></div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="bmg_terrain_types">Biome Terrain Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p>The table of the probabilities of the terrain classifications by <b>BIOME</b>.</p>
+                            <div id="bmg_terrain_types-div"></div>
+                            <div id="bmg_terrain_types-description"></div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="bmg_colors_summer">Tile Colors <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p>Table of tile colors for specific tile types by <b>BIOME</b>.</p>
+                            <div id="bmg_colors_summer-div"></div>
+                            <div id="bmg_colors_summer-description"></div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="bmg_cover">Cover Tile Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p>The table of the probabilities of the specified cover tile type by <b>BIOME</b>.
+                            </p>
+                            <div id="bmg_cover-div"></div>
+                            <div id="bmg_cover-description"></div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="bmg_difficult_terrain">Difficult Terrain Tile Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p>The table of the probabilities of the specified difficult terrain tile type by <b>BIOME</b>.
+                            </p>
+                            <div id="bmg_difficult_terrain-div"></div>
+                            <div id="bmg_difficult_terrain-description"></div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="bmg_normal_terrain">Normal Terrain Tile Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p>The table of the probabilities of the specified normal terrain tile type by <b>BIOME</b>.
+                            </p>
+                            <div id="bmg_normal_terrain-div"></div>
+                            <div id="bmg_normal_terrain-description"></div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="bmg_cover_type">Cover Type Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p>The table of the probabilities of the specified cover type by <b>BIOME</b>.
+                            </p>
+                            <div id="bmg_cover_type-div"></div>
+                            <div id="bmg_cover_type-description"></div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="bmg_hill_probabilities">Hill is Present Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p>The table of the probabilities that a hill will occur in any given tile by <b>BIOME</b>.</p>
+                            <div id="bmg_hill_probabilities-div"></div>
+                            <div id="bmg_hill_probabilities-description"></div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="bmg_cliff_probabilities">Cliff is Present Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p>The table of the probabilities that a cliff will occur in any given tile by <b>BIOME</b>.</p>
+                            <div id="bmg_cliff_probabilities-div"></div>
+                            <div id="bmg_cliff_probabilities-description"></div>
+                    </div>
+                    <div class="flex-column-child with-background">
+                        <h3 id="bmg_water_type">Water Type Probabilities <i class="fa-solid fa-window-restore restore-defaults"></i></h3>
+                            <p>Table of the probabilities of the water type if water is on a tile by <b>BIOME</b>.</p>
+                            <div id="bmg_water_type-div"></div>
+                            <div id="bmg_water_type-description"></div>
+                    </div>
+                </div>
             </div>
             <!-- Encounter Generator -->
             <div class="flex-column-child">

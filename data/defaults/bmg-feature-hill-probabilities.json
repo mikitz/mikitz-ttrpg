@@ -1,0 +1,20 @@
+{
+  "ARCTIC": 0.07,
+  "CAVE": 0.20,
+  "COASTAL": 0.10,
+  "DESERT": 0.04,
+  "DUNGEON": 0.02,
+  "FARMLAND": 0.02,
+  "FOREST": 0.07,
+  "GRASSLAND": 0.02,
+  "HILL": 0.03,
+  "JUNGLE": 0.05,
+  "MOUNTAIN": 0.40,
+  "OPENWATER": 0,
+  "SWAMP": 0.02,
+  "UNDERDARK": 0.07,
+  "UNDERWATER": 0.04,
+  "URBAN": 0.07,
+  "WASTELAND": 0.04,
+  "WOODLAND": 0.05
+}

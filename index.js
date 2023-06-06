@@ -119,7 +119,8 @@ function setupGroupFromArray(radioGroupId, radioGroupName, array, random, groupT
 function setupVersionNumber(){
     let suffix = ''
     let versionNumber
-    let pageName = (window.location.href).split('/')
+    let url = new URL(window.location.href)
+    let pageName = url.pathname.split('/')
     pageName = (pageName[pageName.length - 1]).replace(".html","").split("?")[0]
     if (pageName.includes('generator')) {
         versionNumber = pageName.replace('-generator',' ').replace("-", " ")

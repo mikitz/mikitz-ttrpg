@@ -1,70 +1,26 @@
 // ========= Listeners ==========
 function setupAllListeners(){
-    async function setupTerrain(){ // Function to set up Terrain based on Biome and Climate inputs
-        const biome = document.getElementById('biome').value
-        const BIOME = biome.toUpperCase()
-        // Data
-        const tableBiomeTerrainTypes = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/BIOME_TERRAIN_TYPES')
-        // Filter Data
-        const difficultTerrain = Math.round(tableBiomeTerrainTypes.find(i => i.BIOME === BIOME)["DIFF. TERRAIN"] * 100)
-        const regularTerrain = Math.round(tableBiomeTerrainTypes.find(i => i.BIOME === BIOME)["TERRAIN"] * 100)
-        const coverTerrain = Math.round(tableBiomeTerrainTypes.find(i => i.BIOME === BIOME)["COVER"] * 100)
-        // Input Elements
-        const inputRegularTerrain = document.getElementById('regular-terrain-input')
-        const inputDifficultTerrain = document.getElementById('difficult-terrain-input')
-        const inputCover = document.getElementById('cover-input')
-        const sliderRegularTerrain = document.getElementById('regular-terrain-slider')
-        const sliderDifficultTerrain = document.getElementById('difficult-terrain-slider')
-        const sliderCover = document.getElementById('cover-slider')
-        // Update DOM
-        inputRegularTerrain.value = regularTerrain
-        inputDifficultTerrain.value = difficultTerrain
-        inputCover.value = coverTerrain
-        sliderRegularTerrain.value = regularTerrain
-        sliderDifficultTerrain.value = difficultTerrain
-        sliderCover.value = coverTerrain
-    }
     async function setupFeatures(){ // Function to setup Features
         const biome = document.getElementById('biome').value
         const BIOME = biome.toUpperCase()
         const form = document.getElementById('form').value
         const FORM = biome.toUpperCase()
         // Data
-        const tableBiomeFeatures = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/BIOME_FEATURES')
-        const tableFormFeatures = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/FORM_FEATURES')
+        const tableBiomeFeatures = await db.bmg_biome_features.toArray()
         // Filter Data
-        const cliffsProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["CLIFFS"] * 100)
-        const hillsProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["HILLS"] * 100)
-        const lakeProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["LAKE"] * 100)
-        const pondProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["POND"] * 100)
-        const riverProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["RIVER"] * 100)
-        const roadProb = Math.round(tableBiomeFeatures.find(i => i.BIOME === BIOME)["ROAD"] * 100)
-        // Input Elements
-        const inputCliffs = document.getElementById('cliffs-input')
-        const inputHills = document.getElementById('hills-input')
-        const inputLake = document.getElementById('lake-input')
-        const inputPond = document.getElementById('pond-input')
-        const inputRiver = document.getElementById('river-input')
-        const inputRoad = document.getElementById('road-input')
-        const sliderCliffs = document.getElementById('cliffs-slider')
-        const sliderHills = document.getElementById('hills-slider')
-        const sliderLake = document.getElementById('lake-slider')
-        const sliderPond = document.getElementById('pond-slider')
-        const sliderRiver = document.getElementById('river-slider')
-        const sliderRoad = document.getElementById('road-slider')
+        const cliffsProb = tableBiomeFeatures.find(i => i.BIOME === BIOME)["CLIFFS"]
+        const hillsProb = tableBiomeFeatures.find(i => i.BIOME === BIOME)["HILLS"]
+        const lakeProb = tableBiomeFeatures.find(i => i.BIOME === BIOME)["LAKE"]
+        const pondProb = tableBiomeFeatures.find(i => i.BIOME === BIOME)["POND"]
+        const riverProb = tableBiomeFeatures.find(i => i.BIOME === BIOME)["RIVER"]
+        const roadProb = tableBiomeFeatures.find(i => i.BIOME === BIOME)["ROAD"]
         // Update DOM
-        inputCliffs.value = cliffsProb
-        inputHills.value = hillsProb
-        inputLake.value = lakeProb
-        inputPond.value = pondProb
-        inputRiver.value = riverProb
-        inputRoad.value = roadProb
-        sliderCliffs.value = cliffsProb
-        sliderHills.value = hillsProb
-        sliderLake.value = lakeProb
-        sliderPond.value = pondProb
-        sliderRiver.value = riverProb
-        sliderRoad.value = roadProb
+        // document.getElementById('cliff-random').value = cliffsProb
+        // document.getElementById('hill-random').value = hillsProb
+        document.getElementById('lake-random').value = lakeProb
+        document.getElementById('pond-random').value = pondProb
+        document.getElementById('river-random').value = riverProb
+        document.getElementById('road-random').value = roadProb
     }
     function calculateResolution(){
         let width = parseInt(document.getElementById("width-input").value) // Get the width
@@ -111,21 +67,20 @@ function setupAllListeners(){
         const totalTilesSpan = document.getElementById('total-tiles')
         const totalPixelsSpan = document.getElementById('total-pixels')
         // Update Elements
-        heightInPixelsSpan.innerHTML = `${h} <span style="font-size: smaller;">pixels</span>`
-        widthInPixelsSpan.innerHTML = `${w} <span style="font-size: smaller;">pixels</span>`
+        heightInPixelsSpan.innerHTML = `${h.toLocaleString()} <span style="font-size: smaller;">pixels</span>`
+        widthInPixelsSpan.innerHTML = `${w.toLocaleString()} <span style="font-size: smaller;">pixels</span>`
         totalTilesSpan.innerText = tiles
         totalPixelsSpan.innerText = totalPixels
     }
     calculateResolution()
-    setupTerrain()
     setupFeatures()
-    document.getElementById('seed').value = randomEgregiousSlug()
+    document.getElementById('seed').value = randomWordSlug()
     const toggleDisplayElements = document.getElementsByName('toggle-display')
     toggleDisplayElements.forEach(element => {
         element.addEventListener('click', function(){ toggleNextChildDisplay(this) })
     });
     // Attributes Listeners
-    document.getElementById('json-input').addEventListener('change', function() { loadJsonToCanvas() })
+    // document.getElementById('json-input').addEventListener('change', function() { loadJsonToCanvas() })
     // Dimensions Listeners
     const elements = document.getElementsByName('resolution')
     elements.forEach(element => {
@@ -148,91 +103,120 @@ function setupAllListeners(){
             if (gridType == 'square') select.style.display = 'none'
             else if (gridType == 'hex') select.style.display = 'block'
             // Redraw the battle map
-            const mapName = document.getElementById('map-history-dropdown').value
+            const mapName = JSON.parse(localStorage.getItem('currently-viewing-map-json'))
             redrawCanvasLabels(mapName)
         })
     });
     // Grid Lines listener
-    const gridLinesCheckbox = document.getElementById('grid lines-labels-checkbox')
-    gridLinesCheckbox.addEventListener('change', function() {
-        const isChecked = this.checked
-        const lineWidthSelect = document.getElementById('line-width')
-        const lineWidthLabel = document.getElementById('line-width-label')
-        if (isChecked) {
-            lineWidthLabel.style.display = 'block'
-            lineWidthSelect.style.display = 'block'
-        } else {
-            lineWidthLabel.style.display = 'none'
-            lineWidthSelect.style.display = 'none'
-        }
-        // Redraw the battle map
-        const mapName = document.getElementById('map-history-dropdown').value
-        redrawCanvasLabels(mapName) 
-        // Line Width
-        try { document.getElementById('line-width').addEventListener('change', function(){ 
-                const mapName = document.getElementById('map-history-dropdown').value
-                redrawCanvasLabels(mapName) 
-            }) 
-        } catch (error) { console.error(" line-width Listener | Grid not visible:", error) }
-    })
+    // const gridLinesCheckbox = document.getElementById('grid lines-labels-checkbox')
+    // gridLinesCheckbox.addEventListener('change', function() {
+    //     const isChecked = this.checked
+    //     const lineWidthSelect = document.getElementById('line-width')
+    //     const lineWidthLabel = document.getElementById('line-width-label')
+    //     if (isChecked) {
+    //         lineWidthLabel.style.display = 'block'
+    //         lineWidthSelect.style.display = 'block'
+    //     } else {
+    //         lineWidthLabel.style.display = 'none'
+    //         lineWidthSelect.style.display = 'none'
+    //     }
+    //     // Redraw the battle map
+    //     const mapName = document.getElementById('map-history-dropdown').value
+    //     redrawCanvasLabels(mapName) 
+    //     // Line Width
+    //     try { document.getElementById('line-width').addEventListener('change', function(){ 
+    //             const mapName = document.getElementById('map-history-dropdown').value
+    //             redrawCanvasLabels(mapName) 
+    //         }) 
+    //     } catch (error) { console.error(" line-width Listener | Grid not visible:", error) }
+    // })
     // Hex Type listener
     const hexTypeSelect = document.getElementById('hex-type')
     hexTypeSelect.addEventListener('change', function() {
         // Redraw the battle map
-        const mapName = document.getElementById('map-history-dropdown').value
+        const mapName = JSON.parse(localStorage.getItem('currently-viewing-map-json'))
         redrawCanvasLabels(mapName) 
     })
-    // Terrain Listeners
-
-    // Tile Labels Listeners
-    // Tile Checkboxes
-    const tileLabelCheckboxes = document.getElementsByName('label-checkbox')
-    tileLabelCheckboxes.forEach(element => {
-        element.addEventListener('input', function(){
-            // Display the Opacity input
-            const ID = element.id.replace('-checkbox', '').replace('-labels', '')
-            if (element.checked) {
-                document.getElementById(`${ID}-opacity-label`).style.display = 'block'
-                document.getElementById(`${ID}-opacity-input`).style.display = 'block'
-            } else {
-                document.getElementById(`${ID}-opacity-label`).style.display = 'none'
-                document.getElementById(`${ID}-opacity-input`).style.display = 'none'
-            }
-            // Redraw the Canvas
-            const mapName = document.getElementById('map-history-dropdown').value
-            redrawCanvasLabels(mapName) 
-        })
-    });
-    // Opacity Inputs
-    const opacityInputs = document.querySelectorAll('.opacity-input')
-    opacityInputs.forEach(element => {
-        element.addEventListener('input', function() {
-            // Redraw the Canvas
-            const mapName = document.getElementById('map-history-dropdown').value
-            redrawCanvasLabels(mapName) 
-        })
-    });
     // Button Listeners
-    document.getElementById('clear-canvas').addEventListener('click', function() { clearCanvas('battle-map') })
-    document.getElementById('export-webp').addEventListener('click', function() { exportCanvas('battle-map', 'webp') })
-    document.getElementById('export-png').addEventListener('click', function() { exportCanvas('battle-map', 'png') })
+    // document.getElementById('clear-canvas').addEventListener('click', function() { clearCanvas('battle-map') })
+    document.getElementById('export-webp').addEventListener('click', async function() { await exportCanvas('battle-map', 'webp') })
+    document.getElementById('export-png').addEventListener('click', async function() { await exportCanvas('battle-map', 'png') })
     document.getElementById('export-json').addEventListener('click', function() { exportToJson(JSON.parse(localStorage.getItem('currently-viewing-map-json'))) })
     document.getElementById('export-uvtt').addEventListener('click', function() { exportToUvtt(JSON.parse(localStorage.getItem('currently-viewing-map-json'))) })
-    document.getElementById('export-fvtt').addEventListener('click', function() { exportJsonToFvtt(JSON.parse(localStorage.getItem('currently-viewing-map-json'))) })
-    document.getElementById('toggle-visibility').addEventListener('click', function() { toggleCollapsables(this) })
-    document.getElementById('generate').addEventListener('click', function() { clickedHard(this) })
+    document.getElementById('export-fvtt').addEventListener('click', async function() { await exportJsonToFvtt(JSON.parse(localStorage.getItem('currently-viewing-map-json'))) })
+    // document.getElementById('toggle-visibility').addEventListener('click', function() { toggleCollapsables(this) })
+    const generateBattleMapButtons = document.getElementsByName('generate-buttons')
+    generateBattleMapButtons.forEach(button => {
+        button.addEventListener('click', async function(){
+            // clickedHard(this) 
+            const loaderContainer = document.getElementById('loader-container')
+            const legend = document.getElementById('legend')
+            // const progressContainer = document.getElementById('progress')
+            // progressContainer.classList.remove('hidden')
+            legend.classList.remove('hidden')
+            loaderContainer.classList.remove('hidden')
+            loaderContainer.style.display = 'block'
+            await generateBattleMap()
+            // progressContainer.classList.add('hidden')
+            // loaderContainer.classList.add('hidden')
+            loaderContainer.style.display = 'none'
+            const battleMapCanvas = document.getElementById('tiles')
+            battleMapCanvas.addEventListener('click', function(event){
+                const ctx = battleMapCanvas.getContext('2d')
+                const rect = battleMapCanvas.getBoundingClientRect();
+                const currentMapdata = JSON.parse(localStorage.getItem('currently-viewing-map-json'))
+                const PPI = currentMapdata.PPI
+                
+                const keyColors = JSON.parse(localStorage.getItem('key-colors'))
+                const activeTool = localStorage.getItem('active-tool')
+                const color = keyColors.find(e => e.TERRAIN == activeTool).COLOR
+    
+                let x = event.clientX - rect.left
+                let y = event.clientY - rect.top
+                const gridType = getSelectedValueFromRadioGroup('grid-type')
+                if (gridType == 'square') {
+                    x = Math.floor(x / PPI) * PPI
+                    y = Math.floor(y / PPI) * PPI
+                    ctx.clearRect(x, y, PPI, PPI);
+                    fillCenterOut(ctx, x, y, PPI, color);
+                }
+                else if (gridType == 'hex') {
+                    // TODO: Implement interactivity for hex maps
+    
+    
+                }
+                
+            })
+        })
+    });
+    document.getElementById('random-seed').addEventListener('click', function() { document.getElementById('seed').value = randomWordSlug() })
     // Function for the generate button's onclick
-    async function clickedHard(buttonElement){
-        buttonElement.classList.add('button-loading')
-        await sleep(500)
-        await generateBattleMapOnClick()
-        await sleep(1000)
-        buttonElement.classList.remove('button-loading')
+    async function clickedHard(buttonElement){  
+        generateBattleMapOnClick()
     }
     // Function that is called when the Generate Battle Map button is clicked
     async function generateBattleMapOnClick(){
+        const startTime = Date.now()
+
+        const loaderContainer = document.getElementById('loader-container')
+        const progressContainer = document.getElementById('progress')
+
+        // progressContainer.classList.remove('hidden')
+        loaderContainer.classList.remove('hidden')
+
         const battleMapJSON = await generateBattleMapJson()
         await drawJsonOnCanvas(battleMapJSON, 'battle-map')
+        const blah = battleMapJSON.TILE_DATA.filter(e => e.COVER != "N/A")
+        console.log("🚀 ~ file: battleMap.js:274 ~ generateBattleMapOnClick ~ blah:", blah)
+
+        // progressContainer.classList.add('hidden')
+        loaderContainer.classList.add('hidden')
+
+        const endTime = Date.now()
+        const elapsed = endTime - startTime
+        const formattedTime = formatMillisecondsToReadable(elapsed)
+        console.log("🚀 ~ file: index.js:332 ~ startBabylon ~ formattedTime:", formattedTime)
+
         await db.bmg_maps.put(battleMapJSON)
             .then(function(){
                 makeToast(`<b>${battleMapJSON.NAME}</b> map saved successfully!`, 'success')
@@ -252,6 +236,7 @@ function setupAllListeners(){
                     console.error(`! ~~~~ Error ~~~~ ! \n Name: ${error.name} \n`, `Message: ${error.message}`)
                 }
             })
+        
     }
     // Function to toggle collapsable state of fieldset-content
     function toggleCollapsables(buttonElement){
@@ -273,21 +258,38 @@ function setupAllListeners(){
         buttonElement.classList.toggle('closed')
     }
     // Canvas Listeners
-    const battleMapCanvas = document.getElementById('battle-map-canvas-container')
-    const zoomElement = document.getElementById('battle-map')
-    let zoom = 1
-    const ZOOM_SPEED = 0.1
-    battleMapCanvas.addEventListener('wheel', function(e){
-        if (e.deltaY > 0) {
-            zoomElement.style.transform = `scale(${(zoom -= ZOOM_SPEED)})`;
-          } else {
-            zoomElement.style.transform = `scale(${(zoom += ZOOM_SPEED)})`;
-          }
-    })
+    // const battleMapCanvas = document.getElementById('battle-map-canvas-container')
+    // battleMapCanvas.addEventListener('wheel', function(e){
+    //     const zoomElement = document.getElementById('battle-map')
+    //     let zoom = 1
+    //     const ZOOM_SPEED = 0.1
+    //     if (e.deltaY > 0) {
+    //         zoomElement.style.transform = `scale(${(zoom -= ZOOM_SPEED)})`;
+    //     } else {
+    //     zoomElement.style.transform = `scale(${(zoom += ZOOM_SPEED)})`;
+    //     }
+    // })
+}
+// ========= Animations ===========
+function fillCenterOut(ctx, x, y, ppi, color) {
+    var size = 0;
+    var maxSize = ppi;
+    var growthRate = ppi / 30;  // pixels per frame
+    function animate() {
+        ctx.clearRect(x, y, maxSize, maxSize); // clear the entire potential area of the square
+        size += growthRate;
+        if (size > maxSize) size = maxSize
+        ctx.fillStyle = `rgb(${color})`
+        var topLeftX = x + (maxSize - size) / 2;
+        var topLeftY = y + (maxSize - size) / 2;
+        ctx.fillRect(topLeftX, topLeftY, size, size);
+        if (size < maxSize) requestAnimationFrame(animate)
+    }
+    animate();
 }
 // ========= Set up Dom ===========
 function setupAllDElements(){
-    // OnInput function for slider nubmer input
+    // OnInput function for slider number input
     function sliderNumberOnInput(children){
         const numberInput = children[1]
         const slider = children[2]
@@ -357,56 +359,16 @@ function setupAllDElements(){
             select.appendChild(option)
         }
     }
-    // Fieldsets
-
-    // Checkboxes
-    const checkboxes = document.querySelectorAll('.checkbox-container')
-    checkboxes.forEach(element => {
-        const children = element.children
-        children[0].id = `${children[1].innerText.toLowerCase()}-labels-checkbox`
-        children[1].htmlFor = `${children[1].innerText.toLowerCase()}-labels-checkbox`
-    });
-    const isChecked = document.getElementById('grid lines-labels-checkbox').checked
+    // const isChecked = document.getElementById('grid lines-labels-checkbox').checked
     const lineWidthSelect = document.getElementById('line-width')
     const lineWidthLabel = document.getElementById('line-width-label')
-    if (isChecked) {
-        lineWidthLabel.style.display = 'block'
-        lineWidthSelect.style.display = 'block'
-    } else {
-        lineWidthLabel.style.display = 'none'
-        lineWidthSelect.style.display = 'none'
-    }
-    // Tooltips
-    addTippy('width', "The number of tiles wide the battle map will be.")
-    addTippy('height', "The number of tiles tall the battle map will be.")
-    addTippy('res', "The number of pixels long one side of each tile will be.")
-    addTippy('vertical', 'Rivers and roads will primarly be vertical.')
-    addTippy('horizontal', 'Rivers and roads will primarly be horizontal.')
-    addTippy('export-webp', 'Export as WEBP')
-    addTippy('export-png', 'Export as PNG')
-    addTippy('generate', 'Generate battle map')
-    addTippy('clear-canvas', 'Clear the battle map')
-    addTippy('export-json', 'Export as JSON')
-    addTippy('export-uvtt', 'Export as UVTT')
-    addTippy('export-fvtt', 'Export as FVTT')
-    addTippy('toggle-visibility', 'Toggle collasped state')
-    // Helps
-    addTippy('direction-help', 'Determines the direction of the road(s) and/or river(s)')
-    addTippy('biome-help', 'Determines the types of tiles that can be rolled when generating the map.')
-    addTippy('form-help', 'Coming Soon! Determines the shape of the output map.')
-    addTippy('plane-help', 'Coming Soon! Determines the types of tiles as well as other aspects.')
-    addTippy('terrain-help', 'The probability that non-difficult terrain tiles will appear.')
-    addTippy('difficult-terrain-help', 'The probability that difficult terrain tiles will appear.')
-    addTippy('cover-help', 'The probability that cover tiles will appear.')
-    addTippy('cliffs-help', 'The probability that cliffs will appear on the battle map.')
-    addTippy('hills-help', 'The probability that hills will appear on the battle map.')
-    addTippy('lake-help', 'The probability that a lake will appear on the battle map.')
-    addTippy('pond-help', 'The probability that a pond will appear on the battle map.')
-    addTippy('river-help', 'The probability that a river will appear on the battle map.')
-    addTippy('road-help', 'The probability that a road will appear on the battle map.')
-    addTippy('precipitation-probability-help', 'The probability that light precipitation will fall.')
-    addTippy('heavy-precipitation-probability-help', 'The probability that heavy precipitation will fall.')
-    addTippy('-help', '')
+    // if (isChecked) {
+    //     lineWidthLabel.style.display = 'block'
+    //     lineWidthSelect.style.display = 'block'
+    // } else {
+    //     lineWidthLabel.style.display = 'none'
+    //     lineWidthSelect.style.display = 'none'
+    // }
 }
 // ========= Data Manipulation ===========
 async function loadJsonToCanvas(){ // Function that loads the uploaded JSOn to the map
@@ -420,16 +382,6 @@ async function loadJsonToCanvas(){ // Function that loads the uploaded JSOn to t
     }
     const jsonFile = await fileToJSON(document.getElementById('json-input').files[0])
     drawJsonOnCanvas(jsonFile, 'battle-map')
-}
-function exportCanvas(ID, filetype){ // Function to export canvas by canvas ID
-    const canvas = document.getElementById(ID)
-    if (isCanvasBlank(canvas)) return alert("Please generate a map first.")
-    const name = JSON.parse(localStorage.getItem('currently-viewing-map-json')).NAME
-    // EXPORT
-    const link = document.createElement('a'); // Create new link
-    link.download = `${name}.${filetype}`; // Set up the file name
-    link.href = canvas.toDataURL(`image/${filetype}`) // Grab the canvas image data
-    link.click() // Click the link to export
 }
 function convertJsonToFoundryVTT(JSON){ // Function to build a FoundryVTT Scene JSON from JSON
     function getFoundryVttGridType(data){
@@ -495,7 +447,7 @@ function convertJsonToFoundryVTT(JSON){ // Function to build a FoundryVTT Scene 
     }
     return FVTT
 }
-function exportJsonToFvtt(JSONobj){ // Function to export as FVTT
+async function exportJsonToFvtt(JSONobj){ // Function to export as FVTT
     if (!JSONobj) return alert("Please generate a map first.")
     const canvas = document.getElementById('battle-map')
     if (isCanvasBlank(canvas)) return alert("Please generate a map first.")
@@ -509,7 +461,7 @@ function exportJsonToFvtt(JSONobj){ // Function to export as FVTT
     dlAnchorElem.setAttribute("download", `(FoundryVTT) ${name}.json`);
     dlAnchorElem.click();
 
-    exportCanvas('battle-map', 'webp')
+    await exportCanvas('battle-map', 'webp')
 }
 function convertJsonToUvtt(JSON) { // Function to build UVTT from JSON
     if (!JSON) return alert("Please generate a map first.")
@@ -622,12 +574,12 @@ function getRandomSeed(){ // Function to get the number from the seed
 async function populateBattleMapHistory(){
     const listDiv = document.getElementById('history-table-body')
     listDiv.innerHTML = ``
-    let data = await db.bmg_maps.orderBy('DATETIME').reverse().toArray()
+    let data = await db.bmg_maps.orderBy('dt').reverse().toArray()
     for (let index = 0; index < data.length; index++) {
         const element = data[index];
         
         const tr = document.createElement('tr')
-        tr.id = element.id
+        tr.id = element._id
 
         const tdID = document.createElement('td')
         const tdView = document.createElement('td')
@@ -638,16 +590,16 @@ async function populateBattleMapHistory(){
         const tdBiome = document.createElement('td')
         const tdDimensions = document.createElement('td')
 
-        let dt = (typeof element.DATETIME == 'string')? new Date(element.DATETIME) : element.DATETIME
+        let dt = (typeof element.dt == 'string')? new Date(element.dt) : element.dt
 
         tdID.innerText = data.length - (index)
-        tdView.innerHTML = `<i class="fa-solid fa-eye view-row" id="${element.id}-view"></i>`
-        tdDelete.innerHTML = `<i class="fa-solid fa-trash delete-row" id="${element.id}-delete"></i>`
+        tdView.innerHTML = `<i class="fa-solid fa-eye view-row" id="${element._id}-view"></i>`
+        tdDelete.innerHTML = `<i class="fa-solid fa-trash delete-row" id="${element._id}-delete"></i>`
         tdDate.innerText = dt.toLocaleDateString()
         tdTime.innerText = dt.toLocaleTimeString()
-        tdName.innerText = element.NAME
-        tdBiome.innerText = element.BIOME
-        tdDimensions.innerText = `${element.HEIGHT}x${element.WIDTH} @ ${element.PPI}ppi`
+        tdName.innerHTML = `<span id="map-name-${element._id}">${element.name}</span>`
+        tdBiome.innerText = element.biome
+        tdDimensions.innerText = `${element.h}x${element.w} @ ${element.ppi}ppi`
 
         tr.appendChild(tdID)
         tr.appendChild(tdView)
@@ -660,14 +612,13 @@ async function populateBattleMapHistory(){
         
         listDiv.appendChild(tr)
 
-        const viewIcon = document.getElementById(`${element.id}-view`)
+        const viewIcon = document.getElementById(`map-name-${element._id}`)
         viewIcon.addEventListener('click', async function(){ 
-            const primaryKey = parseInt(this.id.replace('-view',''))
+            const primaryKey = parseInt(this.id.replace('map-name-',''))
             const mapData = await db.bmg_maps.get(primaryKey)
             drawJsonOnCanvas(mapData, 'battle-map')
-
         })
-        const deleteIcon = document.getElementById(`${element.id}-delete`)
+        const deleteIcon = document.getElementById(`${element._id}-delete`)
         deleteIcon.addEventListener('click', function(){ 
             const primaryKey = parseInt(this.id.replaceAll('-delete',''))
             deleteRowByPrimaryKey(primaryKey, 'bmg_maps')
@@ -713,7 +664,6 @@ async function generateBattleMapJson(){ // Function to generate a battle map JSO
     const coverProb = document.getElementById('cover-input').value
     const terrainSum = parseInt(terrainProb) + parseInt(diffTerrainProb) + parseInt(coverProb)
     if (terrainSum > 100 || terrainSum < 100) {
-        document.getElementById('generate').classList.remove('button-loading')
         return alert("Terrain probabilities does not equal 100! Ensure that Terrain, Diff. Terrain, and Cover probabilities add up to 100.")
     }
     // Features
@@ -725,10 +675,9 @@ async function generateBattleMapJson(){ // Function to generate a battle map JSO
     const roadProb = document.getElementById('road-input').value
     // Seed
     let seed = document.getElementById('seed').value
-    console.log("🚀 ~ file: battleMap.js:703 ~ generateBattleMapJson ~ seed:", seed)
     seed = new Math.seedrandom(`${seed}.${height}.${width}.${gridSize}.${biome}`)
     for (let index = 0; index < 10; index++) {
-        console.log(seed())
+        // console.log(seed())
     }
     // ========================
     //       GET DATA
@@ -756,6 +705,9 @@ async function generateBattleMapJson(){ // Function to generate a battle map JSO
     colorData = colorData.find(i => i.TYPE === BIOME)
     // Table Data
     let tableCover = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/COVER')
+    const blahTable = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/refactored/COVER_TEST') 
+    console.log("🚀 ~ file: battleMap.js:824 ~ generateBattleMapJson ~ blahTable:", convertObjectToSeedRollableObject(blahTable[BIOME]))
+    
     let tableDiffTerrain = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/DIFF._TERRAIN')
     let tableTerrain = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/TERRAIN')
     const tableCoverType = await fetchLocalJson('/mikitz-ttrpg/data/json/battle-map-generator/COVER_TYPE')
@@ -797,6 +749,7 @@ async function generateBattleMapJson(){ // Function to generate a battle map JSO
     const rDirection = determineDirection(orient) // Determine the direction
     const beginRiver = determineRiverBeginningCoordinates(rDirection, height, width) // Determine the coordinates where the river will start
     const beginRoad = determineRoadBeginningCoordinates(rDirection, height, width) // Determine the coordinates where the river will start
+    
     let terrainTypes = await generateAllTiles(rDirection, height, width, rollTableBiomeTerrainTypes, BIOME, 
         cliff, hill, lake, pond, river, road, cliffDieSize, hillDieSize, height, rDirection, grid, beginRoad, beginRiver, riverWidth, roadWidth, 
         gridSize, colorData, tableCoverType, tableCover, tableDiffTerrain, tableTerrain)
@@ -829,7 +782,6 @@ async function generateBattleMapJson(){ // Function to generate a battle map JSO
     }
     // Set Local Storage items
     try {
-        localStorage.setItem('terrain-JSON', JSON.stringify(JSONobj))
         localStorage.setItem('currently-viewing-map-json', JSON.stringify(JSONobj))
     } catch (error) {
         console.warn("Map is too big to save! See the below error")
@@ -882,112 +834,23 @@ function determineRoadBeginningCoordinates(direction, height, width){ // Functio
     else if (direction === 2 || direction === 4) return beginRiver = getRndInteger(0, width - 1)
 }
 function determineHexXandY(i, j, xOff, yOff, hexOrientation, R, b, r) { // Function to deterimine the X and Y coordinates on the canvas to draw a hexagon tile
-    let x = xOff
+    let x = ((R + b) * i) + xOff
     let y = yOff
-    if (hexOrientation === 'row-even') {
-        // The first hex in each row after the first row
-        if (i === 0 && j > 0){
-            x = ((R + b) * i) + xOff
-            y = (r * j) + yOff + (r * j) + r
-        // The very first hex
-        } else if (i === 0){
-            x = x
-            y = (y * j) + yOff + r
-        // Even Tiles after the first row
-        } else if ((j > 0) && (i % 2 != 0)){
-            x = ((R + b) * i) + xOff
-            y = (r * j) + yOff + (r * j)
-        // Odd Tile after the first row
-        } else if ((j > 0) && (i % 2 === 0)){
-            x = ((R + b) * i) + xOff
-            y = (r * (j + 1)) + yOff + (r * j)
-        // Even Tiles in the first row
-        } else if (i % 2 != 0){
-            x = ((R + b) * i) + xOff
-            y = (r * j) + yOff
-        // Odd Tiles in the first row
-        } else if (i % 2 === 0){
-            x = ((R + b) * i) + xOff
-            y = (r * (j + 1)) + yOff 
-        } 
-    } else if (hexOrientation === 'row-odd') {
-        // The first hex in each row after the first row
-        if (i === 0 && j > 0){
-            x = ((R + b) * i) + xOff
-            y = (r * j) + yOff + (r * j)
-        // The very first hex
-        } else if (i === 0){
-            x = x
-            y = (y * j) + yOff
-        // Even Tiles after the first row
-        } else if ((j > 0) && (i % 2 === 0)){
-            x = ((R + b) * i) + xOff
-            y = (r * j) + yOff + (r * j)
-        // Odd Tile after the first row
-        } else if ((j > 0) && (i % 2 != 0)){
-            x = ((R + b) * i) + xOff
-            y = (r * (j + 1)) + yOff + (r * j)
-        // Even Tiles in the first row
-        } else if (i % 2 === 0){
-            x = ((R + b) * i) + xOff
-            y = (r * j) + yOff
-        // Odd Tiles in the first row
-        } else if (i % 2 != 0){
-            x = ((R + b) * i) + xOff
-            y = (r * (j + 1)) + yOff 
-        }
-    } else if (hexOrientation === 'column-even'){
-        // The first hex in each row after the first row
-        if (i === 0 && j > 0){
-            x = ((R + b) * i) + xOff
-            y = (r * j) + yOff + (r * j) + r
-        // The very first hex
-        } else if (i === 0){
-            x = x
-            y = (y * j) + yOff + r
-        // Even Tiles after the first row
-        } else if ((j > 0) && (i % 2 != 0)){
-            x = ((R + b) * i) + xOff
-            y = (r * j) + yOff + (r * j)
-        // Odd Tile after the first row
-        } else if ((j > 0) && (i % 2 === 0)){
-            x = ((R + b) * i) + xOff
-            y = (r * (j + 1)) + yOff + (r * j)
-        // Even Tiles in the first row
-        } else if (i % 2 != 0){
-            x = ((R + b) * i) + xOff
-            y = (r * j) + yOff
-        // Odd Tiles in the first row
-        } else if (i % 2 === 0){
-            x = ((R + b) * i) + xOff
-            y = (r * (j + 1)) + yOff 
-        } 
-    } else if (hexOrientation === 'column-odd') {
-        // The first hex in each row after the first row
-        if (i === 0 && j > 0){
-            x = ((R + b) * i) + xOff
-            y = (r * j) + yOff + (r * j)
-        // The very first hex
-        } else if (i === 0){
-            x = x
-            y = (y * j) + yOff
-        // Even Tiles after the first row
-        } else if ((j > 0) && (i % 2 === 0)){
-            x = ((R + b) * i) + xOff
-            y = (r * j) + yOff + (r * j)
-        // Odd Tile after the first row
-        } else if ((j > 0) && (i % 2 != 0)){
-            x = ((R + b) * i) + xOff
-            y = (r * (j + 1)) + yOff + (r * j)
-        // Even Tiles in the first row
-        } else if (i % 2 === 0){
-            x = ((R + b) * i) + xOff
-            y = (r * j) + yOff
-        // Odd Tiles in the first row
-        } else if (i % 2 != 0){
-            x = ((R + b) * i) + xOff
-            y = (r * (j + 1)) + yOff 
-        }
+    if (i === 0) x = xOff
+    if (hexOrientation.includes('even')) {
+        if (i === 0 && j > 0) { y = (r * j) + yOff + (r * j) + r } // The first hex in each row after the first row
+        else if (i === 0) { y = (y * j) + yOff + r } // The very first hex
+        else if ((j > 0) && (i % 2 != 0)) { y = (r * j) + yOff + (r * j) } // Even Tiles after the first row
+        else if ((j > 0) && (i % 2 === 0)) { y = (r * (j + 1)) + yOff + (r * j) } // Odd Tile after the first row
+        else if (i % 2 != 0) { y = (r * j) + yOff } // Even Tiles in the first row
+        else if (i % 2 === 0) { y = (r * (j + 1)) + yOff } // Odd Tiles in the first row
+    } else if (hexOrientation.includes('odd')) {
+        if (i === 0 && j > 0) { y = (r * j) + yOff + (r * j) } // The first hex in each row after the first row
+        else if (i === 0) { y = (y * j) + yOff } // The very first hex
+        else if ((j > 0) && (i % 2 === 0)) { y = (r * j) + yOff + (r * j) } // Even Tiles after the first row
+        else if ((j > 0) && (i % 2 != 0)) { y = (r * (j + 1)) + yOff + (r * j) } // Odd Tile after the first row
+        else if (i % 2 === 0) { y = (r * j) + yOff } // Even Tiles in the first row
+        else if (i % 2 != 0) { y = (r * (j + 1)) + yOff } // Odd Tiles in the first row
     }
     return {'x': x, 'y': y}
 }
@@ -1092,43 +955,34 @@ async function generateAllTiles(rDirection, height, width, rollTableBiomeTerrain
     const waterColor = colorData.WATER // Get the Water tile color
     const roughWaterColor = colorData.ROUGH_WATER // Get the Rough Water tile color
     const roadColor = colorData.ROAD // Get the Road tile color
-    const terrainTypes = []
-    const wallDataUVTT = [] // Wall data for UniversalVTT
-    const wallDataFVTT = [] // Wall data for FoundryVTT
+    let terrainTypes = []
+    let wallDataUVTT = [] // Wall data for UniversalVTT
+    let wallDataFVTT = [] // Wall data for FoundryVTT
     // =================
     //    Square Grid
     // =================
     if (gridType === 'square') {
-        // RANDOM DIRECTION
         if (rDirection === 1){
-            // Loop through all the tiles on the x axis 
-            for (var i = 0; i < width; i++) {
-                // Loop through all tiles on the y axis
-                for (var j = 0; j < height; j++) {
+            for (var i = 0; i < width; i++) { // Loop through all the tiles on the x axis 
+                for (var j = 0; j < height; j++) { // Loop through all tiles on the y axis
                     await generateTile(rDirection)
                 }
             }
-        } else if (rDirection === 2){
-            // Loop through all the tiles on the x axis 
-            for (var j = 0; j < height; j++) {
-                // Loop through all tiles on the y axis
-                for (var i = 0; i < width; i++) {
+        } else if (rDirection === 2){ 
+            for (var j = 0; j < height; j++) { // Loop through all the tiles on the x axis 
+                for (var i = 0; i < width; i++) { // Loop through all tiles on the y axis
                     await generateTile(rDirection)
                 }
             }
         } else if (rDirection === 3){
-            // Loop through all the tiles on the x axis 
-            for (var i = width-1; i > -1; i--) {
-                // Loop through all tiles on the y axis
-                for (var j = height-1; j > -1; j--) {
+            for (var i = width-1; i > -1; i--) { // Loop through all the tiles on the x axis 
+                for (var j = height-1; j > -1; j--) { // Loop through all tiles on the y axis
                     await generateTile(rDirection)
                 }
             }
         } else {
-            // Loop through all the tiles on the x axis 
-            for (var j = height-1; j > -1; j--) {
-                // Loop through all tiles on the y axis
-                for (var i = width-1; i > -1; i--) {
+            for (var j = height-1; j > -1; j--) { // Loop through all the tiles on the x axis 
+                for (var i = width-1; i > -1; i--) { // Loop through all tiles on the y axis
                     await generateTile(rDirection)
                 }
             }
@@ -1153,52 +1007,53 @@ async function generateAllTiles(rDirection, height, width, rollTableBiomeTerrain
         const yOff = r + 1
         var x = xOff
         var y = yOff
-        if (hexOrientation.includes('row')){
-            for (var i = 0; i < height; i++) { // Loop through all the tiles on the x axis 
-                for (var j = 0; j < width; j++) { // Loop through all tiles on the y axis
-                    // Even Rows
-                    if (hexOrientation === 'row-even'){
-                        // COORDINATES
-                        const hexCoords = determineHexXandY(i, j, xOff, yOff, hexOrientation, R, b, r)
-                        x = hexCoords['x']
-                        y = hexCoords['y']
-                        // BATTLE MAP GENERATION
-                        await generateTile(rDirection)
-                    } 
-                    // Odd Rows
-                    else if (hexOrientation === 'row-odd'){
-                        // COORDINATES
-                        const hexCoords = determineHexXandY(i, j, xOff, yOff, hexOrientation, R, b, r)
-                        x = hexCoords['x']
-                        y = hexCoords['y']
-                        // BATTLE MAP GENERATION
-                        await generateTile(rDirection)
-                    }
+        let dir = rDirection
+        if (hexOrientation.includes('row') && rDirection == 1) dir = 2
+        if (hexOrientation.includes('row') && rDirection == 2) dir = 3
+        if (hexOrientation.includes('row') && rDirection == 3) dir = 4
+        if (hexOrientation.includes('row') && rDirection == 4) dir = 1
+        if (dir === 1){
+            // Loop through all the tiles on the x axis 
+            for (var i = 0; i < width; i++) {
+                // Loop through all tiles on the y axis
+                for (var j = 0; j < height; j++) {
+                    const hexCoords = determineHexXandY(i, j, xOff, yOff, hexOrientation, R, b, r)
+                    x = hexCoords['x']
+                    y = hexCoords['y']
+                    await generateTile(dir);
                 }
             }
-        }
-        // COLUMNS
-        else if (hexOrientation.includes('column')){
-            for (var i = 0; i < width; i++) {  // Loop through all the tiles on the x axis 
-                for (var j = 0; j < height; j++) { // Loop through all tiles on the y axis
-                    // Even Columns
-                    if (hexOrientation === 'column-even'){
-                        // COORDINATES
-                        const hexCoords = determineHexXandY(i, j, xOff, yOff, hexOrientation, R, b, r)
-                        x = hexCoords['x']
-                        y = hexCoords['y']
-                        // BATTLE MAP GENERATION
-                        await generateTile(rDirection)
-                    } 
-                    // Odd Columns
-                    else if (hexOrientation === 'column-odd'){
-                        // COORDINATES
-                        const hexCoords = determineHexXandY(i, j, xOff, yOff, hexOrientation, R, b, r)
-                        x = hexCoords['x']
-                        y = hexCoords['y']
-                        // BATTLE MAP GENERATION
-                        await generateTile(rDirection)
-                    }
+        } else if (dir === 2){
+            // Loop through all the tiles on the x axis 
+            for (var j = 0; j < height; j++) {
+                // Loop through all tiles on the y axis
+                for (var i = 0; i < width; i++) {
+                    const hexCoords = determineHexXandY(i, j, xOff, yOff, hexOrientation, R, b, r)
+                    x = hexCoords['x']
+                    y = hexCoords['y']
+                    await generateTile(dir);
+                }
+            }
+        } else if (dir === 3){
+            // Loop through all the tiles on the x axis 
+            for (var i = width-1; i > -1; i--) {
+                // Loop through all tiles on the y axis
+                for (var j = height-1; j > -1; j--) {
+                    const hexCoords = determineHexXandY(i, j, xOff, yOff, hexOrientation, R, b, r)
+                    x = hexCoords['x']
+                    y = hexCoords['y']
+                    await generateTile(dir);
+                }
+            }
+        } else {
+            // Loop through all the tiles on the x axis 
+            for (var j = height-1; j > -1; j--) {
+                // Loop through all tiles on the y axis
+                for (var i = width-1; i > -1; i--) {
+                    const hexCoords = determineHexXandY(i, j, xOff, yOff, hexOrientation, R, b, r)
+                    x = hexCoords['x']
+                    y = hexCoords['y']
+                    await generateTile(dir);
                 }
             }
         }
@@ -1306,10 +1161,11 @@ async function generateAllTiles(rDirection, height, width, rollTableBiomeTerrain
         terrainTypes[terrainTypes.length - 1] = {"COORDS": `${i}, ${j}`, "TYPE": type, "ELEVATION": elevation, "COVER": cover, "IMAGE": image, "TYPE_UNCHANGED": typeUnchanged, "COLOR": color} // Update the element in the array to reflect the changes
     }
     // Function to generate tiles based on user inputs and adjacent tiles
-    async function specialTiles(cliff, hill, lake, pond, river, road, i , j, cliffDieSize, hillDieSize, type, elevation, color, terrainTypes, height, rDirection, grid, beginRoad, beginRiver, riverWidth, roadWidth){
+    async function specialTiles(cliff, hill, lake, pond, river, road, i , j, cliffDieSize, hillDieSize, type, elevation, 
+        color, terrainTypes, height, rDirection, grid, beginRoad, beginRiver, riverWidth, roadWidth){
         // console.log("RAND. DIRECTION (INTERNAL):", rDirection)
         // console.log("BEGIN RIVER (INTERNAL)", beginRiver)
-        // console.log("GRID (INTERANL)", grid)
+        // console.log("GRID (INTERNAL)", grid)
         // console.log("RIVER (INTERNAL)", river)
         const tableWaterType = await fetchLocalJson("/mikitz-ttrpg/data/json/battle-map-generator/WATER_TYPE")
         elevation = 0
@@ -1424,52 +1280,28 @@ async function generateAllTiles(rDirection, height, width, rollTableBiomeTerrain
                 return elevation
             }
         // GENERATE
-            // Cliff     
-            if (cliff){
-                elevation = generateCliff()
-            }
-            // Hill
-            if (hill){
-                elevation = generateHill()
-            }
-            // Cliff & Hill
+            if (cliff) elevation = generateCliff()
+            if (hill) elevation = generateHill()
             if (cliff && hill){
-                // Roll for cliff/hill
                 const roll = getRndInteger(1, 2)
-                // Cliff
-                if (roll === 1){
-                    elevation = generateCliff()
-                }
-                // Hill
-                else {
-                    elevation = generateHill()
-                }
+                if (roll === 1) elevation = generateCliff()
+                else elevation = generateHill()
             }
             // Lake
-            if (lake){
-                
-            }
+            if (lake) {}
             // Pond
-            if (pond){
-                
-            }
+            if (pond) {}
             // River
             if (river){
                 // Function to set the color and type of the river
                 function setTypeAndColor(waterType){
                     type = `river - ${waterType}`
-                    // Set Color
-                    if (waterType === 'calm'){
-                        color = `waterColor`
-                    } else if (waterType === 'rough'){
-                        color = `roughWaterColor`
-                    } else if (waterType === 'turbulent'){
-                        color = `turbulentWaterColor`
-                    }
+                    if (waterType === 'calm') color = `waterColor`
+                    else if (waterType === 'rough') color = `roughWaterColor`
+                    else if (waterType === 'turbulent') color = `turbulentWaterColor`
                     return [type, color]
                 }
                 // Begin River
-                // console.log("BEGIN RIVER:", beginRiver)
                 // Roll water type
                 const waterType = rollTable(tableWaterType)
                 // Length of array - height
@@ -2019,7 +1851,7 @@ function addLabels(ctx, label, x, y, text, distance, size, hexOptions){ // Funct
         ctx.font = `${size}px Comic Sans MS`
         // Check for Hexes in Rows
         if (hexOptions && hexOptions.includes('row')){
-            // Flip x and y to accomodate Hex Rows
+            // Flip x and y to accommodate Hex Rows
             var x1 = x
             var y1 = y
             x = y1
@@ -2174,7 +2006,7 @@ function redrawCanvasLabels(mapName){ // Function to redraw canvas with specifie
     if (mapName === 'choose' && canvas.width === 0) return clearCanvas('battle-map')
     // Load the most recently created map if no map is selected
     else if (mapName === 'choose'){
-        const data = JSON.parse(localStorage.getItem('terrain-JSON'))
+        const data = JSON.parse(localStorage.getItem('currently-viewing-map-json'))
         data.GRID = gridType
         data.HEX_ORIENTATION = hexOrientation
         drawJsonOnCanvas(data, 'battle-map')
@@ -2183,18 +2015,21 @@ function redrawCanvasLabels(mapName){ // Function to redraw canvas with specifie
     // Load the specified map
     else if(mapName){
         var breakIt = false
-        const battleMapHistory = JSON.parse(localStorage.getItem('battle-map-history'))
-        var data = battleMapHistory.find(i => i.NAME == mapName)
+        // const battleMapHistory = JSON.parse(localStorage.getItem('battle-map-history'))
+        // var data = battleMapHistory.find(i => i.NAME == mapName)
+        const data = mapName
         data.GRID = gridType
         data.HEX_ORIENTATION = hexOrientation
         drawJsonOnCanvas(data, 'battle-map')
     } else if (breakIt == false){
-        var data = JSON.parse(localStorage.getItem('terrain-JSON'))
+        var data = JSON.parse(localStorage.getItem('currently-viewing-map-json'))
     }
-    localStorage.setItem('currently-viewing-map-json', JSON.stringify(data))               
+    if (data) localStorage.setItem('currently-viewing-map-json', JSON.stringify(data))               
 }  
 async function drawJsonOnCanvas(data, canvas){ // Function to redraw from JSON data
     const canvasElement = document.getElementById(canvas)
+    const currentTileSpan = document.getElementById('current-tile')
+    const totalTilesSpan = document.getElementById('number-of-tiles')
     // USER INPUTS
     const grid = data.GRID
     const width = data.WIDTH
@@ -2227,8 +2062,10 @@ async function drawJsonOnCanvas(data, canvas){ // Function to redraw from JSON d
         var h = (height * PPI)
         ctx.canvas.height = h // Set its height
         ctx.canvas.width = w // Set its width
+        // totalTilesSpan.innerText = data.length
         // Loop through each tile in the JSON
         for (let tile = 0; tile < data.length; tile++) {
+            // currentTileSpan.innerText = tile + 1
             // Coordinates
             const coords = data[tile].COORDS
             const i = coords.split(", ")[0]
@@ -2248,6 +2085,8 @@ async function drawJsonOnCanvas(data, canvas){ // Function to redraw from JSON d
                 // } else { 
                     addImage(canvas, image, (i * PPI), (j * PPI), PPI * 0.9) // Add Image
                     fillRectangle(canvas, i * PPI, j * PPI, PPI, PPI, color, `${i}, ${j}`, type, DC, cover, distance, elevation) // Draw the Tile
+                    // 
+                
                 // }
             } 
         }
@@ -2285,8 +2124,8 @@ async function drawJsonOnCanvas(data, canvas){ // Function to redraw from JSON d
         var y = yOff
         // ROWS
         if (hexOrientation.includes('row')){
-            for (var i = 0; i < height; i++) { // Loop through all the tiles on the x axis 
-                for (var j = 0; j < width; j++) { // Loop through all tiles on the y axis
+            for (var i = 0; i < width; i++) { // Loop through all the tiles on the x axis 
+                for (var j = 0; j < height; j++) { // Loop through all tiles on the y axis
                     // GET DATA
                     const cover = data.find(tile => tile.COORDS === `${i}, ${j}`).COVER
                     const elevation = data.find(tile => tile.COORDS === `${i}, ${j}`).ELEVATION
@@ -2363,22 +2202,38 @@ function drawKey(elementID, groundColor, difficult_terrainColor, impasseColor, b
         key.innerHTML = ''
         // List of terrain types
         const terrains = ['ground', 'difficult_terrain', 'impasse', 'road', 'water', 'roughWater']
+        const terrainColorMap = []
         // Loop through each terrain type
         terrains.forEach(element => {
             const terrainColor = eval(`${element}Color`)
             // Set up Terrain Data div
             const terrainDataDiv = document.createElement('div')
             terrainDataDiv.className = 'terrain-data'
+            terrainDataDiv.id = `${element}-container`
+            if (element == 'ground') terrainDataDiv.classList.add('active-tool')
+            if (element == 'ground') localStorage.setItem('active-tool', 'Ground')
             const terrainColorDiv = document.createElement('div')
             terrainColorDiv.className = 'terrain-color'
             const terrainLabelDiv = document.createElement('div')
             terrainLabelDiv.className = 'terrain-label'
             element = element.replace("_", " ").replace("Water", " Water").toTitleCase()
             terrainLabelDiv.innerText = element
+            terrainDataDiv.id = `${element}-container`
 
             const canvas = document.createElement('canvas')
             canvas.height = 40
             canvas.width = 40
+            canvas.id = element
+            canvas.addEventListener('click', function(){
+                localStorage.setItem('active-tool', element)
+                const containers = document.querySelectorAll('.terrain-data')
+                for (let index = 0; index < containers.length; index++) {
+                    const element = containers[index];
+                    element.classList.remove('active-tool')
+                }
+                const container = document.getElementById(`${element}-container`)
+                container.classList.add('active-tool')
+            })
             ctx = canvas.getContext('2d')
             ctx.fillStyle = `rgb(${terrainColor})`
             ctx.fillRect(0, 0, 40, 40)
@@ -2389,26 +2244,12 @@ function drawKey(elementID, groundColor, difficult_terrainColor, impasseColor, b
             terrainDataDiv.appendChild(terrainLabelDiv)
 
             key.appendChild(terrainDataDiv)
-            // // Create a new div
-            // let div = document.createElement('span')
-            // // Set the div's Class
-            // div.setAttribute('class', 'legend-text')
-            // // Set the div's Width
-            // div.setAttribute('width', '100px')
-            // // Createa span
-            // let span = document.createElement('span')
-            // // Set the left padding
-            // span.setAttribute('style', 'padding-left: 15px')
-            // // Set the width
-            // span.setAttribute('width', '100px')
-            // // Append canvas to span
-            // span.appendChild(canvas)
-            // // Div's innerHTML
-            // div.innerHTML = `<b>${element}</b>`
-            // // Append canvas to div
-            // div.appendChild(span)
-            // // Append to the paragraph
-            // legend.appendChild(div)
+
+            terrainColorMap.push({
+                "TERRAIN": element,
+                "COLOR": terrainColor
+            })
+            localStorage.setItem('key-colors', JSON.stringify(terrainColorMap))
         });
     }
 }

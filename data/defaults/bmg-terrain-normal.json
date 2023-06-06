@@ -1,0 +1,16 @@
+{
+    "ARCTIC": { "crop":0.00, "dirt":0.30, "flowers":0.05, "fungi":0.00, "gravel":0.00, "herbs":0.15, "leaves":0.10, "moss":0.10, "mulch":0.03, "rock":0.10, "shells":0.00, "twigs":0.16, "weeds":0.01, "grass":0.00, "sand":0.00},
+    "DESERT": { "crop":0.00, "dirt":0.00, "flowers":0.01, "fungi":0.00, "gravel":0.00, "herbs":0.01, "leaves":0.00, "moss":0.00, "mulch":0.00, "rock":0.10, "shells":0.00, "twigs":0.00, "weeds":0.02, "grass":0.00, "sand":0.86},
+    "FOREST": { "crop":0.00, "dirt":0.08, "flowers":0.15, "fungi":0.01, "gravel":0.00, "herbs":0.00, "leaves":0.10, "moss":0.05, "mulch":0.00, "rock":0.00, "shells":0.00, "twigs":0.01, "weeds":0.15, "grass":0.45, "sand":0.00},
+    "GRASSLAND": { "crop":0.00, "dirt":0.11, "flowers":0.10, "fungi":0.02, "gravel":0.00, "herbs":0.00, "leaves":0.09, "moss":0.00, "mulch":0.00, "rock":0.01, "shells":0.00, "twigs":0.02, "weeds":0.15, "grass":0.50, "sand":0.00},
+    "HILL": { "crop":0.00, "dirt":0.11, "flowers":0.10, "fungi":0.02, "gravel":0.00, "herbs":0.00, "leaves":0.09, "moss":0.00, "mulch":0.00, "rock":0.01, "shells":0.00, "twigs":0.02, "weeds":0.15, "grass":0.50, "sand":0.00},
+    "JUNGLE": { "crop":0.00, "dirt":0.08, "flowers":0.05, "fungi":0.01, "gravel":0.00, "herbs":0.00, "leaves":0.10, "moss":0.15, "mulch":0.00, "rock":0.00, "shells":0.00, "twigs":0.01, "weeds":0.30, "grass":0.30, "sand":0.00},
+    "MOUNTAIN": { "crop":0.00, "dirt":0.15, "flowers":0.15, "fungi":0.00, "gravel":0.30, "herbs":0.00, "leaves":0.00, "moss":0.00, "mulch":0.00, "rock":0.30, "shells":0.00, "twigs":0.00, "weeds":0.05, "grass":0.05, "sand":0.00},
+    "OPENWATER": { "crop":0.00, "dirt":0.00, "flowers":0.00, "fungi":0.00, "gravel":0.50, "herbs":0.00, "leaves":0.00, "moss":0.00, "mulch":0.00, "rock":0.50, "shells":0.00, "twigs":0.00, "weeds":0.00, "grass":0.00, "sand":0.00},
+    "SEABED": { "crop":0.00, "dirt":0.00, "flowers":0.00, "fungi":0.00, "gravel":0.30, "herbs":0.00, "leaves":0.00, "moss":0.00, "mulch":0.00, "rock":0.20, "shells":0.10, "twigs":0.00, "weeds":0.00, "grass":0.10, "sand":0.30},
+    "SWAMP": { "crop":0.00, "dirt":0.05, "flowers":0.00, "fungi":0.15, "gravel":0.00, "herbs":0.15, "leaves":0.00, "moss":0.15, "mulch":0.00, "rock":0.00, "shells":0.00, "twigs":0.10, "weeds":0.20, "grass":0.20, "sand":0.00},
+    "UNDERDARK": { "crop":0.00, "dirt":0.10, "flowers":0.05, "fungi":0.20, "gravel":0.10, "herbs":0.05, "leaves":0.00, "moss":0.15, "mulch":0.00, "rock":0.10, "shells":0.10, "twigs":0.00, "weeds":0.00, "grass":0.00, "sand":0.15},
+    "UNDERWATER": { "crop":0.00, "dirt":0.10, "flowers":0.10, "fungi":0.00, "gravel":0.00, "herbs":0.20, "leaves":0.00, "moss":0.00, "mulch":0.00, "rock":0.00, "shells":0.20, "twigs":0.00, "weeds":0.20, "grass":0.20, "sand":0.00},
+    "WASTELAND": { "crop":0.00, "dirt":0.20, "flowers":0.04, "fungi":0.05, "gravel":0.00, "herbs":0.05, "leaves":0.05, "moss":0.03, "mulch":0.02, "rock":0.03, "shells":0.00, "twigs":0.05, "weeds":0.01, "grass":0.00, "sand":0.47},
+    "WOODLAND": { "crop":0.00, "dirt":0.06, "flowers":0.10, "fungi":0.00, "gravel":0.00, "herbs":0.00, "leaves":0.09, "moss":0.00, "mulch":0.10, "rock":0.00, "shells":0.00, "twigs":0.10, "weeds":0.10, "grass":0.45, "sand":0.00}
+  }

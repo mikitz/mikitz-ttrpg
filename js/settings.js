@@ -1,4 +1,5 @@
 function setupSettings(){
+    // TODO: Put settings back into the sub-nav and make it display a modal of the settings for that specific page.
     const anchorIcons = document.getElementsByName('anchor-icon')
     for (let index = 0; index < anchorIcons.length; index++) {
         const element = anchorIcons[index];
@@ -129,7 +130,7 @@ async function msg_displayJsGrid(elementId, objectArray, tableName){
                     if (nan) {
                         makeToast(`Please input a number in <b>${element}</b>! Changes reverted.`, 'warning')
                         args.grid.data[index] = args.previousItem;
-                        args.grid.refresh(); // Refresh the grid to apply the changes
+                        args.grid.refresh();
                         return
                     }                     
                 }
@@ -255,39 +256,39 @@ async function eg_displayJsGrid(elementId, objectArray, tableName){
             const primaryKey = rowData['id']
             const changedColumns = getChangedColumns(args.item, args.previousItem);
             if (changedColumns.length > 0) {
-                for (let index = 0; index < changedColumns.length; index++) {
-                    const element = changedColumns[index];
+                for (let idx = 0; idx < changedColumns.length; idx++) {
+                    const element = changedColumns[idx];
                     const value = rowData[element]
                     const nan = isNaN(value)
                     
                     if (nan) {
                         makeToast(`Please input a number in <b>${element}</b>! Changes reverted.`, 'warning')
                         args.grid.data[index] = args.previousItem;
-                        args.grid.refresh(); // Refresh the grid to apply the changes
+                        args.grid.refresh();
                         return
                     } 
                     if (rowData.PERCENT_TYPE == 'ABSOLUTE' && value > 1){
                         makeToast(`<b>${element}</b> values for ABSOLUTE rows must be equal to or less than 1! Changes reverted.`, 'warning')
                         args.grid.data[index] = args.previousItem;
-                        args.grid.refresh(); // Refresh the grid to apply the changes
+                        args.grid.refresh();
                         return
                     } 
                     else if (rowData.PERCENT_TYPE == 'RELATIVE' && value > 2){
                         makeToast(`<b>${element}</b> values for RELATIVE rows must be equal to or less than 2! Changes reverted.`, 'warning')
                         args.grid.data[index] = args.previousItem;
-                        args.grid.refresh(); // Refresh the grid to apply the changes
+                        args.grid.refresh();
                         return
                     }
                     else if (rowData.ITEM == "Probability of Extra Spells" && value > 1 || value < 0) {
                         makeToast(`<b>${element}</b> value for Probability of Extra Spells must be between 0 and 1! Changes reverted.`, 'warning')
                         args.grid.data[index] = args.previousItem;
-                        args.grid.refresh(); // Refresh the grid to apply the changes
+                        args.grid.refresh();
                         return
                     }
                     else if (rowData.ITEM == "Maximum Number of Extra Spells" && isInt(value) == false) {
                         makeToast(`<b>${element}</b> value for Maximum Number of Extra Spells must be an integer! Changes reverted.`, 'warning')
-                        args.grid.data[index] = args.previousItem; // BUG: This changes the ITEM value in row 1 for some reason
-                        args.grid.refresh(); // Refresh the grid to apply the changes
+                        args.grid.data[index] = args.previousItem;
+                        args.grid.refresh();
                         return
                     }
                 }
@@ -299,8 +300,182 @@ async function eg_displayJsGrid(elementId, objectArray, tableName){
                 if (sum > 1) {
                     makeToast(`The <b>PROBABILITY</b> for <i>${timeOfDay}</i> sum must be less than or equal to 1! Changes reverted.`, 'warning')
                     args.grid.data[index] = args.previousItem;
-                    args.grid.refresh(); // Refresh the grid to apply the changes
+                    args.grid.refresh();
                     return
+                }
+            }
+            let result = db[tableName].update(primaryKey, rowData)   
+            result
+                .then(function(){         
+                    makeToast(`<b>${tableLabel}</b> updated successfully!`, 'success')
+                })
+                .catch(function(error){
+                    console.error(`! ~~~~ Error ~~~~ ! \n Name: ${error.name} \n`, `Message: ${error.message}`)
+                    makeToast(`${error.name}: ${error.message.split("\n")[0]}`, 'error')
+                })
+        },
+        onItemDeleted: async function(args){
+            const tableData = args.grid.data
+            const tableName = (args.grid._container[0].id).replace("-div","")
+            console.log("🚀 ~ file: settings.js:326 ~ onItemDeleted:function ~ tableName:", tableName)
+            const tableLabel = document.getElementById(tableName).innerText
+            const primaryKey = parseInt(args.item.id)
+            console.log("🚀 ~ file: settings.js:332 ~ onItemDeleted:function ~ primaryKey:", primaryKey)
+            db[tableName].delete(primaryKey)
+                .then(async function(){
+                    makeToast(`Non-combat Encounter <b>${primaryKey}</b> deleted successfully from the <b>${tableLabel}</b> table!`, 'success')
+                    let len = await db[tableName].toArray()
+                    len = len.length
+                    if (length <= 0) eg_displayJsGrid(`${tableName}-div`, eval(`${tableName}`), `${tableName}`)
+                })
+                .catch(function(error){
+                    console.error(`! ~~~~ Error ~~~~ ! \n Name: ${error.name} \n`, `Message: ${error.message}`)
+                    makeToast(`${error.name}: ${error.message.split("\n")[0]}`, 'error')
+                })
+        }
+    });
+        
+}
+async function bmg_displayJsGrid(elementId, objectArray, tableName){
+    // TODO: Fix general settings VALUE. Need to add dropdowns for 'hex type default' and 'grid type'
+    if (tableName != 'restore') objectArray = await db[tableName].toArray()
+    let keys
+    try { keys = Object.keys(objectArray[0]) }
+    catch (error) { 
+        document.getElementById(elementId).innerHTML = `<span><br><br><h3>The void is deafening...😞</h3></span>`
+        return console.error("🚀 ~ file: settings.js:169 ~ bmg_displayJsGrid ~ tableName:", tableName) 
+    }
+    let fields = []
+    let insert = (elementId.includes('parties'))? true : false
+    let filter = (elementId.includes('parties'))? true : false
+    let deleteBool = (elementId.includes('parties')) || (tableName == 'eg_custom_non_combat_encounters')? true : false
+    let controlWidth = (elementId.includes('parties'))? '60px' : '35px'
+    let pagination = (elementId.includes('encounter_probabilities'))? true : false
+    let pageSize = (pagination == true)? 30 : null
+
+    for (let index = 0; index < keys.length; index++) {
+        const element = keys[index];
+        let type = "text"
+        if (element == 'PERCENT_TYPE') type = 'select'
+        else if (element == 'BIOME' && tableName == 'eg_custom_non_combat_encounters') type = "select"
+        // else if (element == 'VALUE' && tableName == 'bmg_general_settings') type = "select"
+        let items = null
+        if (element == 'PERCENT_TYPE') items = ['RELATIVE','ABSOLUTE'] 
+        else if (element == 'BIOME' && tableName == 'eg_custom_non_combat_encounters') items = ['All Biomes', ...biome] 
+
+        let edit = (element == 'id' 
+            || element == 'BIOME' && tableName != 'eg_custom_non_combat_encounters'
+            || element == 'TIME_OF_DAY' 
+            || element == 'ROAD_TYPE'
+            || element == 'PACE' 
+            || element == 'DIFFICULTY'
+            || element == 'ADJUSTMENT'
+            || element == 'TOTAL' 
+            || element == 'ITEM'
+            || element == 'SETTING')? false : true
+        const obj = {
+            name: element,
+            type: type,
+            editing: edit,
+            filtering: filter,
+            width: 'auto',
+            items: items,
+        }
+        fields.push(obj)
+    }
+    fields.push({
+        type: "control",
+        width: controlWidth,
+        deleteButton: deleteBool,
+    })
+    // Build the grid with jsGrid
+    $(`#${elementId}`).jsGrid({
+        width: "100%",
+        height: "auto",
+        editing: true,
+        sorting: true,
+        paging: pagination,
+        pageSize: pageSize,
+        // filtering: filter,
+        data: objectArray,
+        // controller: objectArray,
+        fields: fields,
+        onItemUpdated: async function(args){
+            function getChangedColumns(item, previousItem) {
+                const changedColumns = [];
+                for (const key in item) {
+                    if (item.hasOwnProperty(key) && previousItem.hasOwnProperty(key)) {
+                        const it = parseFloat(item[key])
+                        const prevItem = parseFloat(previousItem[key])
+                        if (key == "NON_COMBAT" || key == "COMBAT" || key == "HAZARD" || key == "PROBABILITY" || key == "VALUE") {
+                            if (it !== prevItem) changedColumns.push(key);
+                        }
+                    }
+                }
+                return changedColumns;
+            }
+            const tableData = args.grid.data
+            const tableName = (args.grid._container[0].id).replace("-div","")
+            const tableLabel = document.getElementById(tableName).innerText
+            const index = args.grid.data.indexOf(args.item)
+            let rowData = args.item
+            console.log("🚀 ~ file: settings.js:426 ~ onItemUpdated:function ~ rowData:", rowData)
+            if (tableName == 'eg_encounter_probabilities') {
+                const total = parseFloat(rowData.NON_COMBAT) + parseFloat(rowData.COMBAT) + parseFloat(rowData.HAZARD)
+                rowData.TOTAL = total
+                args.grid.data[index] = rowData
+                args.grid.refresh()
+            }
+            const primaryKey = rowData['id']
+            const changedColumns = getChangedColumns(args.item, args.previousItem);
+            if (changedColumns.length > 0) {
+                for (let idx = 0; idx < changedColumns.length; idx++) {
+                    const element = changedColumns[idx];
+                    const value = rowData[element]
+                    const nan = isNaN(value)
+                    const setting = (rowData.SETTING) ? rowData.SETTING : null
+                    
+                    if (setting == 'hex type default'){
+                        if (value != 'row-odd' && value != 'row-even' && value == 'column-odd' && value == 'column-even'){
+                            makeToast(`<b>${element}</b> for <i>${setting}</i> must either be "row-odd", "row-even", "column-odd", or "column-even"! Changes reverted.`, 'warning')
+                            args.grid.data[index] = args.previousItem;
+                            args.grid.refresh();
+                            return
+                        }
+                    }
+                    else if (setting == 'grid type'){
+                        if (value != 'square' && value != 'hex'){
+                            makeToast(`<b>${element}</b> for <i>${setting}</i> must either be "square" or "hex"! Changes reverted.`, 'warning')
+                            args.grid.data[index] = args.previousItem;
+                            args.grid.refresh();
+                            return
+                        }
+                    }
+                    else if (setting == 'minimum hill size' || setting == 'hill size step' || setting == 'maximum hill size' || 
+                        setting == 'minimum cliff size' || setting == 'cliff size step' || setting == 'maximum cliff size' 
+                        && nan) {
+                            makeToast(`Please input a number in <b>${element}</b> for <i>${setting}</i>! Changes reverted.`, 'warning')
+                            args.grid.data[index] = args.previousItem;
+                            args.grid.refresh();
+                            return
+                        }
+                    else if (setting == 'grid size default' || setting == 'map height default' || setting == 'map width default') {
+                            if (nan || !isWholeNumber(value)) {
+                                makeToast(`Please input a whole number in <b>${element}</b> for <i>${setting}</i>! Changes reverted.`, 'warning')
+                                args.grid.data[index] = args.previousItem;
+                                args.grid.refresh();
+                                return
+                            }
+                        }
+                    else if (setting == 'terrain label default' || setting == 'coordinate label default' || 
+                        setting == 'cover label default' || setting == 'elevation label default') {
+                            if (nan || value > 1 || value < 0) {
+                                makeToast(`Please input a number between 0 and 1 in <b>${element}</b> for <i>${setting}</i>! Changes reverted.`, 'warning')
+                                args.grid.data[index] = args.previousItem;
+                                args.grid.refresh();
+                                return
+                            }
+                        } 
                 }
             }
             let result = db[tableName].update(primaryKey, rowData)   

@@ -1,4 +1,4 @@
-const dbVersion = 13 // TODO: dbVersion - change this every time you commit.
+const dbVersion = 1 // TODO: dbVersion - change this every time you commit.
 async function setupDB(){
     await db.version(dbVersion).stores({ // Set up the NPCs table
     // ---- Global ----
@@ -166,40 +166,208 @@ async function setupDB(){
             value`,
     // ---- Battle Map Generator ----
         bmg_maps: `
+            _id,
+            name,
+            td,
+            dt,
+            ppi,
+            w,
+            h,
+            biome,
+            plane,
+            grid_type,
+            hex_orientation,
+            climate,
+            season,
+            seed`,
+        bmg_biome_features: `
             ++id,
-            DATETIME,
             BIOME,
-            GRID,
-            HEIGHT,
-            HEX_ORIENTATION,
-            NAME,
-            PLANE,
-            PPI,
-            TILE_DATA,
-            WALLS_FVTT,
-            WALLS_UVTT,
-            WIDTH`,
+            CILFFS,
+            HILLS,
+            LAKE,
+            POND,
+            RIVER,
+            ROAD`,
+        bmg_terrain_types: `
+            ++id,
+            BIOME,
+            NORMAL,
+            DIFFICULT,
+            COVER`,
+        bmg_colors_summer: `
+            ++id,
+            BIOME,
+            NORMAL,
+            DIFFICULT,
+            COVER,
+            BOULDER,
+            TREE,
+            WATER,
+            ROAD,
+            ROUGH_WATER`,
+        bmg_cover: `
+            ++id,
+            BIOME,
+            boulder,
+            branches,
+            carcass,
+            livestock,
+            ruins,
+            shrub,
+            tree`,
+        bmg_difficult_terrain: `
+            ++id,
+            BIOME,
+            ice,
+            lava,
+            mud,
+            quicksand,
+            rocks,
+            sand,
+            slush,
+            snow,
+            water,
+            rough_water,
+            scree,
+            long_grass,
+            plants`,
+        bmg_normal_terrain: `
+            ++id,
+            BIOME,
+            crop,
+            dirt,
+            flowers,
+            fungi,
+            gravel,
+            herbs,
+            leaves,
+            moss,
+            mulch,
+            rock,
+            shells,
+            twigs,
+            weeds,
+            grass,
+            sand`,
+        bmg_cover_type: `
+            ++id,
+            COVER_TYPE,
+            PROBABILITY`,
+        bmg_hill_probabilities: `
+            ++id,
+            BIOME,
+            PROBABILITY`,
+        bmg_cliff_probabilities: `
+            ++id,
+            BIOME,
+            PROBABILITY`,
+        bmg_water_type: `
+            ++id,
+            WATER_TYPE,
+            PROBABILITY`,
+        bmg_general_settings: `
+            ++id,
+            SETTING,
+            VALUE`
     })
+    // ------ Encounter Generator
     if (await db.eg_encounter_probabilities.count() <= 0) {
-        const data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-encounter-probabilities') // Load local JSON
+        const data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-encounter-probabilities')
         db.eg_encounter_probabilities.bulkPut(data)
     }
     if (await db.eg_road_modifiers.count() <= 0) {
-        const data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-road-modifiers') // Load local JSON
+        const data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-road-modifiers')
         db.eg_road_modifiers.bulkPut(data)
     }
     if (await db.eg_pace_modifiers.count() <= 0) {
-        const data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-pace-modifiers') // Load local JSON
+        const data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-pace-modifiers')
         db.eg_pace_modifiers.bulkPut(data)
     }
     if (await db.eg_difficulty_probabilities.count() <= 0) {
-        const data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-difficulty-probabilities') // Load local JSON
+        const data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-difficulty-probabilities')
         db.eg_difficulty_probabilities.bulkPut(data)
     }
     if (await db.eg_cr_adjustment_probabilities.count() <= 0) {
-        const data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-cr-adjustment-probabilities') // Load local JSON
+        const data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-cr-adjustment-probabilities')
         db.eg_cr_adjustment_probabilities.bulkPut(data)
     }
+    // ------ Battle Map Generator
+    if (await db.bmg_biome_features.count() <= 0) {
+        let data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/bmg-biome-features')
+        data = Object.entries(data).map(([key, value]) => {
+            return { "BIOME": key, ...value };
+        });
+        db.bmg_biome_features.bulkPut(data)
+    }
+    if (await db.bmg_terrain_types.count() <= 0) {
+        let data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/bmg-biome-terrain-types')
+        data = Object.entries(data).map(([key, value]) => {
+            return { "BIOME": key, ...value };
+        });
+        db.bmg_terrain_types.bulkPut(data)
+    }
+    if (await db.bmg_colors_summer.count() <= 0) {
+        let data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/bmg-colors-summer')
+        data = Object.entries(data).map(([key, value]) => {
+            return { "BIOME": key, ...value };
+        });
+        db.bmg_colors_summer.bulkPut(data)
+    }
+    if (await db.bmg_cover.count() <= 0) {
+        let data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/bmg-cover')
+        data = Object.entries(data).map(([key, value]) => {
+            return { "BIOME": key, ...value };
+        });
+        db.bmg_cover.bulkPut(data)
+    }
+    if (await db.bmg_difficult_terrain.count() <= 0) {
+        let data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/bmg-terrain-difficult')
+        data = Object.entries(data).map(([key, value]) => {
+            return { "BIOME": key, ...value };
+        });
+        db.bmg_difficult_terrain.bulkPut(data)
+    }
+    if (await db.bmg_normal_terrain.count() <= 0) {
+        let data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/bmg-terrain-normal')
+        data = Object.entries(data).map(([key, value]) => {
+            return { "BIOME": key, ...value };
+        });
+        db.bmg_normal_terrain.bulkPut(data)
+    }
+    if (await db.bmg_cover_type.count() <= 0) {
+        let data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/bmg-cover-type')
+        data = Object.entries(data).map(([key, value]) => {
+            return { "COVER_TYPE": key, "PROBABILITY": value };
+        });
+        db.bmg_cover_type.bulkPut(data)
+    }
+    if (await db.bmg_hill_probabilities.count() <= 0) {
+        let data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/bmg-feature-hill-probabilities')
+        data = Object.entries(data).map(([key, value]) => {
+            return { "BIOME": key, "PROBABILITY": value };
+        });
+        db.bmg_hill_probabilities.bulkPut(data)
+    }
+    if (await db.bmg_cliff_probabilities.count() <= 0) {
+        let data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/bmg-feature-cliff-probabilities')
+        data = Object.entries(data).map(([key, value]) => {
+            return { "BIOME": key, "PROBABILITY": value };
+        });
+        db.bmg_cliff_probabilities.bulkPut(data)
+    }
+    if (await db.bmg_water_type.count() <= 0) {
+        let data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/bmg-water-type')
+        data = Object.entries(data).map(([key, value]) => {
+            return { "WATER_TYPE": key, "PROBABILITY": value };
+        });
+        db.bmg_water_type.bulkPut(data)
+    }
+    if (await db.bmg_general_settings.count() <= 0) {
+        let data = await fetchLocalJson('/mikitz-ttrpg/data/defaults/bmg-general-settings')
+        db.bmg_general_settings.bulkPut(data)
+    }
+    // ------ Magic Shop Generator
     if (await db.msg_cities.count() <= 0) {
         const table = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-cities')
         db.msg_cities.bulkPut(table)
@@ -228,6 +396,7 @@ async function setupDB(){
         const table = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-spell-scroll-prices')
         db.msg_spell_scroll_prices.bulkPut(table)
     }
+    // ------ General
     if (await db.sbg_settings.count() <= 0) {
         const table = await fetchLocalJson('/mikitz-ttrpg/data/defaults/defaults-sbg-settings')
         db.sbg_settings.bulkPut(table)

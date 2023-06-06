@@ -159,6 +159,9 @@ async function replaceMonstersWithLinks(encounter) {
     }
     return encounter;
 }
+function isWholeNumber(number){
+    return number % 1 == 0
+}
 // Function to roll dice inside a string
 function replaceDiceStringsWithRollTotals(myString) {
     // Extract dice groups from encounter
@@ -198,6 +201,53 @@ function replaceDiceStringsWithRollTotals(myString) {
 // Function to get a random item from an array
 function getRandomItemFromArray(array){
     return array[Math.floor(Math.random()*array.length)];
+}
+function convertObjectToSeedRollableObject(object){
+    const keyArray = Object.keys(object)
+    let convertedObject = {}
+    let convertedValue = 0
+    for (let index = 0; index < keyArray.length; index++) {
+        const key = keyArray[index]
+        if (key == "BIOME") continue
+        const value = object[key]
+        if (value == 0) continue
+        convertedValue += value
+        convertedObject[key] = convertedValue
+    }
+    return convertedObject
+}
+function convertPropertiesArrayToSeedRollableObject(array, keyName, valueName){
+    let convertedObject = {}
+    let convertedValue = 0
+    for (let index = 0; index < array.length; index++) {
+        const element = array[index];
+        const value = element[valueName]
+        if (value == 0) continue
+        convertedValue += value
+        convertedObject[element[keyName]] = convertedValue
+    }
+    return convertedObject
+}
+function rollSeedRollableObject(object, rng){ 
+    for (let [key, value] of Object.entries(object)) {
+        if (rng <= value) return key
+    }
+}
+function getRandomNumberFromSeed(seed){
+    return 0.01 + 0.99 * seed()
+}
+// Function to format milliseconds into 0h 0m 0s
+function formatMillisecondsToReadable(milliseconds) {
+    const hours = Math.floor(milliseconds / 3600000); // 1 Hour = 3600000 milliseconds
+    const minutes = Math.floor((milliseconds % 3600000) / 60000); // 1 Minute = 60000 milliseconds
+    const seconds = Math.floor((milliseconds % 60000) / 1000); // 1 Second = 1000 milliseconds
+    const ms = milliseconds % 1000; // Remainder milliseconds after removing hours, minutes and seconds
+    let timeString = "";
+    if (hours > 0) timeString += `${hours}h `;
+    if (minutes > 0) timeString += `${minutes}m `;
+    if (seconds > 0) timeString += `${seconds}s `;
+    if (ms > 0) timeString += `${ms}ms`;
+    return timeString.trim(); // Removes any extra space at the end
 }
 // Function to roll a table and only check if it's equal to or less than
 function rollTableLessThan(table) {
@@ -241,10 +291,7 @@ function rollTableLessThan(table) {
     // console.log(Object.values(table)[0])
     // console.log(`FIRST VALUE`)
     // console.log(Object.values(table)[0][keyFirst])
-    if (
-        typeof Object.values(table)[0][keyFirst] == "string" ||
-        Object.values(table)[0][keyFirst] instanceof String
-    ) {
+    if ( typeof Object.values(table)[0][keyFirst] == "string" || Object.values(table)[0][keyFirst] instanceof String ) {
         // Loop through the first key values and determine if roll is in the range
         for (r = 0; r < table.length; r++) {
             var blah = Object.values(table)[r][keyFirst];
@@ -873,7 +920,7 @@ function setTheme(themeName) {
 function toggleTheme() {
     if (localStorage.getItem("theme") === "theme-dark") {
         setTheme("theme-light");
-    } else {
+    } else {HTMLAllCollection
         setTheme("theme-dark");
     }
 }

@@ -1,0 +1,16 @@
+{
+    "ARCTIC": { "boulder":0.55, "branches":0.05, "carcass":0.10, "livestock":0.00, "ruins":0.00, "shrub":0.20, "tree":0.10},
+    "DESERT": { "boulder":0.01, "branches":0.00, "carcass":0.10, "livestock":0.00, "ruins":0.00, "shrub":0.60, "tree":0.29},
+    "FOREST": { "boulder":0.05, "branches":0.10, "carcass":0.10, "livestock":0.00, "ruins":0.00, "shrub":0.05, "tree":0.70},
+    "GRASSLAND": { "boulder":0.05, "branches":0.05, "carcass":0.20, "livestock":0.00, "ruins":0.00, "shrub":0.20, "tree":0.50},
+    "HILL": { "boulder":0.05, "branches":0.05, "carcass":0.10, "livestock":0.00, "ruins":0.00, "shrub":0.30, "tree":0.50},
+    "JUNGLE": { "boulder":0.05, "branches":0.10, "carcass":0.05, "livestock":0.00, "ruins":0.00, "shrub":0.30, "tree":0.50},
+    "MOUNTAIN": { "boulder":0.50, "branches":0.00, "carcass":0.10, "livestock":0.00, "ruins":0.00, "shrub":0.20, "tree":0.20},
+    "OPENWATER": { "boulder":0.60, "branches":0.00, "carcass":0.10, "livestock":0.00, "ruins":0.00, "shrub":0.30, "tree":0.00},
+    "SEABED": { "boulder":0.60, "branches":0.05, "carcass":0.10, "livestock":0.00, "ruins":0.10, "shrub":0.15, "tree":0.00},
+    "SWAMP": { "boulder":0.05, "branches":0.00, "carcass":0.10, "livestock":0.00, "ruins":0.00, "shrub":0.45, "tree":0.40},
+    "UNDERDARK": { "boulder":0.60, "branches":0.00, "carcass":0.05, "livestock":0.00, "ruins":0.25, "shrub":0.05, "tree":0.05},
+    "UNDERWATER": { "boulder":0.60, "branches":0.00, "carcass":0.10, "livestock":0.00, "ruins":0.00, "shrub":0.15, "tree":0.15},
+    "WASTELAND": { "boulder":0.50, "branches":0.05, "carcass":0.25, "livestock":0.00, "ruins":0.00, "shrub":0.10, "tree":0.10},
+    "WOODLAND": { "boulder":0.05, "branches":0.00, "carcass":0.20, "livestock":0.00, "ruins":0.00, "shrub":0.50, "tree":0.25}
+  }

@@ -26,6 +26,10 @@ main {
 .big-scroll-margin {
     scroll-margin-top: calc(80px + 4rem);
 }
+.calculated-value {
+    font-size: small;
+    margin-left: 0.5rem;
+}
 /* ==================================== */
 /*                Theme                 */
 /* ==================================== */
@@ -93,6 +97,26 @@ main {
     --href-visited: #551a8b;
 }
 /* ==================================== */
+/*             Animations               */
+/* ==================================== */
+.loader {
+    border: 16px solid var(--text-clr);
+    border-top: 16px solid var(--button-secondary-color);
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.loader {
+    border-top: 16px solid var(--button-secondary-color);
+    border-bottom: 16px solid var(--button-secondary-color);
+}
+
+/* ==================================== */
 /*             Containers               */
 /* ==================================== */
 .container {
@@ -125,6 +149,7 @@ main {
     overflow-y: auto;
     top: calc(var(--nav-height) * 2);
     height: calc(100vh - var(--nav-height) * 2);
+    left: 0 !important;
 }
 .panel .left {
     left: 0;
@@ -237,6 +262,17 @@ main {
 .small-button .button-text {
     font-size: small;
 }
+.button-icon {
+    background-color: var(--button-secondary-color);
+    color: var(--txt-clr);
+    border: none;
+    border-radius: 0.5rem;
+    font: large;
+    cursor: pointer;
+}
+.button-icon:hover {
+    background-color: var(--button-hover-clr);
+}
 /* ==================================== */
 /*            Brand Buttons             */
 /* ==================================== */
@@ -268,8 +304,6 @@ main {
 /* ==================================== */
 /*               Fieldset               */
 /* ==================================== */
-
-
 .button-flex {
     display: flex;
     flex-direction: row;
@@ -357,7 +391,7 @@ main {
     overflow: hidden;
     background-color: var(--site-nav-background-clr);
     width: 100%;
-    z-index: 1;
+    z-index: 2;
 }
 .site-nav .fa-solid,
 .site-nav .fa-regular {
@@ -403,7 +437,7 @@ main {
     font-size: 1.0625rem;
     background-color: var(--top-nav-background-color);
     overflow: hidden;
-    z-index: 1;
+    z-index: 2;
     position: fixed;
     width: 100%;
     top: 40px;
@@ -546,15 +580,21 @@ main {
     overflow-y: auto;
     margin-bottom: 15px;
 }
+/* ==================================== */
+/*                 Legend               */
+/* ==================================== */
+.active-tool {
+    background-color: var(--button-hover-clr);
+    border-radius: 1rem;
+}
 .legend {
+    position: fixed;
     font-size: large;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    justify-content: center;
-    /* margin-top: 120px; */
-    margin-bottom: 20px;
-    z-index: 1;
+    background-color: var(--panel-background-color);
+    z-index: 1 !important;
+    border-radius: 2rem;
+    padding: 1.5rem;
+    margin-left: 2rem;
 }
 .legend .terrain-data {
     display: flex;
@@ -562,9 +602,11 @@ main {
     justify-content: center;
     align-items: center;
     gap: 5px;
-    width: 14.28%;
+    width: auto;
     min-height: 80px;
     max-width: 100px;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 .legend .terrain-label {
     font-size: small;
@@ -576,6 +618,7 @@ main {
     width: 40px;
     border-color: #fff;
     border-radius: 20px !important;
+    cursor: pointer;
 }
 .user-options {
     display: flex;
@@ -658,12 +701,13 @@ main {
     color: var(--text-clr);
     padding-left: 3px;
 }
-
 .radio-input-container {
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: center;
-    padding: 0.5em;
+    /* padding: 0.5em; */
+    padding: 0;
     width: fit-content;
     gap: 10px;
 }
@@ -829,8 +873,8 @@ main {
     font-weight: bold;
     font-size: 20px;
 }
-.checkbox {
-    display: none;
+.radio-group .checkbox {
+    display: none !important;
 }
 .radio-group :not(:checked) + span {
     display: block;
@@ -1188,6 +1232,9 @@ main a:visited {
     flex-wrap: wrap;
     column-gap: 20px;
 }
+/* ==================================== */
+/*               Slider                 */
+/* ==================================== */
 .slider-container {
     display: flex;
     flex-direction: row;
@@ -1208,6 +1255,9 @@ main a:visited {
 .slider-container .slider-custom {
     width: 100px;
 }
+/* ==================================== */
+/*               Radio                  */
+/* ==================================== */
 @media only screen and (max-width: 1250px) {
     main {
         margin-top: 160px;
@@ -1488,10 +1538,7 @@ input:checked + .slider-layout:before {
 /*           Battle Map Panels          */
 /* ==================================== */
 .battle-map-output {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    display: grid;
 }
 .battle-map-canvas-container {
     display: flex;
