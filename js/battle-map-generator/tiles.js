@@ -1,22 +1,12 @@
 function generateTile(data, i, j, seed, colorData, contexts){
-    const direction = data[0][9]
     const hasCliffs = data[1][0]
-    const hasHills = data[1][0]
-    const hasLake = data[1][0]
-    const hasPond = data[1][0]
-    const hasRiver = data[1][0]
-    const hasRoad = data[1][0]
-    const beginRiver = data[2][3]
-    const beginRoad = data[2][4]
+    const hasHills = data[1][1]
+    const elevationCanvas = contexts.elevation
 
     tile = terrainTile(data, i, j, seed, colorData)
 
-    if (hasRiver) tile = riverTile(tile, beginRiver)
-    if (hasRoad) tile = roadTile(tile, beginRoad)
-    if (hasCliffs) tile = cliffTile(tile)
-    if (hasHills) tile = hillTile(tile)
-    if (hasLake) tile = lakeTile(tile)
-    if (hasPond) tile = pondTile(tile)
+    if (hasCliffs) tile = cliffTile(tile, elevationCanvas)
+    if (hasHills) tile = hillTile(tile, elevationCanvas)
     
     return tile
 }
@@ -66,22 +56,10 @@ function terrainTile(data, i, j, seed, colorData){
         Special
          Tiles
 ===================== */
-function riverTile(tile, beginRiver){
+function cliffTile(tile, elevationCanvas){
     return tile
 }
-function roadTile(tile, beginRoad){
-    return tile
-}
-function cliffTile(tile){
-    return tile
-}
-function hillTile(tile){
-    return tile
-}
-function lakeTile(tile){
-    return tile
-}   
-function pondTile(tile){
+function hillTile(tile, elevationCanvas){
     return tile
 }
 /* =======================
@@ -167,12 +145,27 @@ function addLabelHexGrid(labelName, textToDisplay, x, y, ctx, hexOrientation){
     if (labelName == 'coordinates') yModifier = 0
     if (labelName == 'cover') yModifier = 0
 }
-function addLabels(data, i, j, tile, contexts, hexOrientation){
-    const terrainLabelsOpacity = parseFloat(data[5][0])
-    const coordinatesLabelsOpacity = parseFloat(data[5][1])
-    const coverLabelsOpacity = parseFloat(data[5][2])
-    const elevationLabelsOpacity = parseFloat(data[5][3])
-    const ppi = data[0][3]
+function addLabels(data, i, j, tile, contexts, hexOrientation, modifyLabels){
+    console.log("🚀 ~ file: tiles.js:149 ~ addLabels ~ modifyLabels:", modifyLabels)
+    let terrainLabelsOpacity
+    let coordinatesLabelsOpacity
+    let coverLabelsOpacity
+    let elevationLabelsOpacity
+    let ppi
+    if (!modifyLabels) {
+        terrainLabelsOpacity = parseFloat(data[5][0])
+        coordinatesLabelsOpacity = parseFloat(data[5][1])
+        coverLabelsOpacity = parseFloat(data[5][2])
+        elevationLabelsOpacity = parseFloat(data[5][3])
+        ppi = data[0][3]
+    } 
+    else {
+        terrainLabelsOpacity = parseFloat(document.getElementById('terrain-opacity-input').value)
+        coordinatesLabelsOpacity = parseFloat(document.getElementById('coordinates-opacity-input').value)
+        coverLabelsOpacity = parseFloat(document.getElementById('cover-opacity-input').value)
+        elevationLabelsOpacity = parseFloat(document.getElementById('elevation-opacity-input').value)
+        ppi = modifyLabels
+    }
     if (!hexOrientation){
         addLabelSquareGrid('terrain', tile.type, terrainLabelsOpacity, tile.c.x, tile.c.y, ppi, contexts.terrain, tile.classification) 
         addLabelSquareGrid('coordinates', `${getColumnName(i + 1)}${j+1}`, coordinatesLabelsOpacity, tile.c.x, tile.c.y, ppi, contexts.coordinates, tile.classification) 

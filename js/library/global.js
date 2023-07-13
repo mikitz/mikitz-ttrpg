@@ -542,7 +542,11 @@ function rollTable(table) {
 }
 // Function to get a selected value from a radio group
 function getSelectedValueFromRadioGroup(radioGroupName) {
-    return document.querySelector(`input[name="${radioGroupName}"]:checked`).value;
+    try { return document.querySelector(`input[name="${radioGroupName}"]:checked`).value; }
+    catch (error) {
+        console.log("🚀 ~ file: global.js:545 ~ getSelectedValueFromRadioGroup ~ radioGroupName:", radioGroupName)
+        console.error("🚀 ~ file: global.js:547 ~ getSelectedValueFromRadioGroup ~ error:", error)
+    }
 }
 function getSelectedItemsFromCheckboxGroup(groupname){
     const checkboxElements = document.getElementsByName(groupname)

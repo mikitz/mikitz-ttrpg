@@ -612,15 +612,15 @@ async function populateBattleMapHistory(){
         
         listDiv.appendChild(tr)
 
-        const viewIcon = document.getElementById(`map-name-${element._id}`)
+        const viewIcon = document.getElementById(`${element._id}-view`)
         viewIcon.addEventListener('click', async function(){ 
-            const primaryKey = parseInt(this.id.replace('map-name-',''))
-            const mapData = await db.bmg_maps.get(primaryKey)
-            drawJsonOnCanvas(mapData, 'battle-map')
+            const primaryKey = this.id.replace('-view','')
+            const mapData = await db.bmg_maps.get({_id: primaryKey})
+            drawJsonOnCanvas(mapData, 'battle-map') // TODO: Refactor drawJsonOnCanvas()
         })
         const deleteIcon = document.getElementById(`${element._id}-delete`)
         deleteIcon.addEventListener('click', function(){ 
-            const primaryKey = parseInt(this.id.replaceAll('-delete',''))
+            const primaryKey = this.id.replaceAll('-delete','')
             deleteRowByPrimaryKey(primaryKey, 'bmg_maps')
             populateBattleMapHistory()
         })

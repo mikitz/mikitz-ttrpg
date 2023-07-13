@@ -26,6 +26,10 @@ function setupTippys(){
     addTippy('random-seed', 'Random seed')
     addTippy('share-seed', 'Copy seed URL')
     addTippy('grid-size-help','Tile texture files are 200x200px, so any Grid Size above 200 will result in blurry tile images.')
+    addTippy('flip-horizontally', 'Flip the map horizontally')
+    addTippy('flip-vertically', 'Flip the map vertically')
+    addTippy('rotate-left', 'Rotate the map counterclockwise 90°')
+    addTippy('rotate-right', 'Rotate the map clockwise 90°')
 }
 async function setupDefaults(){
     const generalSettings = await db.bmg_general_settings.toArray()
@@ -102,6 +106,17 @@ function setupBattleMapUiListeners(){
     // Seed URL
     const copySeedUrlButton = document.getElementById('share-seed')
     copySeedUrlButton.addEventListener('click', function(){ exportSeedUrl() })
+    // Map Transformers
+    const rotateRight = document.getElementById('rotate-right')
+    rotateRight.addEventListener('click', async function(){ await transformBattleMap('right') })
+    const rotateLeft = document.getElementById('rotate-left')
+    rotateLeft.addEventListener('click', async function() { await transformBattleMap('left') })
+
+    const flipHorizontally = document.getElementById('flip-horizontally')
+    flipHorizontally.addEventListener('click', async function(){ transformBattleMap('horizontal') })
+    const flipVertically = document.getElementById('flip-vertically')
+    flipVertically.addEventListener('click', async function(){ transformBattleMap('vertical') })
+
 }   
 function setupBattleMapCanvasListeners(){
 

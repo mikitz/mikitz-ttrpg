@@ -273,6 +273,9 @@ main {
 .button-icon:hover {
     background-color: var(--button-hover-clr);
 }
+.map-transformer {
+    cursor: pointer;
+}
 /* ==================================== */
 /*            Brand Buttons             */
 /* ==================================== */

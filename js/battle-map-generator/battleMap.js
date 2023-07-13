@@ -24,7 +24,6 @@ async function generateBattleMap(battleMapData, seed){
     const landform = document.getElementById('form').value
     const climate = document.getElementById('climate').value
     const season = document.getElementById('season').value
-    const directionOrientation = getSelectedValueFromRadioGroup('orientation')
     const hexOrientation = (document.getElementById('hex-type').value)? document.getElementById('hex-type').value : null
     
     if (!width || !height || !gridSize) return alert("Width, Height, and Grid Size are required.")
@@ -41,10 +40,10 @@ async function generateBattleMap(battleMapData, seed){
     const elevationLabelsOpacity = getLabelAndTileOpacity('elevation-checkbox', 'elevation-opacity-input')
     const labelsArray = [terrainLabelsOpacity, coordinatesLabelsOpacity, coverLabelsOpacity, elevationLabelsOpacity]
     // Features
-    const cliffsProb = getSelectedValueFromRadioGroup('cliffs')
-    const hillsProb = getSelectedValueFromRadioGroup('hills')
-    // const lakeProb = getSelectedValueFromRadioGroup('lake')
-    // const pondProb = getSelectedValueFromRadioGroup('pond')
+    // const cliffsProb = getSelectedValueFromRadioGroup('cliffs')
+    // const hillsProb = getSelectedValueFromRadioGroup('hills')
+    const lakeProb = getSelectedValueFromRadioGroup('lake')
+    const pondProb = getSelectedValueFromRadioGroup('pond')
     const riverProb = getSelectedValueFromRadioGroup('river')
     const roadProb = getSelectedValueFromRadioGroup('road')
 
@@ -57,8 +56,9 @@ async function generateBattleMap(battleMapData, seed){
         seedText = seed[1]
         seed = seed[0]
     }
-    const direction = determineDirection(directionOrientation, seed)
-    const userInputsArray = [name, width, height, gridSize, directionOrientation, hexOrientation, biome, plane, gridType, direction]
+    const directionOrientation = null
+    const rotation = getRandomRotation(seed)
+    const userInputsArray = [name, width, height, gridSize, directionOrientation, hexOrientation, biome, plane, gridType, rotation]
     
     // const cliff = specialFeatureOnBattleMapBoolean(cliffsProb, seed)
     const cliff = false
@@ -95,11 +95,11 @@ async function generateBattleMap(battleMapData, seed){
     // Special Features
     const cliffDieSize = (cliff) ? tableCliff.find(elem => elem.BIOME == biomeLower).DIE_SIZE : null
     const hillDieSize = (hill) ? tableHill.find(elem => elem.BIOME == biomeLower).DIE_SIZE : null
-    const riverWidth = (river) ? getRiverWidth(height) : null
-    const beginRiver = (river) ? determinePathBeginningCoordinates(direction, height, width, seed) : null
-    const roadWidth = (road) ? getRoadWidth() : null
-    const beginRoad = (road) ? determinePathBeginningCoordinates(direction, height, width, seed) : null
-    const specialFeaturesMiscData = [cliffDieSize,hillDieSize,riverWidth,beginRiver,beginRoad]
+    const riverWidth = (river) ? getRiverWidth(height, seed) : null
+    const beginRiver = (river) ? determinePathBeginningCoordinates(height, width, seed) : null
+    const roadWidth = (road) ? getRoadWidth(seed) : null
+    const beginRoad = (road) ? determinePathBeginningCoordinates(height, width, seed) : null
+    const specialFeaturesMiscData = [cliffDieSize,hillDieSize,riverWidth,beginRiver,beginRoad, roadWidth]
     /* ------------------------
            Setup Canvases
     ------------------------ */
@@ -134,6 +134,7 @@ async function generateBattleMap(battleMapData, seed){
         season,
         seedText
     )
+    // console.log("🚀 ~ file: battleMap.js:137 ~ generateBattleMap ~ battleMap:", battleMap.td)
     cacheBattleMapId(battleMap)
     await saveBattleMap(battleMap)
     const endTime = Date.now()
@@ -141,6 +142,7 @@ async function generateBattleMap(battleMapData, seed){
     const formattedTime = formatMillisecondsToReadable(elapsed)
     console.log("🚀 ~ file: index.js:332 ~ startBabylon ~ formattedTime:", formattedTime)
     makeToast(`Map generated in ${formattedTime}!`, 'success')
+    document.getElementById('map-tools').classList.remove('hidden')
     return battleMap
 }
 /* =======================
@@ -149,14 +151,22 @@ async function generateBattleMap(battleMapData, seed){
 ======================= */
 async function generateSquareGridBattleMap(data, seed, battleMapData, colorData, contexts){
     let sleepTime = false
-    const sleepDuration = 1
+    // const rotation = data[0][9]
+    // const rotation = 1
+    const sleepDuration = 10
     const progressElement = document.getElementById('progress')
-    const direction = data[0][9]
     const width = data[0][1]
     const height = data[0][2]
     const totalTiles = height * width
     const ctxArray = Object.entries(contexts)
     const ppi = data[0][3]
+    const hasCliffs = data[1][0]
+    const hasHills = data[1][1]
+    const hasLake = data[1][2]
+    const hasPond = data[1][3]
+    const hasRiver = data[1][4]
+    const hasRoad = data[1][5]
+
     ctxArray.forEach(element => {
         const ctx = element[1]
         ctx.canvas.height = height * ppi
@@ -165,64 +175,77 @@ async function generateSquareGridBattleMap(data, seed, battleMapData, colorData,
     let tileData = {}
     let tile
     let currentTile = 0
-    if (direction === 1){
-        for (var i = 0; i < width; i++) { 
-            for (var j = 0; j < height; j++) {
-                if (sleepTime) await sleep(sleepDuration)
-                let tile = generateTile(data, i, j, seed, colorData, contexts)
-                if (tile.image) addImageUsingContext(contexts.images, tile.image, tile.c.x, tile.c.y, IMAGE_SIZE_MODIFIER, ppi, seed)
-                fillCenterOutAnimation(contexts.tiles, tile.c.x, tile.c.y, ppi, tile.color, false) // Animation = false b/c it's too slow with big maps
-                addLabels(data, i, j, tile, contexts)
-                currentTile++
-                // updateProgressElement(progressElement, currentTile, totalTiles)
-                tileData[`${i},${j}`] = tile
-            }
-        }
-    } else if (direction === 2){ 
-        for (var j = 0; j < height; j++) { 
-            for (var i = 0; i < width; i++) {
-                if (sleepTime) await sleep(sleepDuration)
-                let tile = generateTile(data, i, j, seed, colorData, contexts)
-                if (tile.image) addImageUsingContext(contexts.images, tile.image, tile.c.x, tile.c.y, IMAGE_SIZE_MODIFIER, ppi, seed)
-                fillCenterOutAnimation(contexts.tiles, tile.c.x, tile.c.y, ppi, tile.color, false) // Animation = false b/c it's too slow with big maps
-                addLabels(data, i, j, tile, contexts)
-                currentTile++
-                // updateProgressElement(progressElement, currentTile, totalTiles)
-                tileData[`${i},${j}`] = tile
-            }
-        }
-    } else if (direction === 3){
-        for (var i = width-1; i > -1; i--) { 
-            for (var j = height-1; j > -1; j--) {
-                if (sleepTime) await sleep(sleepDuration)
-                let tile = generateTile(data, i, j, seed, colorData, contexts)
-                if (tile.image) addImageUsingContext(contexts.images, tile.image, tile.c.x, tile.c.y, IMAGE_SIZE_MODIFIER, ppi, seed)
-                fillCenterOutAnimation(contexts.tiles, tile.c.x, tile.c.y, ppi, tile.color, false) // Animation = false b/c it's too slow with big maps
-                addLabels(data, i, j, tile, contexts)
-                currentTile++
-                // updateProgressElement(progressElement, currentTile, totalTiles)
-                tileData[`${i},${j}`] = tile
-            }
-        }
-    } else if (direction === 4) {
-        for (var j = height-1; j > -1; j--) { 
-            for (var i = width-1; i > -1; i--) {
-                if (sleepTime) await sleep(sleepDuration)
-                let tile = generateTile(data, i, j, seed, colorData, contexts)
-                if (tile.image) addImageUsingContext(contexts.images, tile.image, tile.c.x, tile.c.y, IMAGE_SIZE_MODIFIER, ppi, seed)
-                fillCenterOutAnimation(contexts.tiles, tile.c.x, tile.c.y, ppi, tile.color, false) // Animation = false b/c it's too slow with big maps
-                addLabels(data, i, j, tile, contexts)
-                currentTile++
-                // updateProgressElement(progressElement, currentTile, totalTiles)
-                tileData[`${i},${j}`] = tile
-            }
+    for (var i = 0; i < width; i++) { 
+        for (var j = 0; j < height; j++) {
+            if (sleepTime) await sleep(sleepDuration)
+            let tile = generateTile(data, i, j, seed, colorData, contexts)
+            if (tile.image) addImageUsingContext(contexts.images, tile.image, tile.c.x, tile.c.y, IMAGE_SIZE_MODIFIER, ppi, seed)
+            fillCenterOutAnimation(contexts.tiles, tile.c.x, tile.c.y, ppi, tile.color, false) // Animation = false b/c it's too slow with big maps
+            addLabels(data, i, j, tile, contexts)
+            currentTile++
+            // updateProgressElement(progressElement, currentTile, totalTiles)
+            tileData[`${i},${j}`] = tile
         }
     }
+    // ------ Old Code -------
+    // if (rotation === 1){
+    //     for (var i = 0; i < width; i++) { 
+    //         for (var j = 0; j < height; j++) {
+    //             if (sleepTime) await sleep(sleepDuration)
+    //             let tile = generateTile(data, i, j, seed, colorData, contexts)
+    //             if (tile.image) addImageUsingContext(contexts.images, tile.image, tile.c.x, tile.c.y, IMAGE_SIZE_MODIFIER, ppi, seed)
+    //             fillCenterOutAnimation(contexts.tiles, tile.c.x, tile.c.y, ppi, tile.color, false) // Animation = false b/c it's too slow with big maps
+    //             addLabels(data, i, j, tile, contexts)
+    //             currentTile++
+    //             // updateProgressElement(progressElement, currentTile, totalTiles)
+    //             tileData[`${i},${j}`] = tile
+    //         }
+    //     }
+    // } else if (rotation === 2){ 
+    //     for (var j = 0; j < height; j++) { 
+    //         for (var i = 0; i < width; i++) {
+    //             if (sleepTime) await sleep(sleepDuration)
+    //             let tile = generateTile(data, i, j, seed, colorData, contexts)
+    //             if (tile.image) addImageUsingContext(contexts.images, tile.image, tile.c.x, tile.c.y, IMAGE_SIZE_MODIFIER, ppi, seed)
+    //             fillCenterOutAnimation(contexts.tiles, tile.c.x, tile.c.y, ppi, tile.color, false) // Animation = false b/c it's too slow with big maps
+    //             addLabels(data, i, j, tile, contexts)
+    //             currentTile++
+    //             // updateProgressElement(progressElement, currentTile, totalTiles)
+    //             tileData[`${i},${j}`] = tile
+    //         }
+    //     }
+    // } else if (rotation === 3){
+    //     for (var i = width-1; i > -1; i--) { 
+    //         for (var j = height-1; j > -1; j--) {
+    //             if (sleepTime) await sleep(sleepDuration)
+    //             let tile = generateTile(data, i, j, seed, colorData, contexts)
+    //             if (tile.image) addImageUsingContext(contexts.images, tile.image, tile.c.x, tile.c.y, IMAGE_SIZE_MODIFIER, ppi, seed)
+    //             fillCenterOutAnimation(contexts.tiles, tile.c.x, tile.c.y, ppi, tile.color, false) // Animation = false b/c it's too slow with big maps
+    //             addLabels(data, i, j, tile, contexts)
+    //             currentTile++
+    //             // updateProgressElement(progressElement, currentTile, totalTiles)
+    //             tileData[`${i},${j}`] = tile
+    //         }
+    //     }
+    // } else if (rotation === 4) {
+    //     for (var j = height-1; j > -1; j--) { 
+    //         for (var i = width-1; i > -1; i--) {
+    //             if (sleepTime) await sleep(sleepDuration)
+    //             let tile = generateTile(data, i, j, seed, colorData, contexts)
+    //             if (tile.image) addImageUsingContext(contexts.images, tile.image, tile.c.x, tile.c.y, IMAGE_SIZE_MODIFIER, ppi, seed)
+    //             fillCenterOutAnimation(contexts.tiles, tile.c.x, tile.c.y, ppi, tile.color, false) // Animation = false b/c it's too slow with big maps
+    //             addLabels(data, i, j, tile, contexts)
+    //             currentTile++
+    //             // updateProgressElement(progressElement, currentTile, totalTiles)
+    //             tileData[`${i},${j}`] = tile
+    //         }
+    //     }
+    // }
+
     return {tileData: tileData}
 }
 function generateHexBattleMap(data, seed, battleMapData, colorData, contexts){
     const hexOrientation = document.getElementById('hex-type').value
-    const direction = data[0][12]
     const a = PPI / 2 // Edge Length (a)
     const r = Math.sqrt(3) / 2 * a // Apothem (r)
     const R = a // Circumcircle Radius (R)
@@ -311,24 +334,30 @@ function determineDirection(directionOrientation, seed, direction){
     if (direction) return direction
     const rng = seed()
     if (directionOrientation == 'vertical') {
-        if (rng <= 0.50) return DIRECTIONS.RIGHT_TO_LEFT
-        else if (rng >= 0.51 && rng <= 1.00) return DIRECTIONS.LEFT_TO_RIGHT
+        if (rng <= 0.50) return DIRECTIONS.VERTICAL_BOTTOM_RIGHT_TO_TOP_LEFT
+        else if (rng >= 0.51 && rng <= 1.00) return DIRECTIONS.VERTICAL_TOP_LEFT_TO_BOTTOM_RIGHT
     }
     else if (directionOrientation == 'horizontal') {
-        if (rng <= 0.50) return DIRECTIONS.TOP_DOWN
-        else if (rng >= 0.51 && rng <= 1.00) return DIRECTIONS.BOTTOM_UP
+        if (rng <= 0.50) return DIRECTIONS.HORIZONTAL_TOP_LEFT_TO_BOTTOM_RIGHT
+        else if (rng >= 0.51 && rng <= 1.00) return DIRECTIONS.HORIZONTAL_BOTTOM_RIGHT_TO_TOP_LEFT
     } 
     else if (directionOrientation == 'random') {
-        if (rng <= 0.25) return DIRECTIONS.RIGHT_TO_LEFT
-        else if (rng >= 0.26 && rng <= 0.50) return DIRECTIONS.LEFT_TO_RIGHT
-        else if (rng >= 0.51 && rng <= 0.75) return DIRECTIONS.TOP_DOWN
-        else if (rng >= 0.76 && rng <= 1.00) return DIRECTIONS.BOTTOM_UP
+        if (rng <= 0.25) return DIRECTIONS.VERTICAL_BOTTOM_RIGHT_TO_TOP_LEFT
+        else if (rng >= 0.26 && rng <= 0.50) return DIRECTIONS.VERTICAL_TOP_LEFT_TO_BOTTOM_RIGHT
+        else if (rng >= 0.51 && rng <= 0.75) return DIRECTIONS.HORIZONTAL_TOP_LEFT_TO_BOTTOM_RIGHT
+        else if (rng >= 0.76 && rng <= 1.00) return DIRECTIONS.HORIZONTAL_BOTTOM_RIGHT_TO_TOP_LEFT
     }
 }
-function determinePathBeginningCoordinates(direction, height, width, seed){
+function getRandomRotation(seed){
     const rng = seed()
-    if (direction === DIRECTIONS.RIGHT_TO_LEFT || direction === DIRECTIONS.LEFT_TO_RIGHT) return (height - 1) * rng
-    else if (direction === DIRECTIONS.TOP_DOWN || direction === DIRECTIONS.BOTTOM_UP) return (width - 1) * rng
+    return Math.floor((rng * 4) + 1)
+}
+function determinePathBeginningCoordinates(height, width, seed){
+    const rngX = seed()
+    const rngY = seed()
+    let x = Math.floor((width - 1) * rngX)
+    let y = Math.floor((height - 1) * rngY)
+    return { x: x, y: y }
 }
 function cacheBattleMapId(battlMapObject){
     localStorage.setItem('current-battle-map-id', battlMapObject._id)
@@ -456,4 +485,12 @@ function drawKey(elementID, colorData){ // Function to build the key
 }
 function updateProgressElement(element, currentTile, totalTiles){
     element.innerText = `Processing Tile... ${currentTile} / ${totalTiles.toLocaleString()} (${parseInt((currentTile / totalTiles) * 100)}%)`
+}
+function getRiverWidth(height, seed){ // Function to determine the river's width
+    let rng = seed()
+    return Math.floor((rng * height) / 3) + 1
+}
+function getRoadWidth(seed){ // Function to determine the road's width
+    let rng = seed()
+    return Math.floor((rng * 3) + 1)
 }

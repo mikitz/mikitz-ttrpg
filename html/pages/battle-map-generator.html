@@ -39,6 +39,7 @@
     <script src="/mikitz-ttrpg/js/battle-map-generator/tiles.js"></script>
     <script src="/mikitz-ttrpg/js/battle-map-generator/transformers.js"></script>
     <script src="/mikitz-ttrpg/js/battle-map-generator/listeners.js"></script>
+    <script src="/mikitz-ttrpg/js/battle-map-generator/convolution.js"></script>
 </head> 
 <style>
     #buttons-group {
@@ -124,6 +125,17 @@
     #history-container .aspect-legend {
         text-align: left;
     }
+    .map-tools {
+        justify-content: middle;
+    }
+    .map-tools-container {
+        background-color: var(--panel-background-color);
+        padding: 1rem;
+        width: 8rem;
+        margin-left: 2rem;
+        border-radius: 2rem;
+        font-size: larger;
+    }
 </style>
 <body>
     <div class="site-nav">
@@ -203,15 +215,6 @@
                         <div class="container">
                             <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-dimensions" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-dimensions">The Grid</span></div>
                             <div class="fieldset-content visible" id="dimensions">
-                                <div class="radio-input-container">
-                                    <label class="radio-input-label"><i id="direction-help" class="bi bi-question-square"></i>Direction</label>
-                                    <label for="horizontal"><i class="fa-solid fa-dice-four"></i></label>
-                                        <input type="radio" name="orientation" id="random" value="horizontal" checked>
-                                    <label for="vertical"><i class="fa-solid fa-arrows-up-down"></i></label>
-                                        <input type="radio" name="orientation" id="vertical" value="vertical">
-                                    <label for="horizontal"><i class="fa-solid fa-arrows-left-right"></i></label>
-                                        <input type="radio" name="orientation" id="horizontal" value="horizontal">
-                                </div>
                                 <div class="fieldset-content visible" id="grid">
                                     <div class="radio-input-container" id="grid-type">
                                         <label class="radio-input-label">Grid Type</label>
@@ -397,7 +400,7 @@
                 </div>
             </div>
             <div class="flex-column" id="panel-content">
-                <!-- <div class="flex-column-child"> -->
+                <div class="flex-column-child">
                     <div class="container" id="history-container">
                         <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-history" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-history">History</span></div>
                         <div class="history collapsed" id="history">
@@ -416,7 +419,19 @@
                             </table>
                         </div>
                     </div>
-                <!-- </div> -->
+                </div>
+                <div class="flex-column-child">
+                    <div class="map-tools-container hidden" id="map-tools">
+                        <div class="flex-column">
+                            <div class="flex-column-child flex-row map-tools">
+                                <div class="flex-row-item"><i class="fa-solid fa-up-down map-transformer" id="flip-vertically"></i></div>
+                                <div class="flex-row-item"><i class="fa-solid fa-left-right map-transformer" id="flip-horizontally"></i></div>
+                                <div class="flex-row-item"><i class="fa-solid fa-rotate-left map-transformer" id="rotate-left"></i></div>
+                                <div class="flex-row-item"><i class="fa-solid fa-rotate-right map-transformer" id="rotate-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="flex-column-child">
                     <div class="battle-map-output">
                         <div id="legend" class="legend flex-column hidden"></div>
