@@ -92,7 +92,7 @@ function setupBattleMapUiListeners(){
     // Label Checkbox
     const tileLabelCheckboxes = document.getElementsByName('label-checkbox')
     tileLabelCheckboxes.forEach(element => {
-        element.addEventListener('input', function(){ toggleLabelElements() })
+        element.addEventListener('input', function(){ toggleLabelElements(this) })
     });
     // Label Opacity Input
     const opacityInputs = document.querySelectorAll('.opacity-input')
