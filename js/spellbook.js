@@ -220,12 +220,13 @@ async function populateSpellbookHistory(){
 
         document.getElementById(`download-${element.id}`).addEventListener('click', async function(){
             const id = parseInt(this.id.replaceAll('download-', ''))
-            await downloadRowData('spellbooks', id, 'SPELLS')
+            console.log("🚀 ~ file: spellbook.js:223 ~ document.getElementById ~ id:", id)
+            await downloadRowData('sbg_spellbooks', id, 'SPELLS')
         })
 
         document.getElementById(`${element.id}-delete`).addEventListener('click', async function(){
             const id = parseInt(this.id.replaceAll('-delete', ''))
-            await deleteRowByPrimaryKey(id, 'spellbooks')
+            await deleteRowByPrimaryKey(id, 'sbg_spellbooks')
             await populateSpellbookHistory()
         })
     }

@@ -1,7 +1,7 @@
 # Change Log
 
 ### Alpha 1 (WIP)
--   [ ] Bug -- Fixed history download button does not work
+-   [x] Bug -- Fixed history download button not working
 -   [ ] Feature -- Add Settings
     -   [ ] Feature -- select Sources
     -   [x] Feature -- Various settings related to the algorithm.
