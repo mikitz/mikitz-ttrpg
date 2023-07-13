@@ -146,7 +146,6 @@ function addLabelHexGrid(labelName, textToDisplay, x, y, ctx, hexOrientation){
     if (labelName == 'cover') yModifier = 0
 }
 function addLabels(data, i, j, tile, contexts, hexOrientation, modifyLabels){
-    console.log("🚀 ~ file: tiles.js:149 ~ addLabels ~ modifyLabels:", modifyLabels)
     let terrainLabelsOpacity
     let coordinatesLabelsOpacity
     let coverLabelsOpacity

@@ -140,7 +140,7 @@ async function generateBattleMap(battleMapData, seed){
     const endTime = Date.now()
     const elapsed = endTime - startTime
     const formattedTime = formatMillisecondsToReadable(elapsed)
-    console.log("🚀 ~ file: index.js:332 ~ startBabylon ~ formattedTime:", formattedTime)
+    console.log("🚀 ~ file: index.js:332 ~ generateBattleMap ~ formattedTime:", formattedTime)
     makeToast(`Map generated in ${formattedTime}!`, 'success')
     document.getElementById('map-tools').classList.remove('hidden')
     return battleMap
