@@ -14,6 +14,8 @@
 
 ### Alpha 3 -- WIP
 -   [x] UX | Map Tools -- Added four map tools: rotate clockwise/counterclockwise, and flip horizontally/vertically
+-   [ ] UX | Presets -- Added presets for dimensions
+-   [ ] UX | Dimension Tools -- Added a dimensions calculator based on common TV sizes and resolutions
 -   [ ] UI | History -- View icon now properly displays the battle map when clicked
 -   [ ] Backend | Algo -- Implemented season
 -   [ ] Backend | Algo -- Implemented climate
