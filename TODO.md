@@ -1,5 +1,9 @@
 # To-do List
 
+## Additonal Pages
+- Item Card Creator
+    - Have a different border for each item type, like potion, poison, melee weapon, ranged weapon, clothes, etc.
+
 ## Near-future
 - [ ] integrate Sources across all generators
     - [ ] Encounter
