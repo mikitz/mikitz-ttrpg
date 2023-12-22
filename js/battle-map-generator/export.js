@@ -10,6 +10,36 @@ async function exportCanvas(ID, filetype){ // Function to export canvas by canva
     link.href = canvas.toDataURL(`image/${filetype}`) // Grab the canvas image data
     link.click() // Click the link to export
 }
+async function exportCanvases(arrayOfCanvasIds, filetype){
+    const canvasses = [] // Create an empty array in which to store all the canvas elements
+    const canvas = document.createElement('canvas') // Create a dummy canvas on which to write all the canvas data
+    const ctx = canvas.getContext('2d')
+
+    arrayOfCanvasIds.forEach(element => { canvasses.push(document.getElementById(element)) }) 
+    canvas.width = canvasses[0].width
+    canvas.height = canvasses[0].height
+
+    canvasses.forEach(canvas => { 
+        const opacity = getOpacity(canvas)
+        console.log("🚀 ~ file: export.js:24 ~ exportCanvases ~ opacity:", opacity)
+        ctx.globalAlpha = opacity // Set the opacity for this layer
+        ctx.drawImage(canvas, 0, 0) // Draw every canvas on the dummy canvas
+    }) 
+
+    let data = await db.bmg_maps.orderBy('dt').reverse().toArray()
+    const name = data[0].name
+    const link = document.createElement('a'); // Create new link
+    link.download = `${name}.${filetype}`; // Set up the file name
+    link.href = canvas.toDataURL(`image/${filetype}`) // Grab the canvas image data
+    link.click() // Click the link to export
+}
+function getOpacity(canvas){
+    let opacity = canvas.style.opacity
+    const display = canvas.style.display
+    if (opacity == '' && display == 'none') return 0
+    else if (opacity == '' && display != 'none') return 1.0
+    else return opacity
+}
 function convertJsonToFoundryVTT(JSON){ // Function to build a FoundryVTT Scene JSON from JSON
     function getFoundryVttGridType(data){
         const gridType = data.GRID
