@@ -26,7 +26,7 @@
     -   [ ] Settings | ... ---
     -   [ ] Settings | ... ---
 -   [x] Backend | Export -- fixed WEBP and PNG exports
--   [ ] Backend | Export -- fixed UVTT, and FVTT exports
+-   [x] Backend | Export -- fixed UVTT, and FVTT exports
  
 ### Alpha 2 -- 6/6/2023
 -   [x] Seeds
