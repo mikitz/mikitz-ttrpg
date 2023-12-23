@@ -979,9 +979,9 @@ async function generateAllTiles(rDirection, height, width, rollTableBiomeTerrain
     // ===============
     //    Load Data
     // ===============
-    const groundColor = colorData.GROUND // Get the Ground tile color
-    const difficult_terrainColor = colorData.DIFFICULT_TERRAIN // Get the Difficult Terrain tile color
-    const impasseColor = colorData.IMPASSE // Get the Impass tile color
+    const groundColor = colorData.NORMAL // Get the Ground tile color
+    const difficult_terrainColor = colorData.DIFFICULT // Get the Difficult Terrain tile color
+    const impasseColor = colorData.COVER // Get the Impass tile color
     const boulderColor = colorData.BOULDER // Get the Boulder tile color
     const treeColor = colorData.TREE // Get the Tree tile color 
     const waterColor = colorData.WATER // Get the Water tile color
@@ -2063,23 +2063,24 @@ async function drawJsonOnCanvas(data, canvas){ // Function to redraw from JSON d
     const currentTileSpan = document.getElementById('current-tile')
     const totalTilesSpan = document.getElementById('number-of-tiles')
     // USER INPUTS
-    const grid = data.GRID
-    const width = data.WIDTH
-    const height = data.HEIGHT
-    const PPI = data.PPI
-    const biome = data.BIOME
-    const hexOrientation = data.HEX_ORIENTATION
+    const grid = data.grid
+    const width = data.width
+    const height = data.height
+    const PPI = data.ppi
+    const biome = data.biome
+    const hexOrientation = data.hex_orientation
     data = data.TILE_DATA
     // CONVERT USER INPUTS
     const BIOME = biome.toUpperCase() // Convert biome to uppercase
     const biomeLower = BIOME.toLowerCase() // Convert biome to lowercase
     // PULL COLORS
     // let colorData = await fetchLocalJson(`/mikitz-ttrpg/data/json/battle-map-generator/COLORS_${SEASON}`) // Get the colors JSON for the specific season
-    let colorData = await fetchLocalJson(`/mikitz-ttrpg/data/json/battle-map-generator/COLORS_SUMMER`) // Get the colors JSON for the specific season
-    colorData = colorData.find(i => i.TYPE === BIOME)
-    const groundColor = colorData.GROUND.replaceAll("-", ",") // Get the Ground tile color
-    const difficult_terrainColor = colorData.DIFFICULT_TERRAIN.replaceAll("-", ",") // Get the Difficult Terrain tile color
-    const impasseColor = colorData.IMPASSE.replaceAll("-", ",") // Get the Impass tile color
+    let colorData = await fetchLocalJson(`/mikitz-ttrpg/data/defaults/bmg-colors-summer`) // Get the colors JSON for the specific season
+    console.log("🚀 ~ file: battleMap.js:2081 ~ drawJsonOnCanvas ~ colorData:", colorData)
+    colorData = colorData[BIOME]
+    const groundColor = colorData.NORMAL.replaceAll("-", ",") // Get the Ground tile color
+    const difficult_terrainColor = colorData.DIFFICULT.replaceAll("-", ",") // Get the Difficult Terrain tile color
+    const impasseColor = colorData.COVER.replaceAll("-", ",") // Get the Impass tile color
     const boulderColor = colorData.BOULDER.replaceAll("-", ",") // Get the Boulder tile color
     const treeColor = colorData.TREE.replaceAll("-", ",") // Get the Tree tile color 
     const waterColor = colorData.WATER.replaceAll("-", ",") // Get the Water tile color
