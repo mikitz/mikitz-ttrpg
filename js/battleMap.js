@@ -140,10 +140,14 @@ function setupAllListeners(){
     // Button Listeners
     // document.getElementById('clear-canvas').addEventListener('click', function() { clearCanvas('battle-map') })
     document.getElementById('export-webp').addEventListener('click', async function() { 
-        await exportCanvases(['tiles', 'images', 'terrain', 'elevation', 'coordinates', 'cover'], 'webp')
+        const canvases = ['tiles', 'images', 'terrain', 'elevation', 'coordinates', 'cover']
+        const canvas = mergeCanvases(canvases)
+        await exportCanvas(canvas, 'webp')
     })
     document.getElementById('export-png').addEventListener('click', async function() { 
-        await exportCanvases(['tiles', 'images', 'terrain', 'elevation', 'coordinates', 'cover'], 'png')
+        const canvases = ['tiles', 'images', 'terrain', 'elevation', 'coordinates', 'cover']
+        const canvas = mergeCanvases(canvases)
+        await exportCanvas(canvas, 'png')
     })
     document.getElementById('export-json').addEventListener('click', function() { exportToJson(JSON.parse(localStorage.getItem('currently-viewing-map-json'))) })
     document.getElementById('export-uvtt').addEventListener('click', function() { exportToUvtt(JSON.parse(localStorage.getItem('currently-viewing-map-json'))) })

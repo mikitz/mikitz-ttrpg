@@ -1,16 +1,5 @@
 // TODO: Don't forget to adjust label opacity upon export
-async function exportCanvas(ID, filetype){ // Function to export canvas by canvas ID
-    const canvas = document.getElementById(ID)
-    if (isCanvasBlank(canvas)) return alert("Please generate a map first.")
-    let data = await db.bmg_maps.orderBy('dt').reverse().toArray()
-    const name = data[0].name
-    // EXPORT
-    const link = document.createElement('a'); // Create new link
-    link.download = `${name}.${filetype}`; // Set up the file name
-    link.href = canvas.toDataURL(`image/${filetype}`) // Grab the canvas image data
-    link.click() // Click the link to export
-}
-async function exportCanvases(arrayOfCanvasIds, filetype){
+function mergeCanvases(arrayOfCanvasIds){
     const canvasses = [] // Create an empty array in which to store all the canvas elements
     const canvas = document.createElement('canvas') // Create a dummy canvas on which to write all the canvas data
     const ctx = canvas.getContext('2d')
@@ -25,12 +14,17 @@ async function exportCanvases(arrayOfCanvasIds, filetype){
         ctx.globalAlpha = opacity // Set the opacity for this layer
         ctx.drawImage(canvas, 0, 0) // Draw every canvas on the dummy canvas
     }) 
-
+    return canvas
+}
+async function exportCanvas(canvas, filetype){ // Function to export canvas by canvas ID or canvas element
+    const canvasTemp = (typeof canvas === 'string' || canvas instanceof String) ? document.getElementById(canvas) : canvas
+    if (isCanvasBlank(canvasTemp)) return alert("Please generate a map first.")
     let data = await db.bmg_maps.orderBy('dt').reverse().toArray()
     const name = data[0].name
+    // EXPORT
     const link = document.createElement('a'); // Create new link
     link.download = `${name}.${filetype}`; // Set up the file name
-    link.href = canvas.toDataURL(`image/${filetype}`) // Grab the canvas image data
+    link.href = canvasTemp.toDataURL(`image/${filetype}`) // Grab the canvas image data
     link.click() // Click the link to export
 }
 function getOpacity(canvas){
