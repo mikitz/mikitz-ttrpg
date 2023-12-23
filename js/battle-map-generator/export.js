@@ -1,4 +1,3 @@
-// TODO: Don't forget to adjust label opacity upon export
 function mergeCanvases(arrayOfCanvasIds){
     const canvasses = [] // Create an empty array in which to store all the canvas elements
     const canvas = document.createElement('canvas') // Create a dummy canvas on which to write all the canvas data
@@ -34,7 +33,7 @@ function getOpacity(canvas){
     else if (opacity == '' && display != 'none') return 1.0
     else return opacity
 }
-function convertJsonToFoundryVTT(JSON){ // Function to build a FoundryVTT Scene JSON from JSON
+function convertJsonToFoundryVTT(JSON, mergedCanvas){ // Function to build a FoundryVTT Scene JSON from JSON
     function getFoundryVttGridType(data){
         const gridType = data.GRID
         const hexOrientation = data.HEX_ORIENTATION
@@ -46,9 +45,9 @@ function convertJsonToFoundryVTT(JSON){ // Function to build a FoundryVTT Scene 
         if (gridType == 'hex' && hexOrientation == 'row-odd') return foundryGridType = 2
     }
     if (!JSON) return alert("Please generate a map first.")
-    const canvas = document.getElementById('battle-map')
+    const canvas = document.getElementById('tiles')
     if (isCanvasBlank(canvas)) return alert("Please generate a map first.")
-    const imageString = document.getElementById('battle-map').toDataURL("image/webp").split(';base64,')[1]
+    const imageString = mergedCanvas.toDataURL("image/webp").split(';base64,')[1]
     if (!imageString) return alert("Please generate a map first.")
     const width = JSON.WIDTH * JSON.PPI
     const height = JSON.HEIGHT * JSON.PPI
@@ -98,25 +97,18 @@ function convertJsonToFoundryVTT(JSON){ // Function to build a FoundryVTT Scene 
     }
     return FVTT
 }
-function exportJsonToFvtt(JSONobj){ // Function to export as FVTT
+function exportJsonToFvtt(JSONobj, name){ // Function to export as FVTT
     if (!JSONobj) return alert("Please generate a map first.")
-    const canvas = document.getElementById('battle-map')
-    if (isCanvasBlank(canvas)) return alert("Please generate a map first.")
-    const UVTT = convertJsonToFoundryVTT(JSONobj)
-    const name = JSONobj.NAME
-    console.log("FVTT:", UVTT)
-    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(UVTT));
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(JSONobj));
 
-    var dlAnchorElem = document.getElementById('downloadAnchorElem');
-    dlAnchorElem.setAttribute("href",     dataStr     );
-    dlAnchorElem.setAttribute("download", `(FoundryVTT) ${name}.json`);
-    dlAnchorElem.click();
-
-    exportCanvas('battle-map', 'webp')
+    var dlAnchorElem = document.getElementById('downloadAnchorElem')
+    dlAnchorElem.setAttribute("href",     dataStr     )
+    dlAnchorElem.setAttribute("download", `(FoundryVTT) ${name}.json`)
+    dlAnchorElem.click()
 }
-function convertJsonToUvtt(JSON) { // Function to build UVTT from JSON
+function convertJsonToUvtt(JSON, mergedCanvas) { // Function to build UVTT from JSON
     if (!JSON) return alert("Please generate a map first.")
-    const canvas = document.getElementById('battle-map')
+    const canvas = document.getElementById('tiles')
     if (isCanvasBlank(canvas)) return alert("Please generate a map first.")
     // Set up the UVTT object
     // Note that all positions and sizes are in the unit of Tiles.
@@ -178,7 +170,7 @@ function convertJsonToUvtt(JSON) { // Function to build UVTT from JSON
         image: "" // base64-encoded PNG or WEBP
     }
     // Get base64-encoded PNG
-    const imageString = document.getElementById('battle-map').toDataURL("image/webp").split(';base64,')[1]
+    const imageString = mergedCanvas.toDataURL("image/webp").split(';base64,')[1]
     if (!imageString) return alert("Please generate a map first.")
     // Update UVTT
     UVTT.resolution.map_size.x = JSON.WIDTH
@@ -186,33 +178,29 @@ function convertJsonToUvtt(JSON) { // Function to build UVTT from JSON
     UVTT.resolution.pixels_per_grid = JSON.PPI
     UVTT.objects_line_of_sight = JSON.WALLS_UVTT
     UVTT.image = imageString
-
     return UVTT
 }
 function exportToJson(JSONobj){ // Function to export the currently viewed map as a JSON
     if (!JSONobj) return alert("Please generate a map first.")
-    const canvas = document.getElementById('battle-map')
+    const canvas = document.getElementById('tiles')
     if (isCanvasBlank(canvas)) return alert("Please generate a map first.")
-    const name = JSONobj.NAME
+    const name = JSONobj.name   
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(JSONobj));
     var dlAnchorElem = document.getElementById('downloadAnchorElem');
     dlAnchorElem.setAttribute("href",     dataStr     );
     dlAnchorElem.setAttribute("download", `${name}.json`);
     dlAnchorElem.click();
 }
-function exportToUvtt(JSONobj){ // Function to export the currently viewed map as a UVTT file
+function exportToUvtt(JSONobj, name){ // Function to export the currently viewed map as a UVTT file
     if (!JSONobj) return alert("Please generate a map first.")
-    const canvas = document.getElementById('battle-map')
+    const canvas = document.getElementById('tiles')
     if (isCanvasBlank(canvas)) return alert("Please generate a map first.")
-    const UVTT = convertJsonToUvtt(JSONobj)
-    const name = JSONobj.NAME
-    console.log("UVTT:", UVTT)
-    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(UVTT));
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(JSONobj))
 
-    var dlAnchorElem = document.getElementById('downloadAnchorElem');
-    dlAnchorElem.setAttribute("href",     dataStr     );
-    dlAnchorElem.setAttribute("download", `${name}.uvtt`);
-    dlAnchorElem.click();
+    var dlAnchorElem = document.getElementById('downloadAnchorElem')
+    dlAnchorElem.setAttribute("href",     dataStr     )
+    dlAnchorElem.setAttribute("download", `${name}.uvtt`)
+    dlAnchorElem.click()
 }
 function exportSeedUrl(){
     const seed = document.getElementById('seed').value

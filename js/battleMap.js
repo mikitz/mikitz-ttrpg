@@ -132,9 +132,10 @@ function setupAllListeners(){
     // })
     // Hex Type listener
     const hexTypeSelect = document.getElementById('hex-type')
-    hexTypeSelect.addEventListener('change', function() {
+    hexTypeSelect.addEventListener('change', async function() {
         // Redraw the battle map
-        const mapName = JSON.parse(localStorage.getItem('currently-viewing-map-json'))
+        const currentBattleMapId = localStorage.getItem('current-battle-map-id')
+        const mapName = await db.bmg_maps.get(currentBattleMapId)
         redrawCanvasLabels(mapName) 
     })
     // Button Listeners
@@ -149,9 +150,32 @@ function setupAllListeners(){
         const canvas = mergeCanvases(canvases)
         await exportCanvas(canvas, 'png')
     })
-    document.getElementById('export-json').addEventListener('click', function() { exportToJson(JSON.parse(localStorage.getItem('currently-viewing-map-json'))) })
-    document.getElementById('export-uvtt').addEventListener('click', function() { exportToUvtt(JSON.parse(localStorage.getItem('currently-viewing-map-json'))) })
-    document.getElementById('export-fvtt').addEventListener('click', async function() { await exportJsonToFvtt(JSON.parse(localStorage.getItem('currently-viewing-map-json'))) })
+    document.getElementById('export-json').addEventListener('click', async function() { 
+        const canvases = ['tiles', 'images', 'terrain', 'elevation', 'coordinates', 'cover']
+        const canvas = mergeCanvases(canvases)
+        const currentBattleMapId = localStorage.getItem('current-battle-map-id')
+        const currentBattleMap = await db.bmg_maps.get(currentBattleMapId)
+        exportToJson(currentBattleMap) 
+    })
+    document.getElementById('export-uvtt').addEventListener('click', async function() { 
+        const canvases = ['tiles', 'images', 'terrain', 'elevation', 'coordinates', 'cover']
+        const canvas = mergeCanvases(canvases)
+        const currentBattleMapId = localStorage.getItem('current-battle-map-id')
+        let currentBattleMap = await db.bmg_maps.get(currentBattleMapId)
+        const name = currentBattleMap.name
+        currentBattleMap = convertJsonToUvtt(currentBattleMap, canvas)
+        exportToUvtt(currentBattleMap, name)
+    })
+    document.getElementById('export-fvtt').addEventListener('click', async function() {
+        const canvases = ['tiles', 'images', 'terrain', 'elevation', 'coordinates', 'cover']
+        const canvas = mergeCanvases(canvases)
+        const currentBattleMapId = localStorage.getItem('current-battle-map-id')
+        let currentBattleMap = await db.bmg_maps.get(currentBattleMapId)
+        const name = currentBattleMap.name
+        currentBattleMap = convertJsonToFoundryVTT(currentBattleMap, canvas)
+        exportJsonToFvtt(currentBattleMap, name)
+        exportCanvas(canvas, 'webp')
+    })
     // document.getElementById('toggle-visibility').addEventListener('click', function() { toggleCollapsables(this) })
     const generateBattleMapButtons = document.getElementsByName('generate-buttons')
     generateBattleMapButtons.forEach(button => {
