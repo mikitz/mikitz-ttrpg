@@ -1,10 +1,11 @@
-<!DOCTYPE html> 
-<html lang ="en">  
-<head>  
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mikitz' Battle Map Generator</title>  
+    <title>Mikitz' Battle Map Generator</title>
     <link rel="icon" type="image/x-icon" href="/mikitz-ttrpg/favicon.ico">
     <!-- ICONS -->
     <script src="https://kit.fontawesome.com/7e282d14cd.js" crossorigin="anonymous"></script>
@@ -12,7 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <!-- STYLESHEETS -->
-    <link rel="stylesheet" href="/mikitz-ttrpg/css/styles.min.css"/>
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/styles.min.css" />
     <!-- LOCAL LIBRARIES -->
     <script src="/mikitz-ttrpg/js/library/global.js"></script>
     <script src="/mikitz-ttrpg/js/library/database.js"></script>
@@ -40,62 +41,76 @@
     <script src="/mikitz-ttrpg/js/battle-map-generator/transformers.js"></script>
     <script src="/mikitz-ttrpg/js/battle-map-generator/listeners.js"></script>
     <script src="/mikitz-ttrpg/js/battle-map-generator/convolution.js"></script>
-</head> 
+</head>
 <style>
     #buttons-group {
         column-gap: 0.5rem;
     }
+
     .legend {
         z-index: 0;
     }
+
     /* TODO: Remove below when plane and landform are implemented */
-    #form, #plane { 
+    #form,
+    #plane {
         cursor: not-allowed;
         opacity: 50%;
     }
+
     main {
         margin-left: 0;
     }
+
     .panel .container {
         background-color: #292929;
         /* border: solid white 1px; */
         width: calc(var(--panel-width) - 40px - 20px - 1rem);
         margin: 0.5rem;
     }
+
     #panel-flex {
         margin-top: 1rem;
         margin-bottom: 1rem;
         padding-top: 7rem;
     }
+
     #seed {
         text-overflow: ellipsis;
     }
+
     .canvases-container {
         position: absolute;
         top: calc(var(--nav-height) * 2 + 2rem);
         left: calc(var(--panel-width) + 15rem);
         padding: 1rem;
     }
-    .canvases-container::after{
+
+    .canvases-container::after {
         content: "";
         display: block;
         height: 3rem;
     }
+
     .canvases-container canvas {
         position: absolute !important;
         top: 0 !important;
         left: 0 !important;
         z-index: -3;
     }
+
     .canvases-container .label-canvas {
         display: none;
     }
+
     .checkbox {
         display: block;
     }
+
     .opacity-input {
         width: 75px;
     }
+
     .button-container {
         position: fixed;
         top: calc(var(--nav-height) * 2);
@@ -107,27 +122,34 @@
         margin-right: 0;
         z-index: 2;
     }
+
     #button-container {
         row-gap: 0.5rem;
         column-gap: 0.5rem;
     }
+
     main {
         margin-bottom: 2rem;
     }
+
     #grid-type {
         padding-top: 0.75rem;
         padding-bottom: 0.75rem;
     }
+
     #history-container {
         margin-left: 2rem;
         z-index: 1;
     }
+
     #history-container .aspect-legend {
         text-align: left;
     }
+
     .map-tools {
         justify-content: middle;
     }
+
     .map-tools-container {
         background-color: var(--panel-background-color);
         padding: 1rem;
@@ -137,22 +159,35 @@
         font-size: larger;
     }
 </style>
+
 <body>
     <div class="site-nav">
-        <a class="site-button" id="index" href="/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
-        <a class="site-button-active" id="battle-map-generator" href="/mikitz-ttrpg/html/pages/battle-map-generator.html"><i class="fa-solid fa-map"></i><span>Battle Map</span></a>
+        <a class="site-button" id="index" href="/mikitz-ttrpg/index.html"><i
+                class="fa-solid fa-house"></i><span>Home</span></a>
+        <a class="site-button-active" id="battle-map-generator"
+            href="/mikitz-ttrpg/html/pages/battle-map-generator.html"><i class="fa-solid fa-map"></i><span>Battle
+                Map</span></a>
         <!-- <a class="site-button-under-construction" id="calendar"><i class="fa-solid fa-calendar"></i><span>Calendar</span></a> -->
-        <a class="site-button" id="encounter-generator" href="/mikitz-ttrpg/html/pages/encounter-generator.html"><i class="fa-solid fa-location-dot"></i><span>Encounter</span></a> 
-        <a class="site-button" id="magic-shop-generator" href="/mikitz-ttrpg/html/pages/magic-shop-generator.html"><i class="fa-solid fa-store"></i><span>Magic Shop</span></a>
-        <a class="site-button" id="npc-generator" href="/mikitz-ttrpg/html/pages/npc-generator.html"><i class="fa-solid fa-person-half-dress"></i><span>NPC</span></a>
-        <a class="site-button" id="spellbook-generator" href="/mikitz-ttrpg/html/pages/spellbook-generator.html"><i class="fa-solid fa-book"></i><span>Spellbook</span></a>
+        <a class="site-button" id="encounter-generator" href="/mikitz-ttrpg/html/pages/encounter-generator.html"><i
+                class="fa-solid fa-location-dot"></i><span>Encounter</span></a>
+        <a class="site-button" id="magic-shop-generator" href="/mikitz-ttrpg/html/pages/magic-shop-generator.html"><i
+                class="fa-solid fa-store"></i><span>Magic Shop</span></a>
+        <a class="site-button" id="npc-generator" href="/mikitz-ttrpg/html/pages/npc-generator.html"><i
+                class="fa-solid fa-person-half-dress"></i><span>NPC</span></a>
+        <a class="site-button" id="spellbook-generator" href="/mikitz-ttrpg/html/pages/spellbook-generator.html"><i
+                class="fa-solid fa-book"></i><span>Spellbook</span></a>
         <!-- <a class="site-button-under-construction" id="star-system-and-galaxy-generator" href="/mikitz-ttrpg/html/pages/star-system-and-galaxy-generator.html"><i class="fa-regular fa-circle-dot"></i><span>System</span></a> -->
-        <a class="site-button-under-construction" id="world-generator" href="/mikitz-ttrpg/html/pages/world-generator.html"><i class="fa-solid fa-earth-americas"></i><span>World</span></a>
-        <a class="site-button" id="settings" href="/mikitz-ttrpg/html/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
-        <a class="site-button" id="wiki" href="/mikitz-ttrpg/html/wiki.html"><i class="fa-solid fa-book-open"></i><span>Wiki</span></a>
+        <a class="site-button-under-construction" id="world-generator"
+            href="/mikitz-ttrpg/html/pages/world-generator.html"><i
+                class="fa-solid fa-earth-americas"></i><span>World</span></a>
+        <a class="site-button" id="settings" href="/mikitz-ttrpg/html/settings.html"><i
+                class="fa-solid fa-gear"></i><span>Settings</span></a>
+        <a class="site-button" id="wiki" href="/mikitz-ttrpg/html/wiki.html"><i
+                class="fa-solid fa-book-open"></i><span>Wiki</span></a>
     </div>
     <div class="sub-nav" id="sub-nav">
-        <a class="sub-nav-version-number nav-a" style="text-decoration: underline;" id="version-link" href="" target="_blank" rel="noopener noreferrer">
+        <a class="sub-nav-version-number nav-a" style="text-decoration: underline;" id="version-link" href=""
+            target="_blank" rel="noopener noreferrer">
             <i class="fa-solid fa-code-commit" style="margin-right: 0.5rem;"></i>
             <span id="version-number"></span>
         </a>
@@ -165,18 +200,29 @@
                 <div class="flex-column" id="panel-flex">
                     <div class="flex-column-child button-container">
                         <div class="flex-row" id="button-container">
-                            <button id="generate" name="generate-buttons" class="button small-button"><i class="fa-solid fa-dice-d20"></i></button>
+                            <button id="generate" name="generate-buttons" class="button small-button"><i
+                                    class="fa-solid fa-dice-d20"></i></button>
                             <!-- <button id="toggle-visibility" class="button small-button"><span class="button-text"><i class="fa-solid fa-angles-down"></i></span></button> -->
-                            <button id="export-webp" class="button small-button"><i class="bi bi-file-earmark-image"></i><span class="button-text real-text">WEBP</span></button>
-                            <button id="export-png" class="button small-button"><i class="bi bi-file-earmark-image"></i><span class="button-text real-text">PNG</span></button>
-                            <button id="export-json" class="button small-button"><i class="bi bi-file-code"></i><span class="button-text real-text"></i>JSON</span></button>
-                            <button id="export-uvtt" class="button small-button"><i class="bi bi-file-code"></i><span class="button-text real-text"></i>UVTT</span></button>
-                            <button id="export-fvtt" class="button small-button"><i class="bi bi-file-code"></i><span class="button-text real-text"></i>FVTT</span></button>
+                            <button id="export-webp" class="button small-button"><i
+                                    class="bi bi-file-earmark-image"></i><span
+                                    class="button-text real-text">WEBP</span></button>
+                            <button id="export-png" class="button small-button"><i
+                                    class="bi bi-file-earmark-image"></i><span
+                                    class="button-text real-text">PNG</span></button>
+                            <button id="export-json" class="button small-button"><i class="bi bi-file-code"></i><span
+                                    class="button-text real-text"></i>JSON</span></button>
+                            <button id="export-uvtt" class="button small-button"><i class="bi bi-file-code"></i><span
+                                    class="button-text real-text"></i>UVTT</span></button>
+                            <button id="export-fvtt" class="button small-button"><i class="bi bi-file-code"></i><span
+                                    class="button-text real-text"></i>FVTT</span></button>
                         </div>
                     </div>
                     <div class="flex-column-child">
                         <div class="container">
-                            <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-attributes" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-attributes">The Seed</span></div>
+                            <div class="aspect-legend"><i class="fa-solid fa-chevron-down"
+                                    style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-attributes"
+                                    name="toggle-display"></i><span class="clickable" name="toggle-display"
+                                    id="toggle-attributes">The Seed</span></div>
                             <div class="fieldset-content visible" id="attributes">
                                 <div class="text-input-container">
                                     <label class="text-input-label">Map Name</label>
@@ -185,27 +231,34 @@
                                 <div class="text-input-container">
                                     <label class="text-input-label">Seed</label>
                                     <input class="text-input" type="text" id="seed">
-                                    <button class="button-icon" id="random-seed"><i class="fa-solid fa-dice"></i></button>
-                                    <button class="button-icon" id="share-seed"><i class="fa-solid fa-share"></i></button>
+                                    <button class="button-icon" id="random-seed"><i
+                                            class="fa-solid fa-dice"></i></button>
+                                    <button class="button-icon" id="share-seed"><i
+                                            class="fa-solid fa-share"></i></button>
                                 </div>
                                 <div class="select-container">
-                                    <label class="select-label"><i id="biome-help" class="bi bi-question-square"></i>Biome</label>
+                                    <label class="select-label"><i id="biome-help"
+                                            class="bi bi-question-square"></i>Biome</label>
                                     <select class="select-dropdown" id="biome"></select>
                                 </div>
                                 <div class="select-container">
-                                    <label class="select-label"><i id="form-help" class="bi bi-question-square"></i>Landform</label>
+                                    <label class="select-label"><i id="form-help"
+                                            class="bi bi-question-square"></i>Landform</label>
                                     <select class="select-dropdown" id="form"></select>
                                 </div>
                                 <div class="select-container">
-                                    <label class="select-label"><i id="plane-help" class="bi bi-question-square"></i>Plane</label>
+                                    <label class="select-label"><i id="plane-help"
+                                            class="bi bi-question-square"></i>Plane</label>
                                     <select class="select-dropdown" id="plane"></select>
                                 </div>
                                 <div class="select-container">
-                                    <label class="select-label"><i id="season-help" class="bi bi-question-square"></i>Season</label>
+                                    <label class="select-label"><i id="season-help"
+                                            class="bi bi-question-square"></i>Season</label>
                                     <select class="select-dropdown" id="season"></select>
                                 </div>
                                 <div class="select-container">
-                                    <label class="select-label"><i id="climate-help" class="bi bi-question-square"></i>Climate</label>
+                                    <label class="select-label"><i id="climate-help"
+                                            class="bi bi-question-square"></i>Climate</label>
                                     <select class="select-dropdown" id="climate"></select>
                                 </div>
                             </div>
@@ -213,15 +266,18 @@
                     </div>
                     <div class="flex-column-child">
                         <div class="container">
-                            <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-dimensions" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-dimensions">The Grid</span></div>
+                            <div class="aspect-legend"><i class="fa-solid fa-chevron-down"
+                                    style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-dimensions"
+                                    name="toggle-display"></i><span class="clickable" name="toggle-display"
+                                    id="toggle-dimensions">The Grid</span></div>
                             <div class="fieldset-content visible" id="dimensions">
                                 <div class="fieldset-content visible" id="grid">
                                     <div class="radio-input-container" id="grid-type">
                                         <label class="radio-input-label">Grid Type</label>
                                         <label for="square"><i class="bi bi-square-fill"></i></label>
-                                            <input type="radio" name="grid-type" id="square" value="square" checked>
+                                        <input type="radio" name="grid-type" id="square" value="square" checked>
                                         <label for="hex"><i class="bi bi-hexagon-fill"></i></label>
-                                            <input type="radio" name="grid-type" id="hex" value="hex">
+                                        <input type="radio" name="grid-type" id="hex" value="hex">
                                     </div>
                                     <div class="select-container">
                                         <label class="select-label">Hex Type</label>
@@ -229,18 +285,40 @@
                                     </div>
                                 </div>
                                 <div class="number-input-container">
-                                    <label class="number-input-label"><i id="height-help" class="bi bi-question-square"></i>Height</label>
-                                    <input class="number-input" name="resolution" value="10" type="number" max="200" min="1" step="1" id="height-input">
+                                    <label class="number-input-label">TV Size</label>
+                                    <input class="number-input" name="resolution" value="55" type="number" max="200"
+                                        min="1" step="1" id="tv-size-inches-input">
+                                    <span class="calculated-value" id="tv-size-inches-pixels">inches</span>
+                                </div>
+                                <div class="select-container">
+                                    <label class="select-label">TV Res.</label>
+                                    <select id="tv-res" class="select-dropdown">
+                                        <option value="select-res">Select Resolution...</option>
+                                        <option value="1080p">1080p</option>
+                                        <option value="2k">2k</option>
+                                        <option value="4k">4k</option>
+                                        <option value="8k">8k</option>
+                                    </select>
+                                </div>
+                                <div class="number-input-container">
+                                    <label class="number-input-label"><i id="height-help"
+                                            class="bi bi-question-square"></i>Height</label>
+                                    <input class="number-input" name="resolution" value="10" type="number" max="200"
+                                        min="1" step="1" id="height-input">
                                     <span class="calculated-value" id="height-pixels">7,000 pixels</span>
                                 </div>
                                 <div class="number-input-container">
-                                    <label class="number-input-label"><i id="width-help" class="bi bi-question-square"></i>Width</label>
-                                    <input class="number-input" name="resolution" value="10" type="number" max="200" min="1" step="1" id="width-input">
+                                    <label class="number-input-label"><i id="width-help"
+                                            class="bi bi-question-square"></i>Width</label>
+                                    <input class="number-input" name="resolution" value="10" type="number" max="200"
+                                        min="1" step="1" id="width-input">
                                     <span class="calculated-value" id="width-pixels">7,000 pixels</span>
                                 </div>
                                 <div class="number-input-container">
-                                    <label class="number-input-label"><i id="grid-size-help" class="bi bi-question-square"></i>Grid Size</label>
-                                    <input class="number-input" name="resolution" value="75" type="number" max="200" min="1" step="1" id="grid-size">
+                                    <label class="number-input-label"><i id="grid-size-help"
+                                            class="bi bi-question-square"></i>Grid Size</label>
+                                    <input class="number-input" name="resolution" value="75" type="number" max="200"
+                                        min="1" step="1" id="grid-size">
                                     <span class="calculated-value" id="grid-size-pixels">pixels</span>
                                 </div>
                                 <div class="text-display-container">
@@ -259,38 +337,56 @@
                     </div>
                     <div class="flex-column-child">
                         <div class="container">
-                            <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-tile-labels" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-tile-labels">Tile Labels</span></div>
+                            <div class="aspect-legend"><i class="fa-solid fa-chevron-down"
+                                    style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-tile-labels"
+                                    name="toggle-display"></i><span class="clickable" name="toggle-display"
+                                    id="toggle-tile-labels">Tile Labels</span></div>
                             <div class="fieldset-content visible" id="tile-labels">
                                 <div class="checkbox-container">
-                                    <input class="checkbox visible" type="checkbox" id="terrain-checkbox" name="label-checkbox" style="display: block;">
+                                    <input class="checkbox visible" type="checkbox" id="terrain-checkbox"
+                                        name="label-checkbox" style="display: block;">
                                     <label class="checkbox-label" for="terrain-checkbox">Terrain</label>
-                                    <label id="terrain-opacity-label" style="font-size: smaller;" class="hidden">Opacity:</label>
-                                    <input id="terrain-opacity-input" class="opacity-input hidden" type="number" min="0" max="1" value="1" step="0.1">
+                                    <label id="terrain-opacity-label" style="font-size: smaller;"
+                                        class="hidden">Opacity:</label>
+                                    <input id="terrain-opacity-input" class="opacity-input hidden" type="number" min="0"
+                                        max="1" value="1" step="0.1">
                                 </div>
                                 <div class="checkbox-container">
-                                    <input class="checkbox" type="checkbox" id="coordinates-checkbox" name="label-checkbox" style="display: block;">
+                                    <input class="checkbox" type="checkbox" id="coordinates-checkbox"
+                                        name="label-checkbox" style="display: block;">
                                     <label class="checkbox-label" for="coordinates-checkbox">Coordinates</label>
-                                    <label id="coordinates-opacity-label" style="font-size: smaller;" class="hidden">Opacity:</label>
-                                    <input id="coordinates-opacity-input" class="opacity-input hidden" type="number" min="0" max="1" value="1" step="0.1">
+                                    <label id="coordinates-opacity-label" style="font-size: smaller;"
+                                        class="hidden">Opacity:</label>
+                                    <input id="coordinates-opacity-input" class="opacity-input hidden" type="number"
+                                        min="0" max="1" value="1" step="0.1">
                                 </div>
                                 <div class="checkbox-container">
-                                    <input class="checkbox" type="checkbox" id="cover-checkbox" name="label-checkbox" style="display: block;">
+                                    <input class="checkbox" type="checkbox" id="cover-checkbox" name="label-checkbox"
+                                        style="display: block;">
                                     <label class="checkbox-label" for="cover-checkbox">Cover</label>
-                                    <label id="cover-opacity-label" style="font-size: smaller;" class="hidden">Opacity:</label>
-                                    <input id="cover-opacity-input" class="opacity-input hidden" type="number" min="0" max="1" value="1" step="0.1">
+                                    <label id="cover-opacity-label" style="font-size: smaller;"
+                                        class="hidden">Opacity:</label>
+                                    <input id="cover-opacity-input" class="opacity-input hidden" type="number" min="0"
+                                        max="1" value="1" step="0.1">
                                 </div>
                                 <div class="checkbox-container">
-                                    <input class="checkbox" type="checkbox" id="elevation-checkbox" name="label-checkbox" style="display: block;">
+                                    <input class="checkbox" type="checkbox" id="elevation-checkbox"
+                                        name="label-checkbox" style="display: block;">
                                     <label class="checkbox-label" for="elevation-checkbox">Elevation</label>
-                                    <label id="elevation-opacity-label" style="font-size: smaller;" class="hidden">Opacity:</label>
-                                    <input id="elevation-opacity-input" class="opacity-input hidden" type="number" min="0" max="1" value="1" step="0.1">
+                                    <label id="elevation-opacity-label" style="font-size: smaller;"
+                                        class="hidden">Opacity:</label>
+                                    <input id="elevation-opacity-input" class="opacity-input hidden" type="number"
+                                        min="0" max="1" value="1" step="0.1">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="flex-column-child">
                         <div class="container">
-                            <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-features" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-features">Features</span></div>
+                            <div class="aspect-legend"><i class="fa-solid fa-chevron-down"
+                                    style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-features"
+                                    name="toggle-display"></i><span class="clickable" name="toggle-display"
+                                    id="toggle-features">Features</span></div>
                             <div class="fieldset-content visible" id="features">
                                 <!-- <div class="radio-input-container">
                                     <label class="radio-input-label"><i id="cliff-help" class="bi bi-question-square"></i>Cliffs</label>
@@ -334,7 +430,8 @@
                                             <span><i class="fa-solid fa-circle-xmark"></i></span>
                                         </label>
                                         <label name="radio-label">
-                                            <input class="checkbox" type="radio" name="lake" value="random" id="lake-random">
+                                            <input class="checkbox" type="radio" name="lake" value="random"
+                                                id="lake-random">
                                             <span><i class="fa-solid fa-dice"></i></span>
                                         </label>
                                         <label name="radio-label">
@@ -351,7 +448,8 @@
                                             <span><i class="fa-solid fa-circle-xmark"></i></span>
                                         </label>
                                         <label name="radio-label">
-                                            <input class="checkbox" type="radio" name="pond" value="random" id="pond-random">
+                                            <input class="checkbox" type="radio" name="pond" value="random"
+                                                id="pond-random">
                                             <span><i class="fa-solid fa-dice"></i></span>
                                         </label>
                                         <label name="radio-label">
@@ -368,7 +466,8 @@
                                             <span><i class="fa-solid fa-circle-xmark"></i></span>
                                         </label>
                                         <label name="radio-label">
-                                            <input class="checkbox" type="radio" name="river" value="random" id="river-random">
+                                            <input class="checkbox" type="radio" name="river" value="random"
+                                                id="river-random">
                                             <span><i class="fa-solid fa-dice"></i></span>
                                         </label>
                                         <label name="radio-label">
@@ -385,7 +484,8 @@
                                             <span><i class="fa-solid fa-circle-xmark"></i></span>
                                         </label>
                                         <label name="radio-label">
-                                            <input class="checkbox" type="radio" name="road" value="random" id="road-random">
+                                            <input class="checkbox" type="radio" name="road" value="random"
+                                                id="road-random">
                                             <span><i class="fa-solid fa-dice"></i></span>
                                         </label>
                                         <label name="radio-label">
@@ -402,7 +502,10 @@
             <div class="flex-column" id="panel-content">
                 <div class="flex-column-child">
                     <div class="container" id="history-container">
-                        <div class="aspect-legend"><i class="fa-solid fa-chevron-down" style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-history" name="toggle-display"></i><span class="clickable" name="toggle-display" id="toggle-history">History</span></div>
+                        <div class="aspect-legend"><i class="fa-solid fa-chevron-down"
+                                style="margin-right: 10px; cursor: pointer; rotate: 180deg;" id="toggle-history"
+                                name="toggle-display"></i><span class="clickable" name="toggle-display"
+                                id="toggle-history">History</span></div>
                         <div class="history collapsed" id="history">
                             <table class="styled-table">
                                 <thead>
@@ -424,10 +527,14 @@
                     <div class="map-tools-container hidden" id="map-tools">
                         <div class="flex-column">
                             <div class="flex-column-child flex-row map-tools">
-                                <div class="flex-row-item"><i class="fa-solid fa-up-down map-transformer" id="flip-vertically"></i></div>
-                                <div class="flex-row-item"><i class="fa-solid fa-left-right map-transformer" id="flip-horizontally"></i></div>
-                                <div class="flex-row-item"><i class="fa-solid fa-rotate-left map-transformer" id="rotate-left"></i></div>
-                                <div class="flex-row-item"><i class="fa-solid fa-rotate-right map-transformer" id="rotate-right"></i></div>
+                                <div class="flex-row-item"><i class="fa-solid fa-up-down map-transformer"
+                                        id="flip-vertically"></i></div>
+                                <div class="flex-row-item"><i class="fa-solid fa-left-right map-transformer"
+                                        id="flip-horizontally"></i></div>
+                                <div class="flex-row-item"><i class="fa-solid fa-rotate-left map-transformer"
+                                        id="rotate-left"></i></div>
+                                <div class="flex-row-item"><i class="fa-solid fa-rotate-right map-transformer"
+                                        id="rotate-right"></i></div>
                             </div>
                         </div>
                     </div>
@@ -436,7 +543,7 @@
                     <div class="battle-map-output">
                         <div id="legend" class="legend flex-column hidden"></div>
                         <div class="canvases-container" id="canvases-container">
-                            <div id="loader-container" class="loader hidden" style="margin: auto; display: none;"></div> 
+                            <div id="loader-container" class="loader hidden" style="margin: auto; display: none;"></div>
                             <canvas id="tiles" name="canvas"></canvas>
                             <canvas id="grid" name="canvas" class="label-canvas"></canvas>
                             <canvas id="images" name="canvas"></canvas>
@@ -450,12 +557,12 @@
             </div>
         </div>
         <a id="downloadAnchorElem" style="display: none; visibility: hidden;"></a>
-    </main> 
+    </main>
 </body>
 <script>
     var db = new Dexie("mikitz_ttrpg_db") // Open or create the DB
     setupDB()
-    window.addEventListener('load', async function(){
+    window.addEventListener('load', async function () {
         readThemeAndSetTheme()
         preventLinkFiring()
         setupVersionNumber()
@@ -479,6 +586,8 @@
         //     followDiv.style.left = e.pageX + 10 + 'px';
         //     followDiv.style.top = e.pageY + 10 + 'px';
         // });
+        setBattleMapPropertiesFromTvProperties()
     })
 </script>
+
 </html>

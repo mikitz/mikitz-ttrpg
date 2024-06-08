@@ -1,9 +1,21 @@
 # Change Log
 
+To-do List
+
+-   fixed: hex maps can now be generated
+
+2024/06/08
+
+-   fixed: name is now no longer undefined when exporting to FoundryVTT
+-   added: use can now input their tv size in inches and tv resolution to compute a battle map size that perfectly fits their tv in The Grid section
+-   added: user is now alerted if the grid size is less than FoundryVTT's minimum of 50 when exporting for FVTT
+-   fixed: user is no longer alerted several times when exporting to FVTT when something is wrong
+
 ### Alpha 4 -- WIP
+
 -   [ ] Real-time interactivity
-    - https://stackoverflow.com/questions/55677/how-do-i-get-the-coordinates-of-a-mouse-click-on-a-canvas-element
-    - https://stackoverflow.com/questions/24562414/why-does-canvas-re-render-the-entire-canvas-rather-than-only-a-specific-portion
+    -   https://stackoverflow.com/questions/55677/how-do-i-get-the-coordinates-of-a-mouse-click-on-a-canvas-element
+    -   https://stackoverflow.com/questions/24562414/why-does-canvas-re-render-the-entire-canvas-rather-than-only-a-specific-portion
 -   [ ] Set zoom level automatically based on element size so that the whole map is visible
 -   [ ] Backend | Algo -- Implemented hills
     -   [ ] Settings | Tile Probability -- added table to adjust the probability of a hill tile occurring by biome
@@ -13,6 +25,7 @@
     -   [ ] Settings | Cliff Size -- added a table to adjust the size of the cliffs by biome
 
 ### Alpha 3 -- WIP
+
 -   [x] UX | Map Tools -- Added four map tools: rotate clockwise/counterclockwise, and flip horizontally/vertically
 -   [ ] UX | Presets -- Added presets for dimensions
 -   [ ] UX | Dimension Tools -- Added a dimensions calculator based on common TV sizes and resolutions
@@ -27,8 +40,9 @@
     -   [ ] Settings | ... ---
 -   [x] Backend | Export -- fixed WEBP and PNG exports
 -   [x] Backend | Export -- fixed UVTT, and FVTT exports
- 
+
 ### Alpha 2 -- 6/6/2023
+
 -   [x] Seeds
 -   [x] UI | Seeds -- Random seed button
 -   [x] UI | Generation -- added a loading indicator when the battle map is generating
@@ -37,13 +51,14 @@
     -   [x] Settings | MVP -- added summer colors, biome features, biome terrain types, cover type, cover, cliff probabilities, hill probabilities, difficult terrain probabilities, normal terrain probabilities, and water type to settings.
     -   [x] Settings | Tile Label Defaults -- added a setting to set defaults for each label (visibility, opacity)
     -   [x] Settings | Grid Size Default -- added a setting to allow the user to set a default grid size
-    -   [x] Settings | Hex Type -- added a setting to allow the user to select a default hex type when hex grid is chosen 
-    -   [x] Settings | Grid Type -- added a setting to allow the user to select a default grid type 
-    -   [x] Settings | Height -- added a setting to allow the user to select a default map height 
+    -   [x] Settings | Hex Type -- added a setting to allow the user to select a default hex type when hex grid is chosen
+    -   [x] Settings | Grid Type -- added a setting to allow the user to select a default grid type
+    -   [x] Settings | Height -- added a setting to allow the user to select a default map height
     -   [x] Settings | Width -- added a setting to allow the user to select a default map width
 -   [x] UI | Copy Seed -- Added a button to copy the seed as a URL
 -   [x] UX | Generate Map from URL -- If a map seed is in the URL, then a map is automatically generated using that seed
 
 ### Alpha 1 -- 5/21/2023
+
 -   [x] Added history table
 -   [x] New UI with only one side panel
