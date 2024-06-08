@@ -55,7 +55,7 @@ function convertJsonToFoundryVTT(JSON, mergedCanvas){ // Function to build a Fou
     const worldName = localStorage.getItem('world-name')
     // Update FVTT
     const FVTT = {
-        "name": JSON.NAME, // Set the Name
+        "name": JSON.name, // Set the Name
         "navigation": true,
         "navOrder": 0,
         "navName": "",
