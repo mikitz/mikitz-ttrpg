@@ -241,7 +241,9 @@ async function generateBattleMap(battleMapData, seed) {
         hexOrientation,
         climate,
         season,
-        seedText
+        seedText,
+        battleMapData.wallsUvtt,
+        battleMapData.wallsFvtt
     );
     // console.log("🚀 ~ file: battleMap.js:137 ~ generateBattleMap ~ battleMap:", battleMap.td)
     cacheBattleMapId(battleMap);
@@ -284,6 +286,7 @@ async function generateSquareGridBattleMap(
     const hasPond = data[1][3];
     const hasRiver = data[1][4];
     const hasRoad = data[1][5];
+    const gridType = data[0][8];
 
     ctxArray.forEach((element) => {
         const ctx = element[1];
@@ -291,6 +294,8 @@ async function generateSquareGridBattleMap(
         ctx.canvas.width = width * ppi;
     });
     let tileData = {};
+    let wallUvtt = [];
+    let wallFvtt = [];
     let tile;
     let currentTile = 0;
     for (var i = 0; i < width; i++) {
@@ -319,6 +324,11 @@ async function generateSquareGridBattleMap(
             currentTile++;
             // updateProgressElement(progressElement, currentTile, totalTiles)
             tileData[`${i},${j}`] = tile;
+            // wallUvtt.push(getWallCoordinatesArrayUvtt(i, j, gridType));
+            // let foundryVttWall = addFoundryVttWall(TerrainWall, i, j, ppi); // Returns an array of all the sides
+            // for (let index = 0; index < foundryVttWall.length; index++) {
+            //     wallDataFVTT.push(foundryVttWall[index]);
+            // } // Loop through the array to add it to the final array and append it to the final FoundryVTT wall array
         }
     }
     // ------ Old Code -------

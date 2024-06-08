@@ -11,10 +11,6 @@ function mergeCanvases(arrayOfCanvasIds) {
 
     canvasses.forEach((canvas) => {
         const opacity = getOpacity(canvas);
-        console.log(
-            "🚀 ~ file: export.js:24 ~ exportCanvases ~ opacity:",
-            opacity
-        );
         ctx.globalAlpha = opacity; // Set the opacity for this layer
         ctx.drawImage(canvas, 0, 0); // Draw every canvas on the dummy canvas
     });
@@ -45,8 +41,8 @@ function getOpacity(canvas) {
 function convertJsonToFoundryVTT(JSON, mergedCanvas) {
     // Function to build a FoundryVTT Scene JSON from JSON
     function getFoundryVttGridType(data) {
-        const gridType = data.GRID;
-        const hexOrientation = data.HEX_ORIENTATION;
+        const gridType = data.grid_type;
+        const hexOrientation = data.hex_orientation;
         let foundryGridType;
         if (gridType == "square") return (foundryGridType = 1);
         if (gridType == "hex" && hexOrientation == "column-even")
@@ -65,8 +61,8 @@ function convertJsonToFoundryVTT(JSON, mergedCanvas) {
         .toDataURL("image/webp")
         .split(";base64,")[1];
     if (!imageString) return alert("Please generate a map first.");
-    const width = JSON.WIDTH * JSON.PPI;
-    const height = JSON.HEIGHT * JSON.PPI;
+    const width = JSON.w * JSON.ppi;
+    const height = JSON.h * JSON.ppi;
     const padding = 0;
     const worldName = localStorage.getItem("world-name");
     // Update FVTT
@@ -84,7 +80,7 @@ function convertJsonToFoundryVTT(JSON, mergedCanvas) {
         initial: null,
         backgroundColor: "#999999",
         gridType: getFoundryVttGridType(JSON), // Set the Grid Type
-        grid: JSON.PPI, // Set the Grid Size
+        grid: JSON.ppi, // Set the Grid Size
         shiftX: 0,
         shiftY: 0,
         gridColor: "#000000",
@@ -104,7 +100,7 @@ function convertJsonToFoundryVTT(JSON, mergedCanvas) {
         sounds: [],
         templates: [],
         tiles: [],
-        walls: JSON.WALLS_FVTT,
+        walls: JSON.wallFvtt, // TODO: this is fucked
         playlist: null,
         playlistSound: null,
         journal: null,
@@ -255,4 +251,26 @@ function exportSeedUrl() {
     ])[1];
     let url = `https://mikitz.github.io/mikitz-ttrpg/html/pages/battle-map-generator.html?seed=${seedText}`;
     copyToClipboard(url, true);
+}
+// only run this function in FoundryVTT as a script macro
+async function convertNormalToTerrainWalls() {
+    const { NORMAL, LIMITED } = CONST.WALL_SENSE_TYPES;
+    const normalWalls = canvas.scene.walls.filter((i) => {
+        const { light, move, sight, sound } = i.data;
+        return (
+            light === NORMAL &&
+            move === NORMAL &&
+            sight === NORMAL &&
+            sound === NORMAL
+        );
+    });
+    console.log("🚀 ~ normalWalls ~ normalWalls:", normalWalls);
+    const terrainWalls = normalWalls.map((i) => ({
+        _id: i.id,
+        light: LIMITED,
+        sight: LIMITED,
+        sound: LIMITED,
+    }));
+    console.log("🚀 ~ terrainWalls ~ terrainWalls:", terrainWalls);
+    await canvas.scene.updateEmbeddedDocuments("Wall", terrainWalls);
 }

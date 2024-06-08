@@ -3,10 +3,11 @@
 To-do List
 
 -   fixed: hex maps can now be generated
+-   fixed: walls now work... this is a fucking mess
 
 2024/06/08
 
--   fixed: name is now no longer undefined when exporting to FoundryVTT
+-   fixed: a whole bunch of keys were wrong when exporting to FoundryVTT
 -   added: use can now input their tv size in inches and tv resolution to compute a battle map size that perfectly fits their tv in The Grid section
 -   added: user is now alerted if the grid size is less than FoundryVTT's minimum of 50 when exporting for FVTT
 -   fixed: user is no longer alerted several times when exporting to FVTT when something is wrong

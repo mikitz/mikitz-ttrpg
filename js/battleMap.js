@@ -262,11 +262,11 @@ function setupAllListeners() {
                 "cover",
             ];
             canvas = mergeCanvases(canvases);
-            console.log("🚀 ~ canvas:", canvas);
             const currentBattleMapId = localStorage.getItem(
                 "current-battle-map-id"
             );
             let currentBattleMap = await db.bmg_maps.get(currentBattleMapId);
+            console.log("🚀 ~ currentBattleMap:", currentBattleMap);
             const name = currentBattleMap.name;
             currentBattleMap = convertJsonToFoundryVTT(
                 currentBattleMap,
@@ -328,10 +328,6 @@ function setupAllListeners() {
         .addEventListener("click", function () {
             document.getElementById("seed").value = randomWordSlug();
         });
-    // Function for the generate button's onclick
-    async function clickedHard(buttonElement) {
-        generateBattleMapOnClick();
-    }
     // Function that is called when the Generate Battle Map button is clicked
     async function generateBattleMapOnClick() {
         const startTime = Date.now();
@@ -1087,7 +1083,9 @@ async function generateBattleMapJson() {
         tableTerrain
     );
     let wallData = terrainTypes[1];
+    console.log("🚀 ~ generateBattleMapJson ~ wallData:", wallData);
     let wallDataFVTT = terrainTypes[2];
+    console.log("🚀 ~ generateBattleMapJson ~ wall:", wall);
     terrainTypes = terrainTypes[0];
 
     // =============
@@ -2397,6 +2395,7 @@ async function generateAllTiles(
         ];
         return wall;
     }
+    console.log("🚀 ~ wallDataFVTT:", wallDataFVTT);
     return [terrainTypes, wallDataUVTT, wallDataFVTT];
 }
 // ========= Battle_Maps_Drawing ==========
