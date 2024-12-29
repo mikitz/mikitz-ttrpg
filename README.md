@@ -68,3 +68,8 @@ I have big dreams, okay? I can see it now… A fully 3D galaxy map for your sci-
 [Change Log](https://github.com/mikitz/mikitz-ttrpg/blob/main/changelogs/world-gen.md) | [Roadmap](https://github.com/users/mikitz/projects/12/views/1)
 
 Mikitz’ World Generator is my magnum opus. It brings together all of the aforementioned tools, excluding the NPC Generator (for now). It allows you to track any number of parties on a beautifully rendered 3D ‘hex sphere’ ([Goldberg polyhedra](https://en.wikipedia.org/wiki/Goldberg_polyhedron)) world map with gorgeous hex tiles. It comes preloaded with several well-known fantasy worlds or you can generate your own and share seeds with our community. And of course, every setting that’s part of generation is fully customizable in the settings! When moving a party to another hex, time is automatically advanced in that party's ‘time instance’ and a random encounter is automatically rolled, then if a battle map is necessary one is automatically generated and exported. With the power of [Babylon.js](https://www.babylonjs.com/), day and night cycles are also simulated. Want to add your own hex tile set? Create a [pull request](https://github.com/mikitz/world-generator/pulls)!
+
+## Icons
+
+https://zeshio.itch.io/pixel-hex?ac=qvfLWaeHch
+https://zeshio.itch.io/pixel-hex-2
