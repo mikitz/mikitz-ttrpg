@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file://C%3A/Users/mfitz/Documents/GitHubClones/mikitz/mikitz-ttrpg/components/BackButton.tsx"],"sourcesContent":["/** @format */\r\n\r\n\"use client\";\r\nimport { useRouter } from \"next/navigation\";\r\nimport { Button } from \"./ui/button\";\r\nimport { ArrowLeft } from \"lucide-react\";\r\n\r\nexport default function BackButton() {\r\n    const router = useRouter();\r\n    return (\r\n        <Button\r\n            variant={\"default\"}\r\n            onClick={router.back}\r\n        >\r\n            <ArrowLeft /> Go Back\r\n        </Button>\r\n    );\r\n}\r\n"],"names":[],"mappings":"AAAA,YAAY;;;;AAGZ;AACA;AACA;;;AAHA;;;;AAKe,SAAS;;IACpB,MAAM,SAAS,CAAA,GAAA,qIAAA,CAAA,YAAS,AAAD;IACvB,qBACI,6LAAC,8HAAA,CAAA,SAAM;QACH,SAAS;QACT,SAAS,OAAO,IAAI;;0BAEpB,6LAAC,mNAAA,CAAA,YAAS;;;;;YAAG;;;;;;;AAGzB;GAVwB;;QACL,qIAAA,CAAA,YAAS;;;KADJ"}},
-    {"offset": {"line": 51, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
-}

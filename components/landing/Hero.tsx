@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { ALPHA_TESTERS_COUNT, DOMAIN_NAME } from "@/settings/settings";
+import { DOMAIN_NAME } from "@/settings/settings";
 
 export default function Hero() {
     return (
