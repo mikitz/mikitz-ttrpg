@@ -1,0 +1,21 @@
+/* [project]/app/snapitc_6709bfcc.module.css [app-client] (css) */
+@font-face {
+  font-family: snapItc;
+  src: url("/_next/static/media/Snap_ITC-s.p.bfdb3ba5.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: snapItc Fallback;
+  src: local(Arial);
+  ascent-override: 77.53%;
+  descent-override: 20.81%;
+  line-gap-override: 0.0%;
+  size-adjust: 130.68%;
+}
+
+.snapitc_6709bfcc-module__y3gqFG__className {
+  font-family: snapItc, snapItc Fallback;
+}
+
+/*# sourceMappingURL=app_snapitc_6709bfcc_module_b52d8e.css.map*/

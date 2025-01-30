@@ -1,6 +1,15 @@
 /** @format */
 
-import { MonitorCog, Wand2, Dices, ScrollText, Hammer } from "lucide-react";
+import {
+    BookOpen,
+    Calendar,
+    Globe,
+    Hexagon,
+    ShoppingBag,
+    User,
+    MapPin,
+    Map as MapIcon, // Import and alias the Map icon
+} from "lucide-react";
 import {
     Card,
     CardHeader,
@@ -8,9 +17,8 @@ import {
     CardDescription,
     CardContent,
 } from "@/components/ui/card";
-import { APP_NAME } from "@/settings/settings";
 import React from "react";
-import { cn } from "@/lib/utils"; // Make sure you have this utility file
+import { cn } from "@/lib/utils"; // Ensure this utility exists
 
 // Define types
 interface ContentItem {
@@ -83,20 +91,12 @@ export default function FeaturesSection() {
                 <div className="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
                     <h2
                         id="features"
-                        className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
+                        className="font-[family-name:var(--font-snap-itc) scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
                     >
-                        Your time as a teacher is extremely valuable
+                        Features
                     </h2>
                     <p className="text-muted-foreground">
-                        As a teacher myself, I know I&apos;m expected to do too
-                        much.{" "}
-                    </p>
-                    <p className="text-muted-foreground">
-                        Use {APP_NAME} to quickly manage your class with
-                        classroom screens, track attendance, auto-generate
-                        worksheets, and assign students fairly. Everything is
-                        designed to save you time, keep students engaged, and
-                        make your life as a teacher far easier.
+                        Things to enhance your things for things.
                     </p>
                 </div>
 
@@ -119,121 +119,233 @@ export default function FeaturesSection() {
 
 const featureCards = [
     {
-        title: "Screens",
-        description: "Display & control classroom screens easily.",
-        icon: MonitorCog,
-        link: "/features#screens",
-        underConstruction: true,
-        content: [
-            {
-                name: "Classroom Screen",
-                description: "for the whole class to see",
-            },
-            {
-                name: "Teacher Screen",
-                description: "control the classroom screen on mobile",
-            },
-        ],
-    },
-    {
-        title: "Tools",
-        description: "Helpful add-ons for everyday tasks.",
-        icon: Hammer,
-        link: "/features#tools",
-        underConstruction: false,
-        content: [
-            {
-                name: "Attendance",
-                description: "quickly manage daily attendance",
-            },
-            {
-                name: "Noise Monitor",
-                description: "alert the class if it gets too loud",
-            },
-            {
-                name: "Points",
-                description: "reward or deduct points for student behavior",
-            },
-            {
-                name: "Tasks",
-                description: "manage student tasks so they know what to do",
-            },
-            {
-                name: "Expectations",
-                description: "set student expectations, like essay length",
-            },
-        ],
-    },
-    {
-        title: "Generators",
-        description: "Auto-create custom worksheets with or without AI.",
-        icon: Wand2,
-        link: "/features#generators",
-        underConstruction: true,
-        content: [
-            {
-                name: "Cloze",
-                description: "auto-generate fill-in-the-blank passages",
-            },
-            {
-                name: "Crossword Puzzle",
-                description: "easily create fun puzzles",
-            },
-            {
-                name: "Word Search",
-                description: "generate random word searches",
-            },
-        ],
-    },
-    {
-        title: "Assigners",
-        description: "Fairly distribute tasks & seating.",
-        icon: Dices,
-        link: "/features#assigners",
-        underConstruction: false,
-        content: [
-            {
-                name: "Random",
-                description: "pick a random student or group",
-            },
-            {
-                name: "Round-Robin",
-                description: "ensure everyone gets a turn",
-            },
-            {
-                name: "Seats",
-                description:
-                    "assign seats, prioritizing new neighbors and seats",
-            },
-        ],
-    },
-    {
-        title: "Student Dashboard",
+        title: "Battle Map Generator",
         description:
-            "Empower students to track points and behavior at a glance.",
-        icon: ScrollText,
-        link: "/features#student-dashboard",
+            "Generate fully customizable random battle maps considering biome, climate, and season.",
+        icon: MapIcon, // Use the aliased MapIcon
+        link: "/features#battle-map-generator",
         underConstruction: false,
         content: [
             {
-                name: "Point History",
-                description: "review positive & negative point changes",
+                name: "Customization",
+                description:
+                    "Adjust biome, climate, season, height, width, and grid size.",
             },
             {
-                name: "Behavior Stats",
-                description: "quick breakdown of behaviors and rewards",
+                name: "Export Options",
+                description:
+                    "Export maps as image, JSON, UVTT, or FVTT formats.",
             },
             {
-                name: "Redemption History",
-                description: "see what has been redeemed",
+                name: "Beautiful Assets",
+                description:
+                    "Utilizes assets from Forgotten Adventures for stunning visuals.",
             },
             {
-                name: "Expectations",
-                description: "see any expectations set for them",
+                name: "Advanced Settings",
+                description:
+                    "Customize how climate and season affect map variables.",
+            },
+        ],
+    },
+    {
+        title: "Calendar",
+        description:
+            "A note-taking tool preloaded with various fantasy calendars for event management.",
+        icon: Calendar, // Lucide Calendar icon
+        link: "/features#calendar",
+        underConstruction: true,
+        content: [
+            {
+                name: "Preloaded Calendars",
+                description:
+                    "Includes various fantasy calendars for customization.",
             },
             {
-                name: "Tasks",
-                description: "see which tasks need to be worked on",
+                name: "Event Management",
+                description:
+                    "Add events or reminders displayed to GMs and players.",
+            },
+            {
+                name: "Reminders",
+                description: "Set reminders for important in-game events.",
+            },
+        ],
+    },
+    {
+        title: "Encounter Generator",
+        description:
+            "Create balanced combat and non-combat encounters tailored to your campaign's environment.",
+        icon: MapPin, // Lucide MapPin icon as a substitute for EncounterIcon
+        link: "/features#encounter-generator",
+        underConstruction: false,
+        content: [
+            {
+                name: "Biome & Climate",
+                description:
+                    "Generate encounters based on biome, climate, and season.",
+            },
+            {
+                name: "Adjustable Probabilities",
+                description:
+                    "Customize encounter probabilities in the settings.",
+            },
+            {
+                name: "Party Balancing",
+                description:
+                    "Save different parties with various levels and sizes for balanced encounters.",
+            },
+            {
+                name: "Sequential Encounters",
+                description:
+                    "Generate sequential encounters for different variables.",
+            },
+        ],
+    },
+    {
+        title: "Magic Shop Generator",
+        description:
+            "Create population-based magic shops with customizable filters and settings.",
+        icon: ShoppingBag, // Lucide ShoppingBag icon
+        link: "/features#magic-shop-generator",
+        underConstruction: false,
+        content: [
+            {
+                name: "City Preloads",
+                description:
+                    "Includes various Forgotten Realms cities and allows adding your own.",
+            },
+            {
+                name: "Wealth & Magic Settings",
+                description:
+                    "Set the wealth and 'magic-ness' for each city to influence shop generation.",
+            },
+            {
+                name: "Pricing Customization",
+                description:
+                    "Adjust starting prices and item quantities based on population settings.",
+            },
+            {
+                name: "Book & Item Filters",
+                description:
+                    "Filter available books and items to tailor the shop inventory.",
+            },
+        ],
+    },
+    {
+        title: "NPC Generator",
+        description:
+            "Generate diverse NPCs with detailed personalities, backgrounds, and appearances.",
+        icon: User, // Lucide User icon
+        link: "/features#npc-generator",
+        underConstruction: false,
+        content: [
+            {
+                name: "Diverse Representation",
+                description: "Supports LGBTQ+ NPCs for inclusive storytelling.",
+            },
+            {
+                name: "Detailed Personalities",
+                description:
+                    "Generates unique personalities and backgrounds based on D&D 5e.",
+            },
+            {
+                name: "Physical Appearance",
+                description:
+                    "Creates comprehensive physical descriptions for each NPC.",
+            },
+        ],
+    },
+    {
+        title: "Spellbook Generator",
+        description:
+            "Randomly generate spellbooks tailored to a wizard's level and subclass.",
+        icon: BookOpen, // Lucide BookOpen icon
+        link: "/features#spellbook-generator",
+        underConstruction: false,
+        content: [
+            {
+                name: "Level-Based Spells",
+                description:
+                    "Generates spells appropriate to the wizard's level.",
+            },
+            {
+                name: "Subclass Specific",
+                description:
+                    "Tailors spellbooks based on the wizard's subclass.",
+            },
+            {
+                name: "Randomization",
+                description: "Ensures each spellbook is unique and varied.",
+            },
+        ],
+    },
+    {
+        title: "System Generator",
+        description:
+            "Coming soon! A fully 3D galaxy map for sci-fi or Spelljammer campaigns.",
+        icon: Globe, // Lucide Globe icon as a substitute for SystemIcon
+        link: "/features#system-generator",
+        underConstruction: true,
+        content: [
+            {
+                name: "3D Galaxy Map",
+                description:
+                    "Zoomable from galaxy scale down to individual worlds.",
+            },
+            {
+                name: "Spelljammer Support",
+                description:
+                    "Ideal for Spelljammer campaigns with detailed celestial bodies.",
+            },
+            {
+                name: "Future Features",
+                description: "Stay tuned for more exciting functionalities!",
+            },
+        ],
+    },
+    {
+        title: "World Generator",
+        description:
+            "Create and manage expansive 3D hex sphere worlds with dynamic party tracking.",
+        icon: Hexagon, // Lucide Hexagon icon
+        link: "/features#world-generator",
+        underConstruction: true,
+        content: [
+            {
+                name: "3D Hex Sphere Map",
+                description:
+                    "Beautifully rendered hex tiles using Goldberg polyhedra.",
+            },
+            {
+                name: "Party Tracking",
+                description:
+                    "Track multiple parties with individual time instances and random encounters.",
+            },
+            {
+                name: "Preloaded Worlds",
+                description:
+                    "Includes several well-known fantasy worlds or generate your own.",
+            },
+            {
+                name: "Community Seeds",
+                description:
+                    "Share and use seeds with the community for diverse world generation.",
+            },
+            {
+                name: "Automated Processes",
+                description:
+                    "Automatic time advancement, encounter rolling, and battle map generation.",
+            },
+            {
+                name: "Day & Night Cycles",
+                description:
+                    "Simulated using Babylon.js for immersive gameplay.",
+            },
+            {
+                name: "Custom Hex Tiles",
+                description:
+                    "Add your own hex tile sets by creating pull requests.",
             },
         ],
     },

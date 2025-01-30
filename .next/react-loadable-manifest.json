@@ -1,0 +1,25 @@
+{
+  "app/page.tsx -> @/components/landing/FAQ": {
+    "id": "app/page.tsx -> @/components/landing/FAQ",
+    "files": [
+      "static/chunks/node_modules_a44368._.js",
+      "static/chunks/_d1ca16._.js",
+      "static/chunks/components_landing_FAQ_tsx_454d32._.js"
+    ]
+  },
+  "app/page.tsx -> @/components/landing/Features": {
+    "id": "app/page.tsx -> @/components/landing/Features",
+    "files": [
+      "static/chunks/node_modules_064771._.js",
+      "static/chunks/_19772c._.js",
+      "static/chunks/components_landing_Features_tsx_454d32._.js"
+    ]
+  },
+  "app/page.tsx -> @/components/landing/Pricing": {
+    "id": "app/page.tsx -> @/components/landing/Pricing",
+    "files": [
+      "static/chunks/_8b46a0._.js",
+      "static/chunks/components_landing_Pricing_tsx_454d32._.js"
+    ]
+  }
+}

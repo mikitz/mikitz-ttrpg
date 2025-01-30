@@ -28,11 +28,11 @@ export function Navbar() {
                     <div className="flex gap-2 items-center">
                         <Button variant="default">
                             <Link
-                                href="https://forms.gle/NTZgCEQSxMzmdDYY7"
+                                href=""
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                Beta sign up
+                                Generate
                             </Link>
                         </Button>
                         <div className="flex sm:ml-0 gap-2">
