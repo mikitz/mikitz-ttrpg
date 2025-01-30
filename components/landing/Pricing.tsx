@@ -23,9 +23,9 @@ export default function PricingSection() {
                 <p className="max-w-2xl">
                     All I can tell you is that it will always be free by storing
                     your data in your browser on your one computer forever.
-                    Also, I'll have a Docker image that you can self-host. Paid
-                    plans will be for those who want to use the site from many
-                    different browsers/computers.
+                    Also, I&apos;ll have a Docker image that you can self-host.
+                    Paid plans will be for those who want to use the site from
+                    many different browsers/computers.
                 </p>
                 {/* <PricingCardGrid /> */}
                 {/* <ComparisonTable /> */}
