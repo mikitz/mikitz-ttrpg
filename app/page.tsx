@@ -1,6 +1,7 @@
 /** @format */
 
 // app/page.tsx
+import DonateSection from "@/components/donate/DonateSection";
 import Hero from "@/components/landing/Hero";
 import dynamic from "next/dynamic";
 
@@ -14,6 +15,7 @@ export default function Home() {
             <Hero />
             <FeaturesSection />
             <PricingSection />
+            <DonateSection />
             <FAQ />
         </div>
     );

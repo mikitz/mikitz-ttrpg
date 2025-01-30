@@ -19,8 +19,7 @@ export default function Footer() {
                     <div className="md:col-span-full lg:col-span-1">
                         <LogoHeader />
                         <p className="mt-4 text-muted-foreground text-sm">
-                            Gamifying classroom engagement through modern
-                            technology
+                            Automating TTRPG things with things.
                         </p>
                     </div>
 

@@ -21,8 +21,11 @@ export default function PricingSection() {
                     </p>
                 </div>
                 <p className="max-w-2xl">
-                    {APP_NAME} is currently in alpha and free for authorized
-                    users only. Stay tuned for pricing information.
+                    All I can tell you is that it will always be free by storing
+                    your data in your browser on your one computer forever.
+                    Also, I'll have a Docker image that you can self-host. Paid
+                    plans will be for those who want to use the site from many
+                    different browsers/computers.
                 </p>
                 {/* <PricingCardGrid /> */}
                 {/* <ComparisonTable /> */}
