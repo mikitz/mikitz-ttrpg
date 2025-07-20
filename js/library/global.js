@@ -95,9 +95,9 @@ function downloadAsCSV(csv, name){
 }
 // Function to make a toast using Toastify (https://github.com/apvarun/toastify-js/blob/master/README.md)
 function makeToast(content, type){
-    if (type == 'success') icon = '/mikitz-ttrpg/img/icons/circle-check-solid.svg'
-    if (type == 'warning') icon = '/mikitz-ttrpg/img/icons/triangle-exclamation-solid.svg'
-    if (type == 'error') icon = '/mikitz-ttrpg/img/icons/circle-xmark-solid.svg'
+    if (type == 'success') icon = '/mikitz-ttrpg-old/img/icons/circle-check-solid.svg'
+    if (type == 'warning') icon = '/mikitz-ttrpg-old/img/icons/triangle-exclamation-solid.svg'
+    if (type == 'error') icon = '/mikitz-ttrpg-old/img/icons/circle-xmark-solid.svg'
 
     Toastify({
         avatar: icon,
@@ -138,7 +138,7 @@ function getRndInteger(min, max) {
     return parseInt(Math.floor(Math.random() * (max + 1 - min)) + min);
 }
 async function replaceMonstersWithLinks(encounter) {
-    let bestiaryProcessed = await fetchLocalJson(`/mikitz-ttrpg/data/json/bestiary`)
+    let bestiaryProcessed = await fetchLocalJson(`/mikitz-ttrpg-old/data/json/bestiary`)
     for (let index = 0; index < bestiaryProcessed.length; index++) {
         const element = bestiaryProcessed[index];
         let name = element.name;
