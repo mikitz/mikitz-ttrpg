@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mikitz' Encounter Generator</title>
-    <link rel="icon" type="image/x-icon" href="/mikitz-ttrpg-old/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/mikitz-ttrpg/favicon.ico">
     <!-- ICONS -->
     <script src="https://kit.fontawesome.com/7e282d14cd.js" crossorigin="anonymous"></script>
     <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet'>
@@ -15,15 +15,15 @@
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
     <!-- STYLESHEETS -->
-    <link rel="stylesheet" href="/mikitz-ttrpg-old/css/styles.min.css" />
+    <link rel="stylesheet" href="/mikitz-ttrpg/css/styles.min.css" />
     <!-- MAIN -->
-    <script src="/mikitz-ttrpg-old/js/encounter.js"></script>
+    <script src="/mikitz-ttrpg/js/encounter.js"></script>
     <!-- LOCAL LIBRARIES -->
-    <script src="/mikitz-ttrpg-old/js/library/database.js"></script>
-    <script src="/mikitz-ttrpg-old/js/library/fraction.js"></script>
-    <script src="/mikitz-ttrpg-old/index.js"></script>
-    <script src="/mikitz-ttrpg-old/js/library/global.js"></script>
-    <script src="/mikitz-ttrpg-old/js/library/droll.js"></script>
+    <script src="/mikitz-ttrpg/js/library/database.js"></script>
+    <script src="/mikitz-ttrpg/js/library/fraction.js"></script>
+    <script src="/mikitz-ttrpg/index.js"></script>
+    <script src="/mikitz-ttrpg/js/library/global.js"></script>
+    <script src="/mikitz-ttrpg/js/library/droll.js"></script>
     <!-- LIBRARIES -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
@@ -32,17 +32,17 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
     <!-- DATA -->
-    <script src="/mikitz-ttrpg-old/data/js-data/encounter-generator/selectsData.js"></script>
-    <script src="/mikitz-ttrpg-old/data/js-data/encounter-generator/nonCombatEncounters.js"></script>
-    <script src="/mikitz-ttrpg-old/data/js-data/encounter-generator/hazards.js"></script>
-    <script src="/mikitz-ttrpg-old/data/js-data/encounter-generator/combatEncounters.js"></script>
-    <script src="/mikitz-ttrpg-old/data/js-data/encounter-generator/weather.js"></script>
-    <script src="/mikitz-ttrpg-old/data/js-data/encounter-generator/ship.js"></script>
-    <script src="/mikitz-ttrpg-old/data/js-data/encounter-generator/mysteriousIsland.js"></script>
-    <script src="/mikitz-ttrpg-old/data/js-data/encounter-generator/dragons.js"></script>
-    <script src="/mikitz-ttrpg-old/data/js-data/encounter-generator/encounterDefaults.js"></script>
+    <script src="/mikitz-ttrpg/data/js-data/encounter-generator/selectsData.js"></script>
+    <script src="/mikitz-ttrpg/data/js-data/encounter-generator/nonCombatEncounters.js"></script>
+    <script src="/mikitz-ttrpg/data/js-data/encounter-generator/hazards.js"></script>
+    <script src="/mikitz-ttrpg/data/js-data/encounter-generator/combatEncounters.js"></script>
+    <script src="/mikitz-ttrpg/data/js-data/encounter-generator/weather.js"></script>
+    <script src="/mikitz-ttrpg/data/js-data/encounter-generator/ship.js"></script>
+    <script src="/mikitz-ttrpg/data/js-data/encounter-generator/mysteriousIsland.js"></script>
+    <script src="/mikitz-ttrpg/data/js-data/encounter-generator/dragons.js"></script>
+    <script src="/mikitz-ttrpg/data/js-data/encounter-generator/encounterDefaults.js"></script>
     <!-- TABLES -->
-    <script src="/mikitz-ttrpg-old/data/version_numbers.js"></script>
+    <script src="/mikitz-ttrpg/data/version_numbers.js"></script>
 
 </head>
 <style>
@@ -79,17 +79,17 @@
 </style>
 <body>
     <div class="site-nav">
-        <a class="site-button" id="index" href="/mikitz-ttrpg-old/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
-        <a class="site-button" id="battle-map-generator" href="/mikitz-ttrpg-old/html/pages/battle-map-generator.html"><i class="fa-solid fa-map"></i><span>Battle Map</span></a>
+        <a class="site-button" id="index" href="/mikitz-ttrpg/index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a class="site-button" id="battle-map-generator" href="/mikitz-ttrpg/html/pages/battle-map-generator.html"><i class="fa-solid fa-map"></i><span>Battle Map</span></a>
         <!-- <a class="site-button-under-construction" id="calendar"><i class="fa-solid fa-calendar"></i><span>Calendar</span></a> -->
-        <a class="site-button-active" id="encounter-generator" href="/mikitz-ttrpg-old/html/pages/encounter-generator.html"><i class="fa-solid fa-location-dot"></i><span>Encounter</span></a> 
-        <a class="site-button" id="magic-shop-generator" href="/mikitz-ttrpg-old/html/pages/magic-shop-generator.html"><i class="fa-solid fa-store"></i><span>Magic Shop</span></a>
-        <a class="site-button" id="npc-generator" href="/mikitz-ttrpg-old/html/pages/npc-generator.html"><i class="fa-solid fa-person-half-dress"></i><span>NPC</span></a>
-        <a class="site-button" id="spellbook-generator" href="/mikitz-ttrpg-old/html/pages/spellbook-generator.html"><i class="fa-solid fa-book"></i><span>Spellbook</span></a>
-        <!-- <a class="site-button-under-construction" id="star-system-and-galaxy-generator" href="/mikitz-ttrpg-old/html/pages/star-system-and-galaxy-generator.html"><i class="fa-regular fa-circle-dot"></i><span>System</span></a> -->
-        <a class="site-button-under-construction" id="world-generator" href="/mikitz-ttrpg-old/html/pages/world-generator.html"><i class="fa-solid fa-earth-americas"></i><span>World</span></a>
-        <a class="site-button" id="settings" href="/mikitz-ttrpg-old/html/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
-        <a class="site-button" id="wiki" href="/mikitz-ttrpg-old/html/wiki.html"><i class="fa-solid fa-book-open"></i><span>Wiki</span></a>
+        <a class="site-button-active" id="encounter-generator" href="/mikitz-ttrpg/html/pages/encounter-generator.html"><i class="fa-solid fa-location-dot"></i><span>Encounter</span></a> 
+        <a class="site-button" id="magic-shop-generator" href="/mikitz-ttrpg/html/pages/magic-shop-generator.html"><i class="fa-solid fa-store"></i><span>Magic Shop</span></a>
+        <a class="site-button" id="npc-generator" href="/mikitz-ttrpg/html/pages/npc-generator.html"><i class="fa-solid fa-person-half-dress"></i><span>NPC</span></a>
+        <a class="site-button" id="spellbook-generator" href="/mikitz-ttrpg/html/pages/spellbook-generator.html"><i class="fa-solid fa-book"></i><span>Spellbook</span></a>
+        <!-- <a class="site-button-under-construction" id="star-system-and-galaxy-generator" href="/mikitz-ttrpg/html/pages/star-system-and-galaxy-generator.html"><i class="fa-regular fa-circle-dot"></i><span>System</span></a> -->
+        <a class="site-button-under-construction" id="world-generator" href="/mikitz-ttrpg/html/pages/world-generator.html"><i class="fa-solid fa-earth-americas"></i><span>World</span></a>
+        <a class="site-button" id="settings" href="/mikitz-ttrpg/html/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+        <a class="site-button" id="wiki" href="/mikitz-ttrpg/html/wiki.html"><i class="fa-solid fa-book-open"></i><span>Wiki</span></a>
     </div>
     <div class="sub-nav" id="sub-nav">
         <a class="sub-nav-version-number nav-a" style="text-decoration: underline;" id="version-link" href="" target="_blank" rel="noopener noreferrer">

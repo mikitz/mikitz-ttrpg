@@ -1,3 +1,5 @@
+/** @format */
+
 // Define a function to convert a string to Title case
 String.prototype.toTitleCase = function () {
     // Define a list of words not to be capitalized
@@ -35,58 +37,69 @@ String.prototype.toTitleCase = function () {
     });
 };
 // Function to trim n number of characters from a string
-function cutString(string, start, quantity){
-    let finalString
-    if (quantity > string.length) return console.error("Quantity cannot exceed the length of the string")
-    if (start === 'front') {
-        finalString = ''
-    } 
-    else if (start === 'back') {
+function cutString(string, start, quantity) {
+    let finalString;
+    if (quantity > string.length)
+        return console.error("Quantity cannot exceed the length of the string");
+    if (start === "front") {
+        finalString = "";
+    } else if (start === "back") {
         finalString = string.substring(0, string.length - quantity);
     }
-    return finalString
+    return finalString;
 }
 // Function to turn a JSON into a CSV
-function JSONtoCSV(json){
-    if (json.some(obj => "LINK" in obj)) {
+function JSONtoCSV(json) {
+    if (json.some((obj) => "LINK" in obj)) {
         json = json.map((item) => {
-            return { ...item, LINK: convertLinkToExcelHyperlink(item.LINK), }
+            return { ...item, LINK: convertLinkToExcelHyperlink(item.LINK) };
         });
     }
-    const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
-    const header = Object.keys(json[0])
+    const replacer = (key, value) => (value === null ? "" : value); // specify how you want to handle null values here
+    const header = Object.keys(json[0]);
     let csv = [
-        header.join(','), // header row first
-        ...json.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
-    ].join('\r\n').replaceAll('\\"', '"')
-    return csv
+        header.join(","), // header row first
+        ...json.map((row) =>
+            header
+                .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+                .join(",")
+        ),
+    ]
+        .join("\r\n")
+        .replaceAll('\\"', '"');
+    return csv;
 }
 // Function to convert URL to Excel HYPERLINK
 function convertLinkToExcelHyperlink(link, linkName) {
-    if (linkName) return `=HYPERLINK(""${link}"", ""${linkName}"")`
-    else return `=HYPERLINK(""${link}"")`
+    if (linkName) return `=HYPERLINK(""${link}"", ""${linkName}"")`;
+    else return `=HYPERLINK(""${link}"")`;
 }
 function getSelectedOptionText(selectId) {
     let selectElement = document.getElementById(selectId);
-    if (!selectElement) { throw new Error(`No select element found with id "${selectId}"`) }
-    let selectedOptionElement = selectElement.options[selectElement.selectedIndex];
+    if (!selectElement) {
+        throw new Error(`No select element found with id "${selectId}"`);
+    }
+    let selectedOptionElement =
+        selectElement.options[selectElement.selectedIndex];
     return selectedOptionElement.innerText;
-  }
+}
 // Function to download a CSV
-function downloadAsCSV(csv, name){
+function downloadAsCSV(csv, name) {
     // EXPORT THE TABLE
-    var blob = new Blob([csv], { type : 'text/csv;charset=utf-8;'})
-    const filename = `${name}.csv`
-    if (navigator.msSaveBlob) { // IE 10+
+    var blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const filename = `${name}.csv`;
+    if (navigator.msSaveBlob) {
+        // IE 10+
         navigator.msSaveBlob(blob, filename);
     } else {
         var link = document.createElement("a");
-        if (link.download !== undefined) { // feature detection
+        if (link.download !== undefined) {
+            // feature detection
             // Browsers that support HTML5 download attribute
             var url = URL.createObjectURL(blob);
             link.setAttribute("href", url);
             link.setAttribute("download", filename);
-            link.style.visibility = 'hidden';
+            link.style.visibility = "hidden";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -94,43 +107,52 @@ function downloadAsCSV(csv, name){
     }
 }
 // Function to make a toast using Toastify (https://github.com/apvarun/toastify-js/blob/master/README.md)
-function makeToast(content, type){
-    if (type == 'success') icon = '/mikitz-ttrpg-old/img/icons/circle-check-solid.svg'
-    if (type == 'warning') icon = '/mikitz-ttrpg-old/img/icons/triangle-exclamation-solid.svg'
-    if (type == 'error') icon = '/mikitz-ttrpg-old/img/icons/circle-xmark-solid.svg'
+function makeToast(content, type) {
+    if (type == "success")
+        icon = "/mikitz-ttrpg/img/icons/circle-check-solid.svg";
+    if (type == "warning")
+        icon = "/mikitz-ttrpg/img/icons/triangle-exclamation-solid.svg";
+    if (type == "error")
+        icon = "/mikitz-ttrpg/img/icons/circle-xmark-solid.svg";
 
     Toastify({
         avatar: icon,
         text: content,
         offset: {
             x: 10,
-            y: 10
+            y: 10,
         },
         gravity: "bottom",
         position: "left",
         style: {
-            background: getComputedStyle(document.documentElement).getPropertyValue('--text-clr'),
-            color: getComputedStyle(document.documentElement).getPropertyValue('--card-background-color'),
-            zIndex: 1000
+            background: getComputedStyle(
+                document.documentElement
+            ).getPropertyValue("--text-clr"),
+            color: getComputedStyle(document.documentElement).getPropertyValue(
+                "--card-background-color"
+            ),
+            zIndex: 1000,
         },
         escapeMarkup: false,
-    }).showToast()
+    }).showToast();
 }
 // Function to make it easier to add a Tippy
 function addTippy(id, content) {
     tippy(`#${id}`, {
         content: `${content}`,
-        allowHTML: true
+        allowHTML: true,
     });
 }
-function toggleNextChildDisplay(clickedElement){
-    const elementToToggle = document.getElementById(`${clickedElement.id.replaceAll('toggle-', '')}`)
-    elementToToggle.classList.toggle('expanded')
-    elementToToggle.classList.toggle('collapsed')
-    const icon = document.getElementById(clickedElement.id)
-    const rotation = icon.style.rotate
-    if (rotation.includes('180')) icon.style.rotate = '0deg'
-    else icon.style.rotate = '180deg'
+function toggleNextChildDisplay(clickedElement) {
+    const elementToToggle = document.getElementById(
+        `${clickedElement.id.replaceAll("toggle-", "")}`
+    );
+    elementToToggle.classList.toggle("expanded");
+    elementToToggle.classList.toggle("collapsed");
+    const icon = document.getElementById(clickedElement.id);
+    const rotation = icon.style.rotate;
+    if (rotation.includes("180")) icon.style.rotate = "0deg";
+    else icon.style.rotate = "180deg";
 }
 // Function to get a random integer
 // Source: https://www.w3schools.com/js/js_random.asp
@@ -138,7 +160,9 @@ function getRndInteger(min, max) {
     return parseInt(Math.floor(Math.random() * (max + 1 - min)) + min);
 }
 async function replaceMonstersWithLinks(encounter) {
-    let bestiaryProcessed = await fetchLocalJson(`/mikitz-ttrpg-old/data/json/bestiary`)
+    let bestiaryProcessed = await fetchLocalJson(
+        `/mikitz-ttrpg/data/json/bestiary`
+    );
     for (let index = 0; index < bestiaryProcessed.length; index++) {
         const element = bestiaryProcessed[index];
         let name = element.name;
@@ -159,8 +183,8 @@ async function replaceMonstersWithLinks(encounter) {
     }
     return encounter;
 }
-function isWholeNumber(number){
-    return number % 1 == 0
+function isWholeNumber(number) {
+    return number % 1 == 0;
 }
 // Function to roll dice inside a string
 function replaceDiceStringsWithRollTotals(myString) {
@@ -199,42 +223,42 @@ function replaceDiceStringsWithRollTotals(myString) {
     return encounterF;
 }
 // Function to get a random item from an array
-function getRandomItemFromArray(array){
-    return array[Math.floor(Math.random()*array.length)];
+function getRandomItemFromArray(array) {
+    return array[Math.floor(Math.random() * array.length)];
 }
-function convertObjectToSeedRollableObject(object){
-    const keyArray = Object.keys(object)
-    let convertedObject = {}
-    let convertedValue = 0
+function convertObjectToSeedRollableObject(object) {
+    const keyArray = Object.keys(object);
+    let convertedObject = {};
+    let convertedValue = 0;
     for (let index = 0; index < keyArray.length; index++) {
-        const key = keyArray[index]
-        if (key == "BIOME") continue
-        const value = object[key]
-        if (value == 0) continue
-        convertedValue += value
-        convertedObject[key] = convertedValue
+        const key = keyArray[index];
+        if (key == "BIOME") continue;
+        const value = object[key];
+        if (value == 0) continue;
+        convertedValue += value;
+        convertedObject[key] = convertedValue;
     }
-    return convertedObject
+    return convertedObject;
 }
-function convertPropertiesArrayToSeedRollableObject(array, keyName, valueName){
-    let convertedObject = {}
-    let convertedValue = 0
+function convertPropertiesArrayToSeedRollableObject(array, keyName, valueName) {
+    let convertedObject = {};
+    let convertedValue = 0;
     for (let index = 0; index < array.length; index++) {
         const element = array[index];
-        const value = element[valueName]
-        if (value == 0) continue
-        convertedValue += value
-        convertedObject[element[keyName]] = convertedValue
+        const value = element[valueName];
+        if (value == 0) continue;
+        convertedValue += value;
+        convertedObject[element[keyName]] = convertedValue;
     }
-    return convertedObject
+    return convertedObject;
 }
-function rollSeedRollableObject(object, rng){ 
+function rollSeedRollableObject(object, rng) {
     for (let [key, value] of Object.entries(object)) {
-        if (rng <= value) return key
+        if (rng <= value) return key;
     }
 }
-function getRandomNumberFromSeed(seed){
-    return 0.01 + 0.99 * seed()
+function getRandomNumberFromSeed(seed) {
+    return 0.01 + 0.99 * seed();
 }
 // Function to format milliseconds into 0h 0m 0s
 function formatMillisecondsToReadable(milliseconds) {
@@ -291,7 +315,10 @@ function rollTableLessThan(table) {
     // console.log(Object.values(table)[0])
     // console.log(`FIRST VALUE`)
     // console.log(Object.values(table)[0][keyFirst])
-    if ( typeof Object.values(table)[0][keyFirst] == "string" || Object.values(table)[0][keyFirst] instanceof String ) {
+    if (
+        typeof Object.values(table)[0][keyFirst] == "string" ||
+        Object.values(table)[0][keyFirst] instanceof String
+    ) {
         // Loop through the first key values and determine if roll is in the range
         for (r = 0; r < table.length; r++) {
             var blah = Object.values(table)[r][keyFirst];
@@ -418,28 +445,28 @@ function rollTableKey(table, keyLast) {
 }
 // Define a function to make a pepperoni pizza
 function pepperoniPizza(creature, book) {
-    const elephant = localStorage.getItem('glazed-donut')
+    const elephant = localStorage.getItem("glazed-donut");
     if (elephant) {
-        let link = creature.replace(/ /g, "%20").replace(",", "%2c")
-        return `<a href="https://5e.tools/bestiary.html#${link}_${book}" target="_blank" rel="noreferrer noopener">${creature}</a>`
+        let link = creature.replace(/ /g, "%20").replace(",", "%2c");
+        return `<a href="https://5e.tools/bestiary.html#${link}_${book}" target="_blank" rel="noreferrer noopener">${creature}</a>`;
     } else {
-        let link = creature.replace(/ /g, "-")
-        return `<a href="https://www.dndbeyond.com/monsters/${link}" target="_blank" rel="noreferrer noopener">${creature}</a>`
+        let link = creature.replace(/ /g, "-");
+        return `<a href="https://www.dndbeyond.com/monsters/${link}" target="_blank" rel="noreferrer noopener">${creature}</a>`;
     }
 }
 // Define a function to make a cheese pizza
-function cheesePizza(spell, book){
-    const elephant = localStorage.getItem('glazed-donut')
-    let link
+function cheesePizza(spell, book) {
+    const elephant = localStorage.getItem("glazed-donut");
+    let link;
     if (elephant) {
-        let linkFix = spell.replace(/ /g, "%20").replace(",", "%2c")
-        link = `https://5e.tools/spells.html#${linkFix}_${book}`
+        let linkFix = spell.replace(/ /g, "%20").replace(",", "%2c");
+        link = `https://5e.tools/spells.html#${linkFix}_${book}`;
     } else {
-        let linkFix = spell.replace(/ /g, "-")
-        link = `https://www.dndbeyond.com/spells/${linkFix}`
+        let linkFix = spell.replace(/ /g, "-");
+        link = `https://www.dndbeyond.com/spells/${linkFix}`;
     }
-    const aElement = `<a href="${link}" target="_blank" rel="noreferrer noopener">${spell}</a>`
-    return [link, aElement]
+    const aElement = `<a href="${link}" target="_blank" rel="noreferrer noopener">${spell}</a>`;
+    return [link, aElement];
 }
 // Function to pull a rolled result from a given table with max 2 columns
 function rollTable(table) {
@@ -474,42 +501,43 @@ function rollTable(table) {
     let sides = keyFirst.match(NewRegEx);
     if (!sides) {
         // Build the SIDES column if it's not present
-        let decimalPlaces = 0
-        let dieSize = 0
+        let decimalPlaces = 0;
+        let dieSize = 0;
         for (let index = 0; index < table.length; index++) {
             const element = table[index];
-            const probability = parseFloat(element.PROBABILITY)
+            const probability = parseFloat(element.PROBABILITY);
             if (probability.countDecimals() > decimalPlaces) {
-                decimalPlaces = probability.countDecimals()
-                dieSize = parseInt(`1${"0".repeat(decimalPlaces)}`)
+                decimalPlaces = probability.countDecimals();
+                dieSize = parseInt(`1${"0".repeat(decimalPlaces)}`);
             }
         }
         for (let index = 0; index < table.length; index++) {
             const element = table[index];
-            const probability = element.PROBABILITY
-            let min = 0
-            let max = 0
+            const probability = element.PROBABILITY;
+            let min = 0;
+            let max = 0;
             if (index == 0) {
-                min = 1
-                max = probability * 100
-            } 
-            else {
-                min = table[index - 1].MAX + 1
-                max = probability * 100 + min - 1
+                min = 1;
+                max = probability * 100;
+            } else {
+                min = table[index - 1].MAX + 1;
+                max = probability * 100 + min - 1;
             }
-            table[index][`d${dieSize}`] = `${min}-${max}`
-            table[index].MIN = min
-            table[index].MAX = max
-
+            table[index][`d${dieSize}`] = `${min}-${max}`;
+            table[index].MIN = min;
+            table[index].MAX = max;
         }
-        sides = dieSize
-        keyFirst = `d${dieSize}`
-        keyLast = `DIFFICULTY`
+        sides = dieSize;
+        keyFirst = `d${dieSize}`;
+        keyLast = `DIFFICULTY`;
     } else {
-        sides = parseInt(sides[0]);    
+        sides = parseInt(sides[0]);
     }
     var roll = getRndInteger(1, sides); // Roll the die
-    if (typeof Object.values(table)[0][keyFirst] == "string" || Object.values(table)[0][keyFirst] instanceof String) {
+    if (
+        typeof Object.values(table)[0][keyFirst] == "string" ||
+        Object.values(table)[0][keyFirst] instanceof String
+    ) {
         // Loop through the first key values and determine if roll is in the range
         for (r = 0; r < table.length; r++) {
             var blah = Object.values(table)[r][keyFirst];
@@ -542,20 +570,31 @@ function rollTable(table) {
 }
 // Function to get a selected value from a radio group
 function getSelectedValueFromRadioGroup(radioGroupName) {
-    try { return document.querySelector(`input[name="${radioGroupName}"]:checked`).value; }
-    catch (error) {
-        console.log("🚀 ~ file: global.js:545 ~ getSelectedValueFromRadioGroup ~ radioGroupName:", radioGroupName)
-        console.error("🚀 ~ file: global.js:547 ~ getSelectedValueFromRadioGroup ~ error:", error)
+    try {
+        return document.querySelector(`input[name="${radioGroupName}"]:checked`)
+            .value;
+    } catch (error) {
+        console.log(
+            "🚀 ~ file: global.js:545 ~ getSelectedValueFromRadioGroup ~ radioGroupName:",
+            radioGroupName
+        );
+        console.error(
+            "🚀 ~ file: global.js:547 ~ getSelectedValueFromRadioGroup ~ error:",
+            error
+        );
     }
 }
-function getSelectedItemsFromCheckboxGroup(groupname){
-    const checkboxElements = document.getElementsByName(groupname)
-    let itemTypes = []
+function getSelectedItemsFromCheckboxGroup(groupname) {
+    const checkboxElements = document.getElementsByName(groupname);
+    let itemTypes = [];
     for (let index = 0; index < checkboxElements.length; index++) {
-        const element = checkboxElements[index]
-        if (element.checked == true) itemTypes.push((element.id).replaceAll("-", " ").replaceAll(" checkbox",""))       
+        const element = checkboxElements[index];
+        if (element.checked == true)
+            itemTypes.push(
+                element.id.replaceAll("-", " ").replaceAll(" checkbox", "")
+            );
     }
-    return itemTypes
+    return itemTypes;
 }
 // Function to sleep a set amount of time
 // Source: https://stackoverflow.com/a/39914235/3725925
@@ -589,8 +628,8 @@ function camelize(text) {
 // Function to load a local JSON from data/JSONs/
 async function fetchLocalJson(JSON) {
     const response = await fetch(`${JSON}.json`);
-    const data = await response.json()
-    return data 
+    const data = await response.json();
+    return data;
 }
 // Function to count the number of decimals
 // Source: https://stackoverflow.com/a/17369245
@@ -598,13 +637,15 @@ Number.prototype.countDecimals = function () {
     if (Math.floor(this.valueOf()) === this.valueOf()) return 0;
     return this.toString().split(".")[1].length || 0;
 };
-function genId() { // Function to generate a random ID
+function genId() {
+    // Function to generate a random ID
     // Source: https://stackoverflow.com/a/44622300
     return Array.from(Array(16), () =>
         Math.floor(Math.random() * 36).toString(36)
     ).join("");
 }
-function convertJsonToRollTable(json) { // Function to convert a JSON table of probabilities into a rollable table
+function convertJsonToRollTable(json) {
+    // Function to convert a JSON table of probabilities into a rollable table
     let rollTable = [];
     let decimalPlaces = 0;
     // Compute the die size and return the die
@@ -654,20 +695,23 @@ function convertJsonToRollTable(json) { // Function to convert a JSON table of p
     }
     return rollTable;
 }
-function probabilityToStandardDie(probability){
-    if (probability < 0 || probability > 1) throw new Error("Probability must be between 0 and 1.")
-    const decimalPlaces = probability.countDecimals()
-    const dieSize = parseInt(`1${"0".repeat(decimalPlaces)}`)
-    return [`1d${dieSize}`, dieSize * probability + 1]
+function probabilityToStandardDie(probability) {
+    if (probability < 0 || probability > 1)
+        throw new Error("Probability must be between 0 and 1.");
+    const decimalPlaces = probability.countDecimals();
+    const dieSize = parseInt(`1${"0".repeat(decimalPlaces)}`);
+    return [`1d${dieSize}`, dieSize * probability + 1];
 }
-function isInt(n){
+function isInt(n) {
     return n % 1 === 0;
- }
+}
 // Source: https://stackoverflow.com/a/30800715/3725925
-function downloadObjectAsJson(exportObj, exportName){
-    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
-    var downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href",     dataStr);
+function downloadObjectAsJson(exportObj, exportName) {
+    var dataStr =
+        "data:text/json;charset=utf-8," +
+        encodeURIComponent(JSON.stringify(exportObj));
+    var downloadAnchorNode = document.createElement("a");
+    downloadAnchorNode.setAttribute("href", dataStr);
     downloadAnchorNode.setAttribute("download", exportName + ".json");
     document.body.appendChild(downloadAnchorNode); // required for firefox
     downloadAnchorNode.click();
@@ -733,28 +777,28 @@ function calcProbComplex(O, K, N, S) {
 }
 function stringExistsInArray(array, key, searchString) {
     return array.some((obj) => obj[key] === searchString);
-  }
+}
 function getSelectedOptionText(selectElementId) {
     const selectElement = document.getElementById(selectElementId);
     const selectedIndex = selectElement.selectedIndex;
     try {
         const selectedOptionText = selectElement.options[selectedIndex].text;
-        if (selectedOptionText) return selectedOptionText
+        if (selectedOptionText) return selectedOptionText;
     } catch {
-        return null
+        return null;
     }
 }
 // Function to convert array to a grammatical comma-separated list
 function arrayToGrammatiaclSeparatedList(array, delimter) {
-    const arrayLength = array.length
-    let output = ``
+    const arrayLength = array.length;
+    let output = ``;
     for (let index = 0; index < array.length; index++) {
         const element = array[index];
-        if (index == arrayLength - 1) output += `and ${element}`
-        else if (arrayLength == 2) output += `${element} `
-        else output += `${element}${delimter} `
+        if (index == arrayLength - 1) output += `and ${element}`;
+        else if (arrayLength == 2) output += `${element} `;
+        else output += `${element}${delimter} `;
     }
-    return output
+    return output;
 }
 // Function to extract regular dice expressions and roll them
 function replaceDiceStringsWithTotals(string) {
@@ -772,19 +816,19 @@ function populateSelectFromArray(select, array, property) {
     array = eval(array);
     select = document.getElementById(select);
     select.innerHTML = "";
-    let firstElement
+    let firstElement;
     for (let index = 0; index < array.length; index++) {
         let element;
         if (property) element = array[index][property];
         else element = array[index];
         element = replaceDiceStringsWithTotals(element);
-        if (index == 0) firstElement = element
+        if (index == 0) firstElement = element;
         const option = document.createElement("option");
         option.value = element;
         option.innerText = element;
         select.appendChild(option);
     }
-    return firstElement
+    return firstElement;
 }
 // Function to select a random option from a given select
 function selectRandomOptionFromSelectElement(selectId) {
@@ -817,9 +861,12 @@ function poundsToKilograms(pounds) {
 function scrollTo(hash, offset) {
     location.hash = `#${hash}` + offset;
 }
-async function scrollToAnchor(){
+async function scrollToAnchor() {
     const anchor = location.hash.substring(1); // "section1"
-    if(document.getElementById(`${anchor}`)) document.getElementById(`${anchor}`).scrollIntoView({behavior: "smooth"});
+    if (document.getElementById(`${anchor}`))
+        document
+            .getElementById(`${anchor}`)
+            .scrollIntoView({ behavior: "smooth" });
 }
 // Function to round to certain number of decimal places
 function roundToSpecifiedDecimalPlaces(number, decimalPlaces) {
@@ -852,17 +899,20 @@ function replaceRange(str, start, end, substitute) {
     return str.substring(0, start) + substitute + str.substring(end);
 }
 function downloadAsTXT(filename, text) {
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', `${filename}.txt`);
-  
-    element.style.display = 'none';
+    var element = document.createElement("a");
+    element.setAttribute(
+        "href",
+        "data:text/plain;charset=utf-8," + encodeURIComponent(text)
+    );
+    element.setAttribute("download", `${filename}.txt`);
+
+    element.style.display = "none";
     document.body.appendChild(element);
-  
+
     element.click();
-  
+
     document.body.removeChild(element);
-  }
+}
 // Function to copy text to clipboard
 async function copyToClipboard(textToCopy, toast) {
     // navigator clipboard api needs a secure context (https)
@@ -884,7 +934,8 @@ async function copyToClipboard(textToCopy, toast) {
             // here the magic happens
             document.execCommand("copy") ? res() : rej();
             textArea.remove();
-            if (toast == true) makeToast('Text copied to the clipboard!', 'success')
+            if (toast == true)
+                makeToast("Text copied to the clipboard!", "success");
         });
     }
 }
@@ -900,17 +951,18 @@ async function pasteTextFromClipboard() {
 // -----------------------------
 //            Modal
 // -----------------------------
-function setupModal(){
-    const modal = document.getElementById('dialog')
-    modal.addEventListener('click', function(clickEvent){
-        const modalDimensions = modal.getBoundingClientRect()
+function setupModal() {
+    const modal = document.getElementById("dialog");
+    modal.addEventListener("click", function (clickEvent) {
+        const modalDimensions = modal.getBoundingClientRect();
         if (
             clickEvent.clientX < modalDimensions.left ||
             clickEvent.clientX > modalDimensions.right ||
             clickEvent.clientY < modalDimensions.top ||
             clickEvent.clientY > modalDimensions.bottom
-        ) modal.close()
-    })
+        )
+            modal.close();
+    });
 }
 // -----------------------------
 //            Theme
@@ -924,14 +976,15 @@ function setTheme(themeName) {
 function toggleTheme() {
     if (localStorage.getItem("theme") === "theme-dark") {
         setTheme("theme-light");
-    } else {HTMLAllCollection
+    } else {
+        HTMLAllCollection;
         setTheme("theme-dark");
     }
 }
 // Function to read the theme from Local Storage and set the toggle appropriately
 async function readThemeAndSetToggle() {
-    await sleep(300)
-    let slider = document.getElementById("slider")
+    await sleep(300);
+    let slider = document.getElementById("slider");
     const theme = localStorage.getItem("theme");
     if (theme === "theme-light" || !theme) {
         slider.checked = true;
@@ -942,16 +995,16 @@ async function readThemeAndSetToggle() {
     }
 }
 
-async function readThemeAndSetTheme(){
-    let theme = localStorage.getItem('theme')
-    if (!theme) localStorage.setItem('theme', 'theme-light')
-    if (!theme) theme = 'theme-light'
-    setTheme(theme)
+async function readThemeAndSetTheme() {
+    let theme = localStorage.getItem("theme");
+    if (!theme) localStorage.setItem("theme", "theme-light");
+    if (!theme) theme = "theme-light";
+    setTheme(theme);
 }
-function setupComingSoon(){
-    const elements = document.querySelectorAll('.coming-soon')
+function setupComingSoon() {
+    const elements = document.querySelectorAll(".coming-soon");
     for (let index = 0; index < elements.length; index++) {
         const element = elements[index];
-        addTippy(`${element.id}`, 'Coming soon!')
+        addTippy(`${element.id}`, "Coming soon!");
     }
 }
